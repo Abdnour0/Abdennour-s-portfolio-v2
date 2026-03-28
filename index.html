@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABDENNOUR GUELLAA — Software Engineering Student</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="description" content="Abdennour Guellaa — Software Engineering Student at EMSI Casablanca. Full-Stack Developer specializing in Django, Vue.js, and Laravel." />
+  <meta property="og:title" content="Abdennour Guellaa — Portfolio" />
+  <meta property="og:description" content="Software Engineering Student & Full-Stack Developer based in Casablanca, Morocco." />
+  <meta property="og:type" content="website" />
+  <!-- GSAP for advanced animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Lenis for smooth scrolling -->
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <!-- Typed.js -->
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader">
+    <div class="loader-content">
+      <h1 class="loader-logo">A.G</h1>
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-text">View</div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">ABDENNOUR<span>.</span>G</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Skills</a></li>
+      <li><a href="#work">Projects</a></li>
+      <li><a href="#clients">Certifications</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#contact" class="nav-cta">Hire Me</a>
+      <button id="menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div id="mobile-nav">
+    <div class="mobile-nav-inner">
+      <ul class="mobile-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Skills</a></li>
+        <li><a href="#work">Projects</a></li>
+        <li><a href="#clients">Certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="hero-rule">
+      <div class="hero-rule-line"></div>
+      <span class="hero-rule-text"><span id="typed"></span></span>
+      <div class="hero-rule-line"></div>
+    </div>
+
+    <h1 class="hero-headline">
+      <span class="line"><span class="line-inner">Code. Design.</span></span>
+      <span class="line"><span class="line-inner">Deploy.</span></span>
+    </h1>
+
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        I am <strong>ABDENNOUR GUELLAA</strong>, a software engineering student at EMSI dedicated to crafting high-performance web applications and scalable software solutions.
+      </p>
+      <div class="hero-scroll">
+        <span>Scroll</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="marquee-dot"></span>Python</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Django</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Vue.js</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Laravel</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>PostgreSQL</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>MongoDB</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>C++</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Java</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Git</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Linux</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>SQL</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>JavaScript</div>
+    </div>
+    <div class="marquee-track" aria-hidden="true">
+      <div class="marquee-item"><span class="marquee-dot"></span>Python</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Django</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Vue.js</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Laravel</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>PostgreSQL</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>MongoDB</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>C++</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Java</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Git</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Linux</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>SQL</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>JavaScript</div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label reveal">Technical Expertise</div>
+    <h2 class="section-title reveal reveal-delay-1">Core<br>Skills</h2>
+
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">01</div>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/>
+        </svg>
+        <h3 class="service-name">Languages</h3>
+        <p class="service-desc">Proficient in C, C++, Java, and Python. Solid understanding of OOP principles and data structures.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">02</div>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/>
+        </svg>
+        <h3 class="service-name">Web Development</h3>
+        <p class="service-desc">Building modern apps with Django, Vue.js, and Laravel. Expertise in responsive design and interactive UIs.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">03</div>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.128 16.556 17.975 12 17.975s-8.25-1.847-8.25-4.125v-3.75m16.5 0v3.75"/>
+        </svg>
+        <h3 class="service-name">Databases</h3>
+        <p class="service-desc">Designing and managing SQL (MySQL, PostgreSQL, SQLite) and NoSQL (MongoDB) database systems.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">04</div>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5"/>
+        </svg>
+        <h3 class="service-name">Software Engineering</h3>
+        <p class="service-desc">Applying UML modeling, design patterns, and system architecture principles for robust software delivery.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">05</div>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25"/>
+        </svg>
+        <h3 class="service-name">Systems & Tools</h3>
+        <p class="service-desc">Proficient in Linux environments, version control with Git/GitHub, and Redis caching for performance.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">06</div>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C13.287 7.89 12.135 10.19 10.5 12.25c-1.235-1.55-2.244-3.264-3-5.064m0 0a48.39 48.39 0 0 1-4.708 5.607M12.25 8.25c.03.213.044.43.044.65 0 1.582-.443 3.06-1.212 4.312m-1.13 1.157a7.483 7.483 0 0 1-3.59 2.372"/>
+        </svg>
+        <h3 class="service-name">Communication</h3>
+        <p class="service-desc">Fluent in Arabic and English (C1), intermediate in French (B1). Strong cross-cultural collaboration and documentation skills.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="work-header">
+      <div>
+        <div class="section-label reveal">Selected Work</div>
+        <h2 class="section-title reveal reveal-delay-1">Recent<br>Projects</h2>
+      </div>
+      <div class="work-filter reveal reveal-delay-2">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="software">Software</button>
+        <button class="filter-btn" data-filter="systems">Systems</button>
+      </div>
+    </div>
+
+    <div class="work-grid">
+      <a href="https://ecommerce-frontend-v2-beryl.vercel.app/" target="_blank" class="work-card reveal" data-category="web">
+        <div class="work-img"><div class="work-img-inner g4"></div></div>
+        <div class="work-overlay">
+          <span class="work-tag">Django · Python · 2025</span>
+          <h3 class="work-title">E-Commerce<br>Web Application</h3>
+        </div>
+        <div class="work-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+        </div>
+      </a>
+
+      <a href="#" target="_blank" class="work-card reveal reveal-delay-1" data-category="web">
+        <div class="work-img"><div class="work-img-inner g2"></div></div>
+        <div class="work-overlay">
+          <span class="work-tag">Laravel · Vue.js · 2024</span>
+          <h3 class="work-title">Mini E-Learning<br>Platform</h3>
+        </div>
+        <div class="work-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+        </div>
+      </a>
+
+      <a href="#" target="_blank" class="work-card reveal reveal-delay-2" data-category="systems">
+        <div class="work-img"><div class="work-img-inner g3"></div></div>
+        <div class="work-overlay">
+          <span class="work-tag">C · Data Structures · 2023</span>
+          <h3 class="work-title">Stock Management<br>System (C)</h3>
+        </div>
+        <div class="work-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+        </div>
+      </a>
+
+      <a href="#" target="_blank" class="work-card reveal reveal-delay-3" data-category="web">
+        <div class="work-img"><div class="work-img-inner g1"></div></div>
+        <div class="work-overlay">
+          <span class="work-tag">Django · Vue.js · 2025</span>
+          <h3 class="work-title">Hotel Management<br>Web Application</h3>
+        </div>
+        <div class="work-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+        </div>
+      </a>
+
+      <a href="#" target="_blank" class="work-card reveal reveal-delay-4" data-category="software">
+        <div class="work-img"><div class="work-img-inner g5"></div></div>
+        <div class="work-overlay">
+          <span class="work-tag">Java · OOP · 2024</span>
+          <h3 class="work-title">Student Management<br>System</h3>
+        </div>
+        <div class="work-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+        </div>
+      </a>
+
+      <a href="https://github.com/Abdnour0" target="_blank" class="work-card reveal reveal-delay-5" data-category="web software systems">
+        <div class="work-img"><div class="work-img-inner g6"></div></div>
+        <div class="work-overlay">
+          <span class="work-tag">GitHub · Projects</span>
+          <h3 class="work-title">Explore More<br>On GitHub</h3>
+        </div>
+        <div class="work-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual reveal">
+      <div class="about-img-wrap">
+        <img src="images/logo-blanc.webp" alt="EMSI Logo" class="about-logo-img">
+      </div>
+      <div class="about-badge">
+        <span class="about-badge-num">3rd</span>
+        <span class="about-badge-label">Year at<br>EMSI</span>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-label reveal">Background</div>
+      <h2 class="section-title reveal reveal-delay-1">Education &<br>Journey</h2>
+      <p class="about-text reveal reveal-delay-2">
+        I am currently pursuing an <strong>Engineering Degree in Software Engineering</strong> at EMSI, Casablanca. My academic journey is focused on building a strong foundation in software architecture, data structures, and modern web technologies.
+      </p>
+      <p class="about-text reveal reveal-delay-3">
+        Beyond my engineering studies, I've reached <strong>C1 proficiency in English</strong> at the American Language Centre and have a strong interest in full-stack development, from low-level C programming to high-level frameworks like Django and Vue.js.
+      </p>
+      <div class="about-stats reveal reveal-delay-2">
+        <div>
+          <div class="stat-num"><span class="count-val">5</span><span>+</span></div>
+          <div class="stat-label">Projects Completed</div>
+        </div>
+        <div>
+          <div class="stat-num"><span class="count-val">3</span></div>
+          <div class="stat-label">Languages Spoken</div>
+        </div>
+        <div>
+          <div class="stat-num"><span class="count-val">2</span></div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div>
+          <div class="stat-num"><span class="count-val">2028</span></div>
+          <div class="stat-label">Expected Graduation</div>
+        </div>
+      </div>
+      <a href="#contact" class="about-cta reveal reveal-delay-3">
+        Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="clients">
+    <div class="section-label reveal" style="justify-content:center;">Verified Skills</div>
+    <h2 class="section-title reveal reveal-delay-1" style="margin-bottom:1rem;">Certifications</h2>
+    <p class="clients-intro reveal reveal-delay-2">
+      Continuous learning is key to staying ahead in the rapidly evolving software engineering landscape.
+    </p>
+    <div class="clients-grid">
+      <div class="client-cell reveal" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
+        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">Jan 2026 · EMSI</span>
+        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">JavaScript, jQuery, and JSON</span>
+        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">ID: O1YKU8LD7PZJ</span>
+      </div>
+      <div class="client-cell reveal reveal-delay-1" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
+        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">Dec 2025 · EPFL</span>
+        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Introduction to OOP (C++)</span>
+        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">ID: UC3MNGVCU9CP</span>
+      </div>
+      <div class="client-cell reveal reveal-delay-2" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
+        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">2022 · SVT</span>
+        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Baccalauréat - SVT</span>
+        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">Honors</span>
+      </div>
+      <div class="client-cell reveal reveal-delay-3" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
+        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">2023 · ALC</span>
+        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Advanced English (C1)</span>
+        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">Fluent Proficiency</span>
+      </div>
+      <div class="client-cell reveal reveal-delay-4" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
+        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">Ongoing</span>
+        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Engineering Degree</span>
+        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">Expected 2028</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <span class="contact-eyebrow reveal">Let's Connect</span>
+    <h2 class="contact-headline reveal reveal-delay-1">
+      Ready to Start a<br><em>Project</em>?
+    </h2>
+    <p class="contact-sub reveal reveal-delay-2">
+      Currently based in Casablanca, Morocco. Feel free to reach out for collaborations or opportunities.
+    </p>
+    <div class="contact-buttons reveal reveal-delay-3">
+      <a href="mailto:abdnourguellaa50@gmail.com" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+        </svg>
+        Email Me
+      </a>
+      <a href="https://github.com/Abdnour0" class="btn-secondary" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.92.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.137 20.164 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+        </svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/abdennour-guellaa-656581246/" class="btn-secondary" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+        </svg>
+        LinkedIn
+      </a>
+      <div class="cv-dropdown">
+        <button class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12l4.5 4.5m0 0l4.5-4.5M12 3v13.5"/>
+          </svg>
+          Download CV
+        </button>
+        <div class="cv-menu">
+          <a href="CV/CV_Abdennour_Guellaa_EN.pdf" download class="cv-option">English Version (PDF)</a>
+          <a href="CV/CV_Abdennour_Guellaa_FR.pdf" download class="cv-option">Version Française (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">ABDENNOUR<span>.</span>G</div>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Skills</a></li>
+      <li><a href="#work">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 ABDENNOUR GUELLAA. Built with Passion.</span>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

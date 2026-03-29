@@ -8,19 +8,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="images/logo-blanc.webp" type="image/webp" />
   <meta name="description" content="Abdennour Guellaa — Software Engineering Student at EMSI Casablanca. Full-Stack Developer specializing in Django, Vue.js, and Laravel." />
   <meta name="robots" content="index, follow" />
   <!-- Open Graph -->
   <meta property="og:title" content="Abdennour Guellaa — Portfolio" />
   <meta property="og:description" content="Software Engineering Student & Full-Stack Developer based in Casablanca, Morocco." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/abdennour-guellaa.jpg" />
+  <meta property="og:image" content="images/photo.jpg" />
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Abdennour Guellaa — Portfolio" />
   <meta name="twitter:description" content="Software Engineering Student & Full-Stack Developer based in Casablanca, Morocco." />
-  <meta name="twitter:image" content="images/abdennour-guellaa.jpg" />
+  <meta name="twitter:image" content="images/photo.jpg" />
   <!-- GSAP for advanced animations -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <!-- Lenis for smooth scrolling -->
@@ -55,7 +55,13 @@
       <a href="#hero" class="nav-logo">ABDENNOUR<span>.</span>G</a>
       <div class="live-status reveal">
         <span class="status-dot"></span>
-        <span class="status-text">Available from 9 AM to 11 PM — <span id="current-time"></span> GMT+1</span>
+        <span class="status-text">
+          <span class="status-label">Available</span>
+          <span class="status-range"> 9 AM–11 PM</span>
+          <span class="status-sep"> — </span>
+          <span id="current-time"></span>
+          <span class="status-tz"> GMT+1</span>
+        </span>
       </div>
     </div>
     <ul class="nav-links">

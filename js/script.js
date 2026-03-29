@@ -210,6 +210,8 @@ function openModal(title) {
   document.getElementById('modal-link').href = data.link;
 
   modal.classList.add('active');
+  document.documentElement.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   
   // Simplified animation for modal content to ensure visibility
   gsap.fromTo('.modal-right > *', 
@@ -224,15 +226,12 @@ function openModal(title) {
       clearProps: "all"
     }
   );
-
-  lenis.stop();
 }
 
 function closeModal() {
   modal.classList.remove('active');
-  if (typeof lenis !== 'undefined') {
-    lenis.start();
-  }
+  document.documentElement.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
 }
 
 modalClose.addEventListener('click', closeModal);
@@ -347,33 +346,11 @@ magneticEls.forEach(el => {
 /* ── MARQUEE ANIMATION ───────────────────────────────────────────────── */
 const marqueeTrack = document.querySelector('.marquee-track');
 if (marqueeTrack) {
-  // Duplicate for seamless loop only once
+  // Duplicate for seamless loop only once (CSS keyframes drive the animation)
   if (!marqueeTrack.dataset.duplicated) {
     marqueeTrack.innerHTML += marqueeTrack.innerHTML;
     marqueeTrack.dataset.duplicated = 'true';
   }
-  
-  let currentScroll = 0;
-  let isScrolling;
-
-  window.addEventListener('scroll', () => {
-    // Increase speed slightly on scroll
-    gsap.to(marqueeTrack, {
-      timeScale: 2,
-      duration: 0.3,
-      overwrite: true,
-      onComplete: () => {
-        gsap.to(marqueeTrack, { timeScale: 1, duration: 1 });
-      }
-    });
-  });
-
-  gsap.to(marqueeTrack, {
-    xPercent: -50,
-    duration: 30,
-    ease: "none",
-    repeat: -1
-  });
 }
 
 /* ── REVEAL ON SCROLL ────────────────────────────────────────────────── */

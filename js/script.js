@@ -1,3 +1,6 @@
+/* ── GSAP SETUP ──────────────────────────────────────────────────────── */
+gsap.registerPlugin(ScrollTrigger);
+
 /* ── LOADING SCREEN ─────────────────────────────────────────────────── */
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
@@ -37,14 +40,26 @@ function raf(time) {
 
 requestAnimationFrame(raf);
 
+/* ── SCROLL PROGRESS ─────────────────────────────────────────────────── */
+const scrollProgress = document.getElementById('scroll-progress');
+lenis.on('scroll', (e) => {
+  const progress = e.scroll / (document.documentElement.scrollHeight - window.innerHeight);
+  gsap.to(scrollProgress, {
+    width: `${progress * 100}%`,
+    duration: 0.1,
+    ease: "none"
+  });
+});
+
 /* ── CURSOR ──────────────────────────────────────────────────────────── */
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursor-ring');
 const cursorText = document.getElementById('cursor-text');
+const cursorGlow = document.getElementById('cursor-glow');
 let mx = 0, my = 0;
 
 // Set initial center position for GSAP
-gsap.set([cursor, ring, cursorText], { xPercent: -50, yPercent: -50 });
+gsap.set([cursor, ring, cursorText, cursorGlow], { xPercent: -50, yPercent: -50 });
 
 document.addEventListener('mousemove', e => {
   mx = e.clientX;
@@ -63,6 +78,13 @@ document.addEventListener('mousemove', e => {
     duration: 0.1,
     ease: "power2.out"
   });
+
+  gsap.to(cursorGlow, {
+    x: mx,
+    y: my,
+    duration: 0.6,
+    ease: "power2.out"
+  });
   
   gsap.to(ring, {
     x: mx,
@@ -72,7 +94,144 @@ document.addEventListener('mousemove', e => {
   });
 });
 
-/* Handle Cursor Text for Projects */
+/* ── PROJECT MODALS ─────────────────────────────────────────────────── */
+const modalLink = document.getElementById('modal-link');
+if (modalLink) {
+  modalLink.addEventListener('mouseenter', () => {
+    gsap.to(cursorText, { opacity: 0, scale: 0.5, duration: 0.3 });
+    gsap.to(cursor, { 
+      width: 10, 
+      height: 10, 
+      backgroundColor: 'var(--gold)',
+      mixBlendMode: 'difference',
+      duration: 0.3 
+    });
+  });
+
+  // Extremely robust click handler for the modal link
+   modalLink.addEventListener('click', (e) => {
+     const href = modalLink.getAttribute('href');
+     if (href && href !== '#' && href !== '') {
+       e.preventDefault();
+       e.stopPropagation();
+       window.open(href, '_blank');
+     }
+   }, { capture: true }); // Use capture to intercept before other listeners
+ }
+
+const projectData = {
+  "E-Commerce Web Application": {
+    desc: "A sophisticated e-commerce platform built with Django and Python. It features a fully responsive product catalog, secure user authentication, and a robust cart system designed for high performance and scalability. The application includes a comprehensive admin dashboard for inventory management and order tracking.",
+    tech: "Django, Python, HTML5, CSS3, JavaScript, PostgreSQL",
+    challenge: "Ensuring real-time synchronization between the cart and inventory while maintaining low latency during high traffic peaks.",
+    solution: "Implemented an optimized database indexing strategy and Redis caching for frequently accessed product data to reduce server load.",
+    img: "images/photo.jpg",
+    gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 40%, #c9784c 100%)",
+    link: "https://ecommerce-frontend-v2-beryl.vercel.app/",
+    tag: "Django · Python · 2025"
+  },
+  "Mini E-Learning Platform": {
+    desc: "An intuitive digital classroom environment developed with Laravel and Vue.js. This platform allows educators to upload course materials while students can track their progress through interactive modules. It implements real-time notifications and a responsive UI for seamless learning on any device.",
+    tech: "Laravel, Vue.js, MySQL, Tailwind CSS, Vite",
+    challenge: "Managing complex state transitions for student progress across multiple modules and ensuring data persistence during session timeouts.",
+    solution: "Utilized Vuex for centralized state management and implemented a background sync service to periodically save progress without interrupting the user experience.",
+    img: null,
+    gradient: "linear-gradient(135deg, #00101a 0%, #003d5c 40%, #4cc9c5 100%)",
+    link: "https://github.com/Abdnour0",
+    tag: "Laravel · Vue.js · 2024"
+  },
+  "Stock Management System (C)": {
+    desc: "A high-performance systems-level application designed for real-time inventory tracking. Built with pure C, it focuses on extreme memory efficiency and fast data retrieval using advanced data structures like Hash Maps and Linked Lists for optimal performance.",
+    tech: "C, Data Structures, File I/O, Algorithms, GCC",
+    challenge: "Handling large datasets with minimal memory overhead while providing sub-second search results across thousands of entries.",
+    solution: "Developed a custom hash-table implementation with open addressing to minimize memory allocation and used binary search on sorted indices for fast lookups.",
+    img: null,
+    gradient: "linear-gradient(135deg, #0a0012 0%, #2e004d 40%, #9b59b6 100%)",
+    link: "https://github.com/Abdnour0",
+    tag: "C · Data Structures · 2023"
+  },
+  "Hotel Management Web Application": {
+    desc: "A comprehensive administrative dashboard for hospitality management. This application streamlines the entire guest journey, from initial room booking to final check-out. It features an automated billing system and real-time room status updates using a modern Django and Vue.js stack.",
+    tech: "Django, Vue.js, PostgreSQL, GSAP, Redis",
+    challenge: "Automating the complex billing logic that involves varying rates, tax calculations, and seasonal discounts while maintaining auditability.",
+    solution: "Designed a modular billing engine using the Strategy Pattern to separate calculation logic from data retrieval, allowing for easy updates and testing.",
+    img: null,
+    gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 40%, #c9784c 100%)",
+    link: "https://github.com/Abdnour0",
+    tag: "Django · Vue.js · 2025"
+  },
+  "Student Management System": {
+    desc: "A cross-platform desktop application built with Java to help educational institutions manage student records, grades, and attendance efficiently. It follows strict Object-Oriented Programming principles and includes a local database for persistent storage.",
+    tech: "Java, Swing, OOP, SQLite, JDBC",
+    challenge: "Ensuring cross-platform compatibility and a consistent look-and-feel across Windows and Linux environments without sacrificing performance.",
+    solution: "Used the Java Swing library with custom UI components and implemented a persistent SQLite database for lightweight, file-based data storage.",
+    img: null,
+    gradient: "linear-gradient(135deg, #1a000a 0%, #4d0026 40%, #e05599 100%)",
+    link: "https://github.com/Abdnour0",
+    tag: "Java · OOP · 2024"
+  }
+};
+
+const modal = document.getElementById('project-modal');
+const modalClose = document.querySelector('.modal-close');
+const modalOverlay = document.querySelector('.modal-overlay');
+
+function openModal(title) {
+  const data = projectData[title];
+  if (!data) return;
+
+  const modalImg = document.getElementById('modal-img');
+  const modalImgWrap = document.querySelector('.modal-img-wrap');
+
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-desc').textContent = data.desc;
+  document.getElementById('modal-tech').textContent = data.tech;
+  document.getElementById('modal-tag').textContent = data.tag;
+  document.getElementById('modal-challenge').textContent = data.challenge || "Building a high-performance solution that meets all business requirements while ensuring scalability.";
+  document.getElementById('modal-solution').textContent = data.solution || "Leveraged modern development practices and optimized architecture to deliver a robust and user-friendly application.";
+  
+  if (data.img) {
+    modalImg.src = data.img;
+    modalImg.style.display = 'block';
+    modalImgWrap.style.background = 'var(--bg-3)';
+    console.log("Loading modal image:", data.img);
+  } else {
+    modalImg.style.display = 'none';
+    modalImgWrap.style.background = data.gradient || 'var(--bg-3)';
+  }
+  
+  document.getElementById('modal-link').href = data.link;
+
+  modal.classList.add('active');
+  
+  // Simplified animation for modal content to ensure visibility
+  gsap.fromTo('.modal-right > *', 
+    { y: 20, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.4,
+      stagger: 0.05,
+      ease: "power2.out",
+      delay: 0.1,
+      clearProps: "all"
+    }
+  );
+
+  lenis.stop();
+}
+
+function closeModal() {
+  modal.classList.remove('active');
+  if (typeof lenis !== 'undefined') {
+    lenis.start();
+  }
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', closeModal);
+
+/* Handle Cursor Text for Projects and Modal Opening */
 const workCards = document.querySelectorAll('.work-card');
 workCards.forEach(card => {
   card.addEventListener('mouseenter', () => {
@@ -85,6 +244,7 @@ workCards.forEach(card => {
       duration: 0.3 
     });
   });
+  
   card.addEventListener('mouseleave', () => {
     gsap.to(cursorText, { opacity: 0, scale: 0.5, duration: 0.3 });
     gsap.to(cursor, { 
@@ -95,8 +255,20 @@ workCards.forEach(card => {
       duration: 0.3 
     });
   });
-});
 
+  card.addEventListener('click', (e) => {
+    // Robust check for the "Visit Project" link
+    if (e.target.closest('.work-visit')) {
+      return; // Allow the browser to follow the link
+    }
+
+    const title = card.querySelector('.work-title').innerText.replace(/\n/g, ' ').trim();
+    if (projectData[title]) {
+      e.preventDefault();
+      openModal(title);
+    }
+  });
+});
 
 /* ── TYPED JS ────────────────────────────────────────────────────────── */
 const typed = new Typed('#typed', {
@@ -159,19 +331,79 @@ magneticEls.forEach(el => {
   });
 });
 
+/* ── MARQUEE ANIMATION ───────────────────────────────────────────────── */
+const marqueeTrack = document.querySelector('.marquee-track');
+if (marqueeTrack) {
+  // Duplicate for seamless loop
+  marqueeTrack.innerHTML += marqueeTrack.innerHTML;
+  
+  let currentScroll = 0;
+  let isScrolling;
+
+  window.addEventListener('scroll', () => {
+    // Increase speed slightly on scroll
+    gsap.to(marqueeTrack, {
+      timeScale: 2,
+      duration: 0.3,
+      overwrite: true,
+      onComplete: () => {
+        gsap.to(marqueeTrack, { timeScale: 1, duration: 1 });
+      }
+    });
+  });
+
+  gsap.to(marqueeTrack, {
+    xPercent: -50,
+    duration: 30,
+    ease: "none",
+    repeat: -1
+  });
+}
+
 /* ── REVEAL ON SCROLL ────────────────────────────────────────────────── */
 const reveals = document.querySelectorAll('.reveal');
 
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
+if (window.gsap && window.ScrollTrigger) {
+  reveals.forEach(el => {
+    // Determine delay based on class name if present
+    let delay = 0;
+    if (el.classList.contains('reveal-delay-1')) delay = 0.15;
+    else if (el.classList.contains('reveal-delay-2')) delay = 0.3;
+    else if (el.classList.contains('reveal-delay-3')) delay = 0.45;
+    else if (el.classList.contains('reveal-delay-4')) delay = 0.6;
 
-reveals.forEach(el => revealObserver.observe(el));
+    gsap.from(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: "top 90%", // Reveal earlier
+        once: true, // Only play once to prevent disappearing on scroll back up
+        toggleActions: "play none none none"
+      },
+      y: 40,
+      opacity: 0,
+      duration: 1.2,
+      delay: delay,
+      ease: "power2.out",
+      clearProps: "transform,opacity" // Ensure no layout shifts after animation
+    });
+  });
+}
+
+/* ── SCROLL ANIMATIONS ───────────────────────────────────────────────── */
+// Hero Section Parallax
+gsap.to(".hero-headline", {
+  scrollTrigger: {
+    trigger: "#hero",
+    start: "top top",
+    end: "bottom top",
+    scrub: true
+  },
+  y: 80,
+  opacity: 0.8 // Less aggressive fade-out to keep it visible longer
+});
+
+// Section Title Animation removed as it conflicts with .reveal
+// document.querySelectorAll('.section-title').forEach(title => { ... });
 
 /* ── WORK FILTER ─────────────────────────────────────────────────────── */
 const filterBtns = document.querySelectorAll('.filter-btn');
@@ -280,6 +512,96 @@ mobileLinks.forEach(link => {
     lenis.start();
   });
 });
+
+/* ── LIVE STATUS TIME ────────────────────────────────────────────────── */
+function updateLiveTime() {
+  const timeEl = document.getElementById('current-time');
+  if (timeEl) {
+    const now = new Date();
+    const hours = now.getUTCHours() + 1; // GMT+1
+    const mins = now.getUTCMinutes();
+    const displayHours = (hours % 24).toString().padStart(2, '0');
+    const displayMins = mins.toString().padStart(2, '0');
+    timeEl.textContent = `${displayHours}:${displayMins}`;
+  }
+}
+setInterval(updateLiveTime, 1000);
+updateLiveTime();
+
+/* ── CONTACT FORM HANDLER ───────────────────────────────────────────── */
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending...';
+    
+    const formData = new FormData(contactForm);
+    
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Success state
+        submitBtn.style.backgroundColor = '#28a745'; // Green
+        submitBtn.style.borderColor = '#28a745';
+        submitBtn.style.color = '#fff';
+        submitBtn.innerHTML = 'Message Sent! ✓';
+        contactForm.reset();
+      } else {
+        // Fallback to standard form submission if Formspree returns an error
+        console.warn('Formspree error, submitting normally...', data);
+        contactForm.submit();
+      }
+    } catch (error) {
+      console.error('Fetch error, submitting normally...', error);
+      // Fallback to standard form submission on network error
+      contactForm.submit();
+    } finally {
+      // Reset button after 5 seconds if not redirected
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        submitBtn.style.backgroundColor = '';
+        submitBtn.style.borderColor = '';
+        submitBtn.style.color = '';
+      }, 5000);
+    }
+  });
+}
+
+/* ── BACK TO TOP ─────────────────────────────────────────────────────── */
+const backToTop = document.getElementById('back-to-top');
+
+if (backToTop) {
+  lenis.on('scroll', (e) => {
+    if (e.scroll > 500) {
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  });
+
+  backToTop.addEventListener('click', () => {
+    lenis.scrollTo(0, {
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+    });
+  });
+}
 
 /* ── SMOOTH NAV ANCHOR CLICKS ────────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(link => {

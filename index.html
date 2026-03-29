@@ -17,6 +17,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <!-- Lenis for smooth scrolling -->
   <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <!-- ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <!-- Typed.js -->
   <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 </head>
@@ -30,14 +32,24 @@
     </div>
   </div>
 
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
+
   <!-- Custom Cursor -->
   <div id="cursor"></div>
-  <div id="cursor-ring"></div>
+  <div id="cursor-glow"></div>
+  <div id="cursor-text">VIEW</div>
   <div id="cursor-text">View</div>
 
   <!-- NAV -->
   <nav id="nav">
-    <a href="#hero" class="nav-logo">ABDENNOUR<span>.</span>G</a>
+    <div class="nav-left">
+      <a href="#hero" class="nav-logo">ABDENNOUR<span>.</span>G</a>
+      <div class="live-status reveal">
+        <span class="status-dot"></span>
+        <span class="status-text">Available for new opportunities — <span id="current-time"></span> GMT+1</span>
+      </div>
+    </div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Skills</a></li>
@@ -45,8 +57,8 @@
       <li><a href="#clients">Certifications</a></li>
     </ul>
     <div class="nav-right">
-      <a href="#contact" class="nav-cta">Hire Me</a>
-      <button id="menu-toggle" aria-label="Toggle Menu">
+      <a href="#contact" class="nav-cta" aria-label="Hire Abdennour">Hire Me</a>
+      <button id="menu-toggle" aria-label="Open Menu">
         <span></span>
         <span></span>
       </button>
@@ -94,36 +106,22 @@
   </section>
 
   <!-- MARQUEE -->
-  <div class="marquee-section" aria-hidden="true">
+  <section class="marquee-section">
     <div class="marquee-track">
       <div class="marquee-item"><span class="marquee-dot"></span>Python</div>
       <div class="marquee-item"><span class="marquee-dot"></span>Django</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Vue.js</div>
       <div class="marquee-item"><span class="marquee-dot"></span>Laravel</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>PostgreSQL</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>MongoDB</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>C++</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Java</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Git</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Linux</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>SQL</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>JavaScript</div>
-    </div>
-    <div class="marquee-track" aria-hidden="true">
-      <div class="marquee-item"><span class="marquee-dot"></span>Python</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Django</div>
       <div class="marquee-item"><span class="marquee-dot"></span>Vue.js</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Laravel</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>PostgreSQL</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>MongoDB</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>React</div>
       <div class="marquee-item"><span class="marquee-dot"></span>C++</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Java</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>PostgreSQL</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Docker</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>AWS</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>Tailwind</div>
+      <div class="marquee-item"><span class="marquee-dot"></span>GSAP</div>
       <div class="marquee-item"><span class="marquee-dot"></span>Git</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>Linux</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>SQL</div>
-      <div class="marquee-item"><span class="marquee-dot"></span>JavaScript</div>
     </div>
-  </div>
+  </section>
 
   <!-- SERVICES -->
   <section id="services">
@@ -203,11 +201,16 @@
     </div>
 
     <div class="work-grid">
-      <a href="https://ecommerce-frontend-v2-beryl.vercel.app/" target="_blank" class="work-card reveal" data-category="web">
-        <div class="work-img"><div class="work-img-inner g4"></div></div>
-        <div class="work-overlay">
+        <a href="https://ecommerce-frontend-v2-beryl.vercel.app/" target="_blank" class="work-card reveal" data-category="web">
+          <div class="work-img">
+            <div class="work-img-inner">
+              <img src="images/photo.jpg" alt="E-Commerce Project" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <div class="work-overlay">
           <span class="work-tag">Django · Python · 2025</span>
           <h3 class="work-title">E-Commerce<br>Web Application</h3>
+          <span class="work-visit">Visit Project ↗</span>
         </div>
         <div class="work-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -215,10 +218,13 @@
       </a>
 
       <a href="#" target="_blank" class="work-card reveal reveal-delay-1" data-category="web">
-        <div class="work-img"><div class="work-img-inner g2"></div></div>
-        <div class="work-overlay">
+          <div class="work-img">
+            <div class="work-img-inner g2"></div>
+          </div>
+          <div class="work-overlay">
           <span class="work-tag">Laravel · Vue.js · 2024</span>
           <h3 class="work-title">Mini E-Learning<br>Platform</h3>
+          <span class="work-visit">Visit Project ↗</span>
         </div>
         <div class="work-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -226,10 +232,13 @@
       </a>
 
       <a href="#" target="_blank" class="work-card reveal reveal-delay-2" data-category="systems">
-        <div class="work-img"><div class="work-img-inner g3"></div></div>
-        <div class="work-overlay">
+          <div class="work-img">
+            <div class="work-img-inner g3"></div>
+          </div>
+          <div class="work-overlay">
           <span class="work-tag">C · Data Structures · 2023</span>
           <h3 class="work-title">Stock Management<br>System (C)</h3>
+          <span class="work-visit">Visit Project ↗</span>
         </div>
         <div class="work-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -237,10 +246,13 @@
       </a>
 
       <a href="#" target="_blank" class="work-card reveal reveal-delay-3" data-category="web">
-        <div class="work-img"><div class="work-img-inner g1"></div></div>
-        <div class="work-overlay">
+          <div class="work-img">
+            <div class="work-img-inner g1"></div>
+          </div>
+          <div class="work-overlay">
           <span class="work-tag">Django · Vue.js · 2025</span>
           <h3 class="work-title">Hotel Management<br>Web Application</h3>
+          <span class="work-visit">Visit Project ↗</span>
         </div>
         <div class="work-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -248,10 +260,13 @@
       </a>
 
       <a href="#" target="_blank" class="work-card reveal reveal-delay-4" data-category="software">
-        <div class="work-img"><div class="work-img-inner g5"></div></div>
-        <div class="work-overlay">
+          <div class="work-img">
+            <div class="work-img-inner g5"></div>
+          </div>
+          <div class="work-overlay">
           <span class="work-tag">Java · OOP · 2024</span>
           <h3 class="work-title">Student Management<br>System</h3>
+          <span class="work-visit">Visit Project ↗</span>
         </div>
         <div class="work-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -274,9 +289,10 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="about-visual reveal">
-      <div class="about-img-wrap">
-        <img src="images/logo-blanc.webp" alt="EMSI Logo" class="about-logo-img">
-      </div>
+        <div class="about-img-wrap">
+          <img src="images/IMG_9858.jpg" alt="Abdennour Guellaa" class="about-person-img" loading="lazy">
+          <div class="about-img-grid"></div>
+        </div>
       <div class="about-badge">
         <span class="about-badge-num">3rd</span>
         <span class="about-badge-label">Year at<br>EMSI</span>
@@ -326,30 +342,65 @@
       Continuous learning is key to staying ahead in the rapidly evolving software engineering landscape.
     </p>
     <div class="clients-grid">
-      <div class="client-cell reveal" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
-        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">Jan 2026 · EMSI</span>
-        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">JavaScript, jQuery, and JSON</span>
-        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">ID: O1YKU8LD7PZJ</span>
+      <div class="client-cell reveal" style="flex-direction:column; align-items:flex-start; padding: 2.5rem; gap: 1rem;">
+        <div class="cert-icon" style="color:var(--gold);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+          </svg>
+        </div>
+        <div>
+          <span class="work-tag" style="color:var(--text); opacity:0.6; display: block; margin-bottom: 0.2rem;">Jan 2026 · EMSI</span>
+          <span class="client-name" style="color:var(--text); font-size:1.25rem; text-align:left; line-height: 1.2; display: block;">JavaScript, jQuery, and JSON</span>
+          <span class="work-tag" style="font-size:0.55rem; margin-top:0.8rem; display: block;">ID: O1YKU8LD7PZJ</span>
+        </div>
       </div>
-      <div class="client-cell reveal reveal-delay-1" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
-        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">Dec 2025 · EPFL</span>
-        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Introduction to OOP (C++)</span>
-        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">ID: UC3MNGVCU9CP</span>
+      <div class="client-cell reveal reveal-delay-1" style="flex-direction:column; align-items:flex-start; padding: 2.5rem; gap: 1rem;">
+        <div class="cert-icon" style="color:var(--gold);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+          </svg>
+        </div>
+        <div>
+          <span class="work-tag" style="color:var(--text); opacity:0.6; display: block; margin-bottom: 0.2rem;">Dec 2025 · EPFL</span>
+          <span class="client-name" style="color:var(--text); font-size:1.25rem; text-align:left; line-height: 1.2; display: block;">Introduction to OOP (C++)</span>
+          <span class="work-tag" style="font-size:0.55rem; margin-top:0.8rem; display: block;">ID: UC3MNGVCU9CP</span>
+        </div>
       </div>
-      <div class="client-cell reveal reveal-delay-2" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
-        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">2022 · SVT</span>
-        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Baccalauréat - SVT</span>
-        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">Honors</span>
+      <div class="client-cell reveal reveal-delay-2" style="flex-direction:column; align-items:flex-start; padding: 2.5rem; gap: 1rem;">
+        <div class="cert-icon" style="color:var(--gold);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.174L3 12l1.26 1.826C4.54 14.183 4.832 14.477 5.174 14.74L7 16l1.826-1.26c.323-.263.617-.557.876-.876L11 12l-1.298-1.874a2.993 2.993 0 00-.876-.876L7 8l-1.826 1.26a2.993 2.993 0 00-.876.876l-.038.038zM15 7h6M15 11h6M15 15h6M15 19h6" />
+          </svg>
+        </div>
+        <div>
+          <span class="work-tag" style="color:var(--text); opacity:0.6; display: block; margin-bottom: 0.2rem;">2022 · SVT</span>
+          <span class="client-name" style="color:var(--text); font-size:1.25rem; text-align:left; line-height: 1.2; display: block;">Baccalauréat - SVT</span>
+          <span class="work-tag" style="font-size:0.55rem; margin-top:0.8rem; display: block;">Honors</span>
+        </div>
       </div>
-      <div class="client-cell reveal reveal-delay-3" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
-        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">2023 · ALC</span>
-        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Advanced English (C1)</span>
-        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">Fluent Proficiency</span>
+      <div class="client-cell reveal reveal-delay-3" style="flex-direction:column; align-items:flex-start; padding: 2.5rem; gap: 1rem;">
+        <div class="cert-icon" style="color:var(--gold);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+          </svg>
+        </div>
+        <div>
+          <span class="work-tag" style="color:var(--text); opacity:0.6; display: block; margin-bottom: 0.2rem;">2023 · ALC</span>
+          <span class="client-name" style="color:var(--text); font-size:1.25rem; text-align:left; line-height: 1.2; display: block;">Advanced English (C1)</span>
+          <span class="work-tag" style="font-size:0.55rem; margin-top:0.8rem; display: block;">Fluent Proficiency</span>
+        </div>
       </div>
-      <div class="client-cell reveal reveal-delay-4" style="flex-direction:column; align-items:flex-start; padding: 2rem;">
-        <span class="work-tag" style="color:var(--text); opacity:0.6; margin-bottom:0.5rem;">Ongoing</span>
-        <span class="client-name" style="color:var(--text); font-size:1.2rem; text-align:left;">Engineering Degree</span>
-        <span class="work-tag" style="font-size:0.55rem; margin-top:1rem;">Expected 2028</span>
+      <div class="client-cell reveal reveal-delay-4" style="flex-direction:column; align-items:flex-start; padding: 2.5rem; gap: 1rem;">
+        <div class="cert-icon" style="color:var(--gold);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.174L3 12l1.26 1.826C4.54 14.183 4.832 14.477 5.174 14.74L7 16l1.826-1.26c.323-.263.617-.557.876-.876L11 12l-1.298-1.874a2.993 2.993 0 00-.876-.876L7 8l-1.826 1.26a2.993 2.993 0 00-.876.876l-.038.038zM15 7h6M15 11h6M15 15h6M15 19h6" />
+          </svg>
+        </div>
+        <div>
+          <span class="work-tag" style="color:var(--text); opacity:0.6; display: block; margin-bottom: 0.2rem;">Ongoing</span>
+          <span class="client-name" style="color:var(--text); font-size:1.25rem; text-align:left; line-height: 1.2; display: block;">Engineering Degree</span>
+          <span class="work-tag" style="font-size:0.55rem; margin-top:0.8rem; display: block;">Expected 2028</span>
+        </div>
       </div>
     </div>
   </section>
@@ -363,27 +414,54 @@
     <p class="contact-sub reveal reveal-delay-2">
       Currently based in Casablanca, Morocco. Feel free to reach out for collaborations or opportunities.
     </p>
-    <div class="contact-buttons reveal reveal-delay-3">
-      <a href="mailto:abdnourguellaa50@gmail.com" class="btn-primary">
+
+    <!-- Contact Form Integration -->
+    <div class="contact-form-container reveal reveal-delay-3">
+      <form id="contact-form" action="https://formspree.io/f/xreopbok" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me about your project" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+          Send Message
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="contact-buttons reveal reveal-delay-4" style="margin-top: 4rem;">
+      <a href="mailto:abdnourguellaa50@gmail.com" class="btn-primary" aria-label="Send an Email to Abdennour">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
         </svg>
         Email Me
       </a>
-      <a href="https://github.com/Abdnour0" class="btn-secondary" target="_blank">
+      <a href="https://github.com/Abdnour0" class="btn-secondary" target="_blank" aria-label="Visit Abdennour's GitHub profile">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.92.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.137 20.164 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
         </svg>
         GitHub
       </a>
-      <a href="https://www.linkedin.com/in/abdennour-guellaa-656581246/" class="btn-secondary" target="_blank">
+      <a href="https://www.linkedin.com/in/abdennour-guellaa-656581246/" class="btn-secondary" target="_blank" aria-label="Visit Abdennour's LinkedIn profile">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
         </svg>
         LinkedIn
       </a>
       <div class="cv-dropdown">
-        <button class="btn-secondary">
+        <button class="btn-secondary" aria-label="Download Curriculum Vitae Options">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12l4.5 4.5m0 0l4.5-4.5M12 3v13.5"/>
           </svg>
@@ -398,17 +476,83 @@
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">ABDENNOUR<span>.</span>G</div>
-    <ul class="footer-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Skills</a></li>
-      <li><a href="#work">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <span class="footer-copy">© 2026 ABDENNOUR GUELLAA. Built with Passion.</span>
+  <footer id="main-footer">
+    <div class="footer-cta">
+      <span class="cta-eyebrow reveal">Have an idea?</span>
+      <h2 class="cta-title reveal reveal-delay-1">Let's build something <br><em>Extraordinary</em> together.</h2>
+      <a href="mailto:abdnourguellaa50@gmail.com" class="cta-huge-link reveal reveal-delay-2">Get in touch <span class="arrow">↗</span></a>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-left">
+        <div class="footer-logo">ABDENNOUR<span>.</span>G</div>
+        <p class="footer-tagline">Software Engineering Student & Full-Stack Developer.</p>
+      </div>
+      <div class="footer-right">
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Skills</a></li>
+          <li><a href="#work">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <span class="footer-copy">© 2026 ABDENNOUR GUELLAA. Built with Passion.</span>
+      </div>
+    </div>
   </footer>
 
+  <!-- Project Detail Modal -->
+  <div id="project-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <button class="modal-close" aria-label="Close Modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <div class="modal-content">
+        <div class="modal-left">
+          <div class="modal-img-wrap">
+            <img src="" alt="Project Image" id="modal-img">
+          </div>
+        </div>
+        <div class="modal-right">
+          <span id="modal-tag" class="work-tag"></span>
+          <h2 id="modal-title" class="section-title"></h2>
+          <div class="modal-body">
+            <div class="modal-actions" style="margin-bottom: 2rem; margin-top: 0;">
+              <a href="#" target="_blank" id="modal-link" class="btn-primary">View Live Project <span class="arrow">↗</span></a>
+            </div>
+            <p id="modal-desc"></p>
+            <div class="modal-info-grid">
+              <div class="info-item">
+                <span class="info-label">Tech Stack</span>
+                <p id="modal-tech"></p>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Role</span>
+                <p id="modal-role">Full-Stack Developer</p>
+              </div>
+            </div>
+            <div class="modal-case-study">
+              <div class="case-item">
+                <span class="info-label">The Challenge</span>
+                <p id="modal-challenge"></p>
+              </div>
+              <div class="case-item">
+                <span class="info-label">The Solution</span>
+                <p id="modal-solution"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/script.js"></script>
+  <!-- Back to Top Button -->
+  <button id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+    </svg>
+  </button>
 </body>
 </html>

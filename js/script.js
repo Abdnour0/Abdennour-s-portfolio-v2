@@ -121,53 +121,58 @@ if (modalLink) {
 
 const projectData = {
   "E-Commerce Web Application": {
-    desc: "A sophisticated e-commerce platform built with Django and Python. It features a fully responsive product catalog, secure user authentication, and a robust cart system designed for high performance and scalability. The application includes a comprehensive admin dashboard for inventory management and order tracking.",
-    tech: "Django, Python, HTML5, CSS3, JavaScript, PostgreSQL",
-    challenge: "Ensuring real-time synchronization between the cart and inventory while maintaining low latency during high traffic peaks.",
-    solution: "Implemented an optimized database indexing strategy and Redis caching for frequently accessed product data to reduce server load.",
+    desc: "A fast, modern e-commerce frontend built with Vite and Vanilla JavaScript. It features dynamic product rendering, a fully functional shopping cart, and a responsive interface optimized for performance.",
+    tech: "Vite, Vanilla JavaScript, HTML5, CSS3, ES Modules, LocalStorage API",
+    challenge: "Building a fully dynamic shopping experience — product filtering, cart state, and quantity management — without any framework or backend, keeping the bundle size minimal.",
+    solution: "Architected the app using ES Modules for clean separation of concerns, managed cart state entirely in LocalStorage for persistence, and used event delegation to handle dynamic DOM interactions efficiently.",
+    role: "Frontend Developer",
     img: "images/photo.jpg",
     gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 40%, #c9784c 100%)",
     link: "https://ecommerce-frontend-v2-beryl.vercel.app/",
-    tag: "Django · Python · 2025"
+    tag: "Vite · Vanilla JS · 2025"
   },
   "Mini E-Learning Platform": {
-    desc: "An intuitive digital classroom environment developed with Laravel and Vue.js. This platform allows educators to upload course materials while students can track their progress through interactive modules. It implements real-time notifications and a responsive UI for seamless learning on any device.",
+    desc: "An intuitive digital classroom environment developed with Laravel and Vue.js. This platform allows educators to upload course materials while students can track their progress through interactive modules.",
     tech: "Laravel, Vue.js, MySQL, Tailwind CSS, Vite",
     challenge: "Managing complex state transitions for student progress across multiple modules and ensuring data persistence during session timeouts.",
-    solution: "Utilized Vuex for centralized state management and implemented a background sync service to periodically save progress without interrupting the user experience.",
+    solution: "Utilized Vuex for centralized state management and implemented a background sync service to periodically save student progress without interrupting the user experience.",
+    role: "Full-Stack Developer",
     img: null,
     gradient: "linear-gradient(135deg, #00101a 0%, #003d5c 40%, #4cc9c5 100%)",
-    link: "https://github.com/Abdnour0",
+    link: "https://github.com/Abdnour0/Mini-E-Learning-Platform",
     tag: "Laravel · Vue.js · 2024"
   },
   "Stock Management System (C)": {
-    desc: "A high-performance systems-level application designed for real-time inventory tracking. Built with pure C, it focuses on extreme memory efficiency and fast data retrieval using advanced data structures like Hash Maps and Linked Lists for optimal performance.",
+    desc: "A high-performance systems-level application designed for real-time inventory tracking. Built with pure C, it focuses on extreme memory efficiency and fast data retrieval.",
     tech: "C, Data Structures, File I/O, Algorithms, GCC",
-    challenge: "Handling large datasets with minimal memory overhead while providing sub-second search results across thousands of entries.",
+    challenge: "Handling large datasets with minimal memory overhead while providing sub-second search results across thousands of inventory entries.",
     solution: "Developed a custom hash-table implementation with open addressing to minimize memory allocation and used binary search on sorted indices for fast lookups.",
+    role: "Software Developer",
     img: null,
     gradient: "linear-gradient(135deg, #0a0012 0%, #2e004d 40%, #9b59b6 100%)",
-    link: "https://github.com/Abdnour0",
+    link: "https://github.com/Abdnour0/Stock-Management-System",
     tag: "C · Data Structures · 2023"
   },
   "Hotel Management Web Application": {
-    desc: "A comprehensive administrative dashboard for hospitality management. This application streamlines the entire guest journey, from initial room booking to final check-out. It features an automated billing system and real-time room status updates using a modern Django and Vue.js stack.",
+    desc: "A comprehensive administrative dashboard for hospitality management. This application streamlines the entire guest journey, from initial room booking to final check-out handling.",
     tech: "Django, Vue.js, PostgreSQL, GSAP, Redis",
-    challenge: "Automating the complex billing logic that involves varying rates, tax calculations, and seasonal discounts while maintaining auditability.",
+    challenge: "Automating the complex billing logic that involves varying rates, tax calculations, and seasonal discounts while maintaining strict auditability.",
     solution: "Designed a modular billing engine using the Strategy Pattern to separate calculation logic from data retrieval, allowing for easy updates and testing.",
+    role: "Full-Stack Developer",
     img: null,
     gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 40%, #c9784c 100%)",
-    link: "https://github.com/Abdnour0",
+    link: "https://github.com/Abdnour0/Hotel-Management-App",
     tag: "Django · Vue.js · 2025"
   },
   "Student Management System": {
-    desc: "A cross-platform desktop application built with Java to help educational institutions manage student records, grades, and attendance efficiently. It follows strict Object-Oriented Programming principles and includes a local database for persistent storage.",
+    desc: "A cross-platform desktop application built with Java to help educational institutions manage student records, grades, and attendance efficiently. It strictly follows robust Object-Oriented Programming principles.",
     tech: "Java, Swing, OOP, SQLite, JDBC",
-    challenge: "Ensuring cross-platform compatibility and a consistent look-and-feel across Windows and Linux environments without sacrificing performance.",
+    challenge: "Ensuring cross-platform compatibility and a consistent look-and-feel across various Windows and Linux environments without sacrificing performance.",
     solution: "Used the Java Swing library with custom UI components and implemented a persistent SQLite database for lightweight, file-based data storage.",
+    role: "Java Developer",
     img: null,
     gradient: "linear-gradient(135deg, #1a000a 0%, #4d0026 40%, #e05599 100%)",
-    link: "https://github.com/Abdnour0",
+    link: "https://github.com/Abdnour0/Student-Management-System",
     tag: "Java · OOP · 2024"
   }
 };
@@ -187,14 +192,16 @@ function openModal(title) {
   document.getElementById('modal-desc').textContent = data.desc;
   document.getElementById('modal-tech').textContent = data.tech;
   document.getElementById('modal-tag').textContent = data.tag;
-  document.getElementById('modal-challenge').textContent = data.challenge || "Building a high-performance solution that meets all business requirements while ensuring scalability.";
-  document.getElementById('modal-solution').textContent = data.solution || "Leveraged modern development practices and optimized architecture to deliver a robust and user-friendly application.";
+  if (document.getElementById('modal-role')) {
+    document.getElementById('modal-role').textContent = data.role || "Full-Stack Developer";
+  }
+  document.getElementById('modal-challenge').textContent = data.challenge;
+  document.getElementById('modal-solution').textContent = data.solution;
   
   if (data.img) {
     modalImg.src = data.img;
     modalImg.style.display = 'block';
     modalImgWrap.style.background = 'var(--bg-3)';
-    console.log("Loading modal image:", data.img);
   } else {
     modalImg.style.display = 'none';
     modalImgWrap.style.background = data.gradient || 'var(--bg-3)';
@@ -230,6 +237,13 @@ function closeModal() {
 
 modalClose.addEventListener('click', closeModal);
 modalOverlay.addEventListener('click', closeModal);
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('active')) {
+    closeModal();
+  }
+});
 
 /* Handle Cursor Text for Projects and Modal Opening */
 const workCards = document.querySelectorAll('.work-card');
@@ -275,8 +289,7 @@ const typed = new Typed('#typed', {
   strings: [
     'Software Engineering Student',
     'Full-Stack Developer',
-    'Problem Solver',
-    'Tech Enthusiast'
+    'Open to Internship Opportunities'
   ],
   typeSpeed: 50,
   backSpeed: 30,
@@ -334,8 +347,11 @@ magneticEls.forEach(el => {
 /* ── MARQUEE ANIMATION ───────────────────────────────────────────────── */
 const marqueeTrack = document.querySelector('.marquee-track');
 if (marqueeTrack) {
-  // Duplicate for seamless loop
-  marqueeTrack.innerHTML += marqueeTrack.innerHTML;
+  // Duplicate for seamless loop only once
+  if (!marqueeTrack.dataset.duplicated) {
+    marqueeTrack.innerHTML += marqueeTrack.innerHTML;
+    marqueeTrack.dataset.duplicated = 'true';
+  }
   
   let currentScroll = 0;
   let isScrolling;
@@ -416,7 +432,7 @@ filterBtns.forEach(btn => {
     const filter = btn.dataset.filter;
 
     workCards.forEach(card => {
-      const match = filter === 'all' || card.dataset.category === filter;
+      const match = filter === 'all' || card.dataset.category.split(' ').includes(filter);
       card.style.transition    = 'opacity 0.35s, transform 0.35s';
       card.style.opacity       = match ? '1' : '0.2';
       card.style.transform     = match ? 'none' : 'scale(0.97)';
@@ -517,12 +533,12 @@ mobileLinks.forEach(link => {
 function updateLiveTime() {
   const timeEl = document.getElementById('current-time');
   if (timeEl) {
-    const now = new Date();
-    const hours = now.getUTCHours() + 1; // GMT+1
-    const mins = now.getUTCMinutes();
-    const displayHours = (hours % 24).toString().padStart(2, '0');
-    const displayMins = mins.toString().padStart(2, '0');
-    timeEl.textContent = `${displayHours}:${displayMins}`;
+    const timeStr = new Intl.DateTimeFormat('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Africa/Casablanca'
+    }).format(new Date());
+    timeEl.textContent = timeStr;
   }
 }
 setInterval(updateLiveTime, 1000);

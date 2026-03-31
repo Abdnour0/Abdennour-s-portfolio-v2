@@ -28,8 +28,8 @@ const lenis = new Lenis({
   gestureOrientation: 'vertical',
   smoothWheel: true,
   wheelMultiplier: 1,
-  smoothTouch: false,
-  touchMultiplier: 2,
+  smoothTouch: true,
+  touchMultiplier: 1.5,
   infinite: false,
 });
 
@@ -270,15 +270,24 @@ workCards.forEach(card => {
   });
 
   card.addEventListener('click', (e) => {
-    // Robust check for the "Visit Project" link
+    // Always prevent default navigation first
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Allow the "Visit Project" link to open in new tab
     if (e.target.closest('.work-visit')) {
-      return; // Allow the browser to follow the link
+      const href = card.getAttribute('href');
+      if (href && href !== '#') window.open(href, '_blank', 'noopener,noreferrer');
+      return;
     }
 
     const title = card.querySelector('.work-title').innerText.replace(/\n/g, ' ').trim();
     if (projectData[title]) {
-      e.preventDefault();
       openModal(title);
+    } else {
+      // For cards with no modal data (e.g. GitHub card), open the href
+      const href = card.getAttribute('href');
+      if (href && href !== '#') window.open(href, '_blank', 'noopener,noreferrer');
     }
   });
 });
@@ -509,13 +518,46 @@ mobileLinks.forEach(link => {
 /* ── LIVE STATUS TIME ────────────────────────────────────────────────── */
 function updateLiveTime() {
   const timeEl = document.getElementById('current-time');
+  const statusDot = document.querySelector('.status-dot');
+  const statusLabel = document.querySelector('.status-label');
+  const statusSep = document.querySelector('.status-sep');
+
   if (timeEl) {
-    const timeStr = new Intl.DateTimeFormat('en-GB', {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: false,
       timeZone: 'Africa/Casablanca'
-    }).format(new Date());
-    timeEl.textContent = timeStr;
+    });
+    const timeStr = formatter.format(now);
+
+    // Get local hour in Morocco timezone
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      hour: 'numeric',
+      hour12: false,
+      timeZone: 'Africa/Casablanca'
+    }).formatToParts(now);
+    const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+    const isAvailable = hour >= 9 && hour < 23; // 9 AM to 11 PM
+
+    if (isAvailable) {
+      timeEl.textContent = timeStr;
+      if (statusLabel) statusLabel.textContent = 'Available';
+      if (statusDot) {
+        statusDot.style.background = '#00FF00';
+        statusDot.style.boxShadow = '0 0 10px #00FF00';
+      }
+      if (statusSep) statusSep.style.display = '';
+    } else {
+      timeEl.textContent = '';
+      if (statusLabel) statusLabel.textContent = 'Not Available';
+      if (statusDot) {
+        statusDot.style.background = '#E03535';
+        statusDot.style.boxShadow = '0 0 10px #E03535';
+      }
+      if (statusSep) statusSep.style.display = 'none';
+    }
   }
 }
 setInterval(updateLiveTime, 1000);

@@ -228,7 +228,7 @@ nav {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 #menu-toggle {
   display: none;
@@ -1356,30 +1356,33 @@ section { padding: 8rem 3rem; }
   .work-card:nth-child(6) { grid-column: span 6; }
   .services-grid { grid-template-columns: 1fr 1fr; }
   .clients-grid  { grid-template-columns: repeat(3, 1fr); }
+  /* Hide cursor glow on touch tablets too */
+  #cursor-glow { display: none; }
 }
 
 @media (max-width: 768px) {
-  nav { padding: 1.2rem 1.5rem; }
+  nav { padding: 1rem 1.2rem; }
   .nav-links { display: none; }
   #menu-toggle { display: flex; }
   section { padding: 5rem 1.5rem; }
-  .nav-left { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  /* Nav left: logo + status side by side on mobile to save vertical space */
+  .nav-left { flex-direction: row; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
   .live-status {
     display: inline-flex;
-    max-width: 82vw;
-    padding: 0.3rem 0.6rem;
+    padding: 0.25rem 0.55rem;
   }
   .status-text {
-    max-width: 74vw;
+    font-size: 0.6rem;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .status-range,
   .status-tz { display: none; }
 
-  #hero { padding: 8rem 1.5rem 3.5rem; justify-content: center; }
-  .hero-rule { margin-bottom: 1.2rem; }
+  #hero { padding: 8rem 1.5rem 3.5rem; justify-content: flex-end; overflow: visible; }
+  /* Hero rule: allow typed text to wrap on small screens */
+  .hero-rule { margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.7rem; }
+  .hero-rule-line { max-width: 60px; }
+  .hero-rule-text { font-size: 0.65rem; letter-spacing: 0.12em; }
   .hero-headline { margin-bottom: 1.7rem; }
   .marquee-section { padding: 1.1rem 0; }
   .marquee-track { gap: 2.2rem; }
@@ -1412,10 +1415,21 @@ section { padding: 8rem 3rem; }
   footer          { flex-direction: column; gap: 1.5rem; text-align: center; }
   .footer-links   { flex-wrap: wrap; justify-content: center; }
   body            { cursor: auto; }
-  #cursor, #cursor-ring { display: none; }
+  #cursor, #cursor-ring, #cursor-glow { display: none; }
   /* Restore pointer cursor on interactive elements for touch/mobile */
   button, .filter-btn, .work-card, .nav-cta, .btn-primary, .btn-secondary,
   .about-cta, .cv-dropdown button, .modal-close, #back-to-top { cursor: pointer; }
+
+  /* Hire Me button — compact on mobile */
+  .nav-cta {
+    font-size: 0.68rem;
+    padding: 0.45rem 0.9rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  /* Remove overflow:hidden from hero so touch-scroll isn't blocked */
+  #hero { overflow: visible; }
 
   #contact { padding: 7rem 1.5rem; }
   .contact-headline {
@@ -1458,12 +1472,16 @@ section { padding: 8rem 3rem; }
 }
 
 @media (max-width: 480px) {
-  .hero-headline { font-size: clamp(3.5rem, 18vw, 6rem); }
+  .hero-headline { font-size: clamp(3.2rem, 16vw, 5.5rem); }
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
   .hero-desc { max-width: 100%; }
   .hero-scroll { display: none; }
   .about-badge   { display: none; }
   .clients-grid  { grid-template-columns: 1fr; }
+  /* Nav on very small phones: tighten further */
+  .nav-logo { font-size: 1.1rem; }
+  .nav-cta { font-size: 0.62rem; padding: 0.4rem 0.75rem; }
+  .live-status { padding: 0.2rem 0.5rem; }
 
   .contact-eyebrow { margin-bottom: 1rem; }
   .contact-headline { font-size: clamp(2.4rem, 12vw, 3.8rem); }

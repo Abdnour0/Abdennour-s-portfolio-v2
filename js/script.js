@@ -182,13 +182,19 @@ const modalClose = document.querySelector('.modal-close');
 const modalOverlay = document.querySelector('.modal-overlay');
 
 function openModal(title) {
-  const data = projectData[title];
+  if (!modal) return;
+  let data = projectData[title];
   if (!data) return;
+
+  const activeLang = localStorage.getItem('portfolioLang') || 'en';
+  if (activeLang !== 'en' && typeof projectTranslations !== 'undefined' && projectTranslations[activeLang] && projectTranslations[activeLang][title]) {
+    data = { ...data, ...projectTranslations[activeLang][title] };
+  }
 
   const modalImg = document.getElementById('modal-img');
   const modalImgWrap = document.querySelector('.modal-img-wrap');
 
-  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-title').textContent = data.title || title;
   document.getElementById('modal-desc').textContent = data.desc;
   document.getElementById('modal-tech').textContent = data.tech;
   document.getElementById('modal-tag').textContent = data.tag;
@@ -229,13 +235,19 @@ function openModal(title) {
 }
 
 function closeModal() {
+  if (!modal) return;
   modal.classList.remove('active');
   document.documentElement.classList.remove('modal-open');
   document.body.classList.remove('modal-open');
 }
 
-modalClose.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', closeModal);
+if (modalClose) {
+  modalClose.addEventListener('click', closeModal);
+}
+
+if (modalOverlay) {
+  modalOverlay.addEventListener('click', closeModal);
+}
 
 // Close modal with Escape key
 document.addEventListener('keydown', (e) => {
@@ -281,7 +293,8 @@ workCards.forEach(card => {
       return;
     }
 
-    const title = card.querySelector('.work-title').innerText.replace(/\n/g, ' ').trim();
+    const titleEl = card.querySelector('.work-title');
+    const title = titleEl?.innerText?.replace(/\n/g, ' ').trim() || '';
     if (projectData[title]) {
       openModal(title);
     } else {
@@ -293,64 +306,90 @@ workCards.forEach(card => {
 });
 
 /* ── TYPED JS ────────────────────────────────────────────────────────── */
-const typed = new Typed('#typed', {
-  strings: [
+let typedInstance = null;
+function initTyped(lang) {
+  if (typedInstance) typedInstance.destroy();
+  
+  const strings = (typeof typedTranslations !== 'undefined') ? typedTranslations[lang] : [
     'Software Engineering Student',
     'Full-Stack Developer',
     'Open to Internship Opportunities'
-  ],
-  typeSpeed: 50,
-  backSpeed: 30,
-  backDelay: 2000,
-  loop: true,
-  showCursor: true,
-  cursorChar: '|'
+  ];
+
+  typedInstance = new Typed('#typed', {
+    strings: strings,
+    typeSpeed: 50,
+    backSpeed: 30,
+    backDelay: 2000,
+    loop: true,
+    showCursor: true,
+    cursorChar: '|'
+  });
+}
+
+const currentLang = localStorage.getItem('portfolioLang') || 'en';
+initTyped(currentLang);
+
+document.addEventListener('langChanged', (e) => {
+  initTyped(e.detail);
 });
 
 /* ── NAV SCROLL ──────────────────────────────────────────────────────── */
 const nav = document.getElementById('nav');
 
-lenis.on('scroll', (e) => {
-  nav.classList.toggle('scrolled', e.scroll > 60);
+lenis.on('scroll', (e) => {  if (!nav) return;  nav.classList.toggle('scrolled', e.scroll > 60);
 });
 
 /* ── MAGNETIC BUTTONS ────────────────────────────────────────────────── */
 const magneticEls = document.querySelectorAll('.nav-logo, .nav-links a, .nav-cta, .btn-primary, .btn-secondary, .filter-btn, .about-cta');
+const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-magneticEls.forEach(el => {
-  el.addEventListener('mousemove', e => {
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
+if (!isTouchDevice) {
+  magneticEls.forEach(el => {
+    let cachedRect;
 
-    gsap.to(el, {
-      x: x * 0.35,
-      y: y * 0.35,
-      duration: 0.4,
-      ease: "power2.out"
+    el.addEventListener('mouseenter', () => {
+      gsap.killTweensOf(el);
+      el.style.transform = "none";
+      cachedRect = el.getBoundingClientRect();
     });
-    
-    // Also move the ring to the element
-    gsap.to(ring, {
-      scale: 1.5,
-      duration: 0.3
+
+    el.addEventListener('mousemove', e => {
+      if (!cachedRect) return;
+      const x = e.clientX - cachedRect.left - cachedRect.width / 2;
+      const y = e.clientY - cachedRect.top - cachedRect.height / 2;
+
+      gsap.to(el, {
+        x: x * 0.35,
+        y: y * 0.35,
+        duration: 0.4,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+      
+      gsap.to(ring, {
+        scale: 1.5,
+        duration: 0.3
+      });
+    });
+
+    el.addEventListener('mouseleave', () => {
+      cachedRect = null;
+      gsap.to(el, {
+        x: 0,
+        y: 0,
+        duration: 0.5,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto"
+      });
+      
+      gsap.to(ring, {
+        scale: 1,
+        duration: 0.3
+      });
     });
   });
-
-  el.addEventListener('mouseleave', () => {
-    gsap.to(el, {
-      x: 0,
-      y: 0,
-      duration: 0.5,
-      ease: "elastic.out(1, 0.3)"
-    });
-    
-    gsap.to(ring, {
-      scale: 1,
-      duration: 0.3
-    });
-  });
-});
+}
 
 /* ── MARQUEE ANIMATION ───────────────────────────────────────────────── */
 const marqueeTrack = document.querySelector('.marquee-track');
@@ -539,11 +578,21 @@ function updateLiveTime() {
       timeZone: 'Africa/Casablanca'
     }).formatToParts(now);
     const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
-    const isAvailable = hour >= 9 && hour < 23; // 9 AM to 11 PM
+    const isAvailable = hour >= 9 && hour < 23; // 9 AM to 10:59 PM
+    
+    // Retrieve correct translation based on current lang
+    const activeLang = localStorage.getItem('portfolioLang') || 'en';
+    const langObj = (typeof translations !== 'undefined') ? translations[activeLang] : null;
+    let availText = 'Available';
+    let unavailText = 'Unavailable';
+    if (langObj) {
+      if (activeLang === 'fr') { availText = 'Disponible'; unavailText = 'Indisponible'; }
+      if (activeLang === 'ar') { availText = 'متاح'; unavailText = 'غير متاح'; }
+    }
 
     if (isAvailable) {
       timeEl.textContent = timeStr;
-      if (statusLabel) statusLabel.textContent = 'Available';
+      if (statusLabel) statusLabel.textContent = availText;
       if (statusDot) {
         statusDot.style.background = '#00FF00';
         statusDot.style.boxShadow = '0 0 10px #00FF00';
@@ -551,7 +600,7 @@ function updateLiveTime() {
       if (statusSep) statusSep.style.display = '';
     } else {
       timeEl.textContent = '';
-      if (statusLabel) statusLabel.textContent = 'Not Available';
+      if (statusLabel) statusLabel.textContent = unavailText;
       if (statusDot) {
         statusDot.style.background = '#E03535';
         statusDot.style.boxShadow = '0 0 10px #E03535';
@@ -641,14 +690,17 @@ if (backToTop) {
 /* ── SMOOTH NAV ANCHOR CLICKS ────────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
-    const target = link.getAttribute('href');
-    if (target && target !== '#') {
-      e.preventDefault();
-      lenis.scrollTo(target, {
-        offset: 0,
-        duration: 1.5,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-      });
+    const targetSelector = link.getAttribute('href');
+    if (targetSelector && targetSelector !== '#') {
+      const targetEl = document.querySelector(targetSelector);
+      if (targetEl) {
+        e.preventDefault();
+        lenis.scrollTo(targetEl, {
+          offset: 0,
+          duration: 1.5,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      }
     }
   });
 });

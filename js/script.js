@@ -187,8 +187,8 @@ function openModal(title) {
   if (!data) return;
 
   const activeLang = localStorage.getItem('portfolioLang') || 'en';
-  if (activeLang !== 'en' && typeof projectTranslations !== 'undefined' && projectTranslations[activeLang] && projectTranslations[activeLang][title]) {
-    data = { ...data, ...projectTranslations[activeLang][title] };
+  if (activeLang !== 'en' && window.projectTranslations && window.projectTranslations[activeLang] && window.projectTranslations[activeLang][title]) {
+    data = { ...data, ...window.projectTranslations[activeLang][title] };
   }
 
   const modalImg = document.getElementById('modal-img');
@@ -310,7 +310,7 @@ let typedInstance = null;
 function initTyped(lang) {
   if (typedInstance) typedInstance.destroy();
   
-  const strings = (typeof typedTranslations !== 'undefined') ? typedTranslations[lang] : [
+  const strings = (window.typedTranslations && window.typedTranslations[lang]) ? window.typedTranslations[lang] : [
     'Software Engineering Student',
     'Full-Stack Developer',
     'Open to Internship Opportunities'

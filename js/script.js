@@ -450,34 +450,85 @@ gsap.to(".hero-headline", {
 const filterBtns = document.querySelectorAll('.filter-btn');
 const workSection = document.getElementById('work');
 const workGrid = document.querySelector('.work-grid');
+let isFiltering = false; // Prevent rapid clicks during animation
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
+    if (isFiltering) return;
+    
     filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
     const filter = btn.dataset.filter;
     const isAll = filter === 'all';
+    const cards = Array.from(workGrid.querySelectorAll('.work-card'));
 
-    // Toggle uniform grid layout when filtering
-    if (workGrid) {
-      workGrid.classList.toggle('filtered', !isAll);
-    }
+    isFiltering = true;
 
-    // Reorder: matching cards first, non-matching faded after
-    workCards.forEach(card => {
-      const match = isAll || card.dataset.category.split(' ').includes(filter);
-      card.style.transition    = 'opacity 0.35s, transform 0.35s';
-      card.style.opacity       = match ? '1' : '0.15';
-      card.style.transform     = match ? 'none' : 'scale(0.95)';
-      card.style.pointerEvents = match ? 'auto' : 'none';
-      card.style.order         = match ? '0' : '1';
+    // Phase 1: Fade all cards out
+    gsap.to(cards, {
+      opacity: 0,
+      y: 20,
+      scale: 0.97,
+      duration: 0.3,
+      stagger: 0.03,
+      ease: "power2.in",
+      onComplete: () => {
+        // Phase 2: Reorder DOM — matching cards first
+        const matched = [];
+        const unmatched = [];
+        cards.forEach(card => {
+          const match = isAll || card.dataset.category.split(' ').includes(filter);
+          if (match) matched.push(card);
+          else unmatched.push(card);
+        });
+
+        // Move matched cards to the top of the grid
+        matched.forEach(card => workGrid.prepend(card));
+
+        // Toggle uniform grid layout when filtering
+        workGrid.classList.toggle('filtered', !isAll);
+
+        // Phase 3: Fade matching cards in, keep non-matching dimmed
+        matched.forEach(card => {
+          card.style.pointerEvents = 'auto';
+        });
+        unmatched.forEach(card => {
+          card.style.pointerEvents = 'none';
+        });
+
+        gsap.to(matched, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.45,
+          stagger: 0.06,
+          ease: "power2.out",
+          clearProps: "transform"
+        });
+
+        gsap.to(unmatched, {
+          opacity: 0.12,
+          y: 0,
+          scale: 0.95,
+          duration: 0.4,
+          stagger: 0.04,
+          delay: matched.length * 0.06,
+          ease: "power2.out",
+          onComplete: () => { isFiltering = false; }
+        });
+
+        // If there are no unmatched cards (filter = all), unlock immediately
+        if (unmatched.length === 0) {
+          isFiltering = false;
+        }
+      }
     });
 
     // Scroll the work section to the top of the viewport
     if (workSection) {
       lenis.scrollTo(workSection, {
-        offset: -80, // Account for fixed nav height
+        offset: -80,
         duration: 1,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });

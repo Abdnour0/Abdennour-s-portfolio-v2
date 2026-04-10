@@ -618,6 +618,11 @@ section { padding: 8rem 3rem; }
 .work-card:nth-child(5) { grid-column: span 6; }
 .work-card:nth-child(6) { grid-column: span 6; }
 
+/* When a filter is active, use uniform card sizes so reordering looks clean */
+.work-grid.filtered .work-card {
+  grid-column: span 6;
+}
+
 .work-img {
   aspect-ratio: 4/3;
   overflow: hidden;

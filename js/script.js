@@ -449,6 +449,7 @@ gsap.to(".hero-headline", {
 /* ── WORK FILTER ─────────────────────────────────────────────────────── */
 const filterBtns = document.querySelectorAll('.filter-btn');
 const workSection = document.getElementById('work');
+const workGrid = document.querySelector('.work-grid');
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -456,13 +457,21 @@ filterBtns.forEach(btn => {
     btn.classList.add('active');
 
     const filter = btn.dataset.filter;
+    const isAll = filter === 'all';
 
+    // Toggle uniform grid layout when filtering
+    if (workGrid) {
+      workGrid.classList.toggle('filtered', !isAll);
+    }
+
+    // Reorder: matching cards first, non-matching faded after
     workCards.forEach(card => {
-      const match = filter === 'all' || card.dataset.category.split(' ').includes(filter);
+      const match = isAll || card.dataset.category.split(' ').includes(filter);
       card.style.transition    = 'opacity 0.35s, transform 0.35s';
-      card.style.opacity       = match ? '1' : '0.2';
-      card.style.transform     = match ? 'none' : 'scale(0.97)';
+      card.style.opacity       = match ? '1' : '0.15';
+      card.style.transform     = match ? 'none' : 'scale(0.95)';
       card.style.pointerEvents = match ? 'auto' : 'none';
+      card.style.order         = match ? '0' : '1';
     });
 
     // Scroll the work section to the top of the viewport

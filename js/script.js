@@ -448,6 +448,7 @@ gsap.to(".hero-headline", {
 
 /* ── WORK FILTER ─────────────────────────────────────────────────────── */
 const filterBtns = document.querySelectorAll('.filter-btn');
+const workSection = document.getElementById('work');
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -463,6 +464,15 @@ filterBtns.forEach(btn => {
       card.style.transform     = match ? 'none' : 'scale(0.97)';
       card.style.pointerEvents = match ? 'auto' : 'none';
     });
+
+    // Scroll the work section to the top of the viewport
+    if (workSection) {
+      lenis.scrollTo(workSection, {
+        offset: -80, // Account for fixed nav height
+        duration: 1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
+    }
   });
 });
 
@@ -689,12 +699,17 @@ if (backToTop) {
 
 /* ── SMOOTH NAV ANCHOR CLICKS ────────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
+  // Skip work-card links — they have their own click handler
+  if (link.closest('.work-card')) return;
+
   link.addEventListener('click', e => {
+    // Always prevent default to stop the browser from navigating/reloading
+    e.preventDefault();
+
     const targetSelector = link.getAttribute('href');
     if (targetSelector && targetSelector !== '#') {
       const targetEl = document.querySelector(targetSelector);
       if (targetEl) {
-        e.preventDefault();
         lenis.scrollTo(targetEl, {
           offset: 0,
           duration: 1.5,

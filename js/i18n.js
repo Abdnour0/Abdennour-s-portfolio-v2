@@ -217,10 +217,12 @@ function applyTranslation(lang) {
   Object.keys(i18nSelectors).forEach(key => {
     const els = document.querySelectorAll(i18nSelectors[key]);
     els.forEach(el => {
-      // Exclude children if needed, or replace html if it has strong tags.
       const translation = langTranslations[key];
       if (translation) {
-        if (el.innerHTML.includes('<svg') && el.innerHTML.includes('arrow')) {
+        if (key === 'formSubmit') {
+          // Preserve the send icon SVG inside the submit button
+          el.innerHTML = translation + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>';
+        } else if (el.innerHTML.includes('<svg') && el.innerHTML.includes('arrow')) {
           // Keep the arrow svg on footer CTA and project visits
           const btnContent = translation + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>';
           el.innerHTML = translation.includes('<span class="arrow">') ? translation : btnContent;

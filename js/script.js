@@ -139,7 +139,7 @@ const projectData = {
     role: "Full-Stack Developer",
     img: null,
     gradient: "linear-gradient(135deg, #00101a 0%, #003d5c 40%, #4cc9c5 100%)",
-    link: "https://github.com/Abdnour0/Mini-E-Learning-Platform",
+    link: "https://github.com/Abdnour0",
     tag: "Laravel · Vue.js · 2024"
   },
   "Stock Management System (C)": {
@@ -150,7 +150,7 @@ const projectData = {
     role: "Software Developer",
     img: null,
     gradient: "linear-gradient(135deg, #0a0012 0%, #2e004d 40%, #9b59b6 100%)",
-    link: "https://github.com/Abdnour0/Stock-Management-System",
+    link: "https://github.com/Abdnour0",
     tag: "C · Data Structures · 2023"
   },
   "Hotel Management Web Application": {
@@ -161,7 +161,7 @@ const projectData = {
     role: "Full-Stack Developer",
     img: null,
     gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 40%, #c9784c 100%)",
-    link: "https://github.com/Abdnour0/Hotel-Management-App",
+    link: "https://github.com/Abdnour0",
     tag: "Django · Vue.js · 2025"
   },
   "Student Management System": {
@@ -172,7 +172,7 @@ const projectData = {
     role: "Java Developer",
     img: null,
     gradient: "linear-gradient(135deg, #1a000a 0%, #4d0026 40%, #e05599 100%)",
-    link: "https://github.com/Abdnour0/Student-Management-System",
+    link: "https://github.com/Abdnour0",
     tag: "Java · OOP · 2024"
   }
 };
@@ -412,6 +412,7 @@ if (window.gsap && window.ScrollTrigger) {
     else if (el.classList.contains('reveal-delay-2')) delay = 0.3;
     else if (el.classList.contains('reveal-delay-3')) delay = 0.45;
     else if (el.classList.contains('reveal-delay-4')) delay = 0.6;
+    else if (el.classList.contains('reveal-delay-5')) delay = 0.75;
 
     gsap.from(el, {
       scrollTrigger: {
@@ -431,17 +432,19 @@ if (window.gsap && window.ScrollTrigger) {
 }
 
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────────────── */
-// Hero Section Parallax
-gsap.to(".hero-headline", {
-  scrollTrigger: {
-    trigger: "#hero",
-    start: "top top",
-    end: "bottom top",
-    scrub: true
-  },
-  y: 80,
-  opacity: 0.8 // Less aggressive fade-out to keep it visible longer
-});
+// Hero Section Parallax (disabled on mobile to prevent title overlap)
+if (window.innerWidth > 768) {
+  gsap.to(".hero-headline", {
+    scrollTrigger: {
+      trigger: "#hero",
+      start: "top top",
+      end: "bottom top",
+      scrub: true
+    },
+    y: 80,
+    opacity: 0.8
+  });
+}
 
 // Section Title Animation removed as it conflicts with .reveal
 // document.querySelectorAll('.section-title').forEach(title => { ... });

@@ -395,6 +395,8 @@ nav.scrolled {
   word-spacing: 0.05em;
   overflow-wrap: break-word;
   word-break: break-word;
+  position: relative;
+  z-index: 2;
 }
 .hero-headline .line        { display: block; overflow: hidden; }
 .hero-headline .line-inner  {
@@ -625,6 +627,11 @@ section { padding: 8rem 3rem; }
 }
 .work-grid.filtered .work-card .work-img {
   aspect-ratio: 4/3;
+}
+@media (max-width: 768px) {
+  .work-grid.filtered .work-card {
+    grid-column: span 12;
+  }
 }
 
 .work-img {
@@ -1599,7 +1606,7 @@ section { padding: 8rem 3rem; }
 
 .lang-btn.active {
   opacity: 1;
-  color: var(--bg-1);
+  color: var(--bg);
   background: var(--gold);
   box-shadow: 0 4px 15px rgba(201, 168, 76, 0.2);
 }

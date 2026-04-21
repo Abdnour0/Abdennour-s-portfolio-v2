@@ -1037,7 +1037,8 @@ section { padding: 8rem 3rem; }
   z-index: 100;
   min-width: 160px;
 }
-.cv-dropdown:hover .cv-menu {
+.cv-dropdown:hover .cv-menu,
+.cv-menu.mobile-open {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(-20px);

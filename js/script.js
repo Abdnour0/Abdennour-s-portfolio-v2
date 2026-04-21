@@ -782,3 +782,22 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     }
   });
 });
+
+/* ── CV DROPDOWN — MOBILE TAP SUPPORT ───────────────────────────────── */
+const cvDropdown = document.querySelector('.cv-dropdown');
+const cvMenu = document.querySelector('.cv-menu');
+if (cvDropdown && cvMenu && isTouchDevice) {
+  const cvBtn = cvDropdown.querySelector('button');
+  if (cvBtn) {
+    cvBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = cvMenu.classList.toggle('mobile-open');
+    });
+  }
+  // Close when tapping outside
+  document.addEventListener('click', (e) => {
+    if (!cvDropdown.contains(e.target)) {
+      cvMenu.classList.remove('mobile-open');
+    }
+  });
+}

@@ -6,7 +6,7 @@
   <title>ABDENNOUR GUELLAA — Software Engineering Student</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=block" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="images/logo-blanc.webp" type="image/webp" />
   <meta name="description" content="Abdennour Guellaa — Software Engineering Student at EMSI Casablanca. Full-Stack Developer specializing in Django, Vue.js, and Laravel." />
@@ -71,6 +71,22 @@
       <li><a href="#certifications">Certifications</a></li>
     </ul>
     <div class="nav-right">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Light/Dark Mode">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px; display:none;">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
       <a href="#contact" class="nav-cta" aria-label="Hire Abdennour">Hire Me</a>
       <button id="menu-toggle" aria-label="Open Menu">
         <span></span>
@@ -303,20 +319,20 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="about-visual reveal">
-        <div class="about-img-wrap">
+        <div class="about-img-wrap" tabindex="0">
           <img src="images/IMG_9858.jpg" alt="Abdennour Guellaa" class="about-person-img" loading="lazy" width="800" height="1000">
           <div class="about-img-grid"></div>
         </div>
       <div class="about-badge">
         <span class="about-badge-num">3rd</span>
-        <span class="about-badge-label">Year at<br>EMSI</span>
+        <span class="about-badge-label">Year at<br><a href="https://emsi.ma/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">EMSI</a></span>
       </div>
     </div>
     <div class="about-content">
       <div class="section-label reveal">Background</div>
       <h2 class="section-title reveal reveal-delay-1">Education &<br>Journey</h2>
       <p class="about-text reveal reveal-delay-2">
-        I am currently pursuing an <strong>Engineering Degree in Software Engineering</strong> at EMSI, Casablanca. My academic journey is focused on building a strong foundation in software architecture, data structures, and modern web technologies, with a strong interest in Artificial Intelligence.
+        I am currently pursuing an <strong>Engineering Degree in Software Engineering</strong> at <a href="https://emsi.ma/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">EMSI</a>, Casablanca. My academic journey is focused on building a strong foundation in software architecture, data structures, and modern web technologies, with a strong interest in Artificial Intelligence.
       </p>
       <p class="about-text reveal reveal-delay-3">
         Beyond my engineering studies, I've reached <strong>C1 proficiency in English</strong> at the American Language Centre and have a passion for full-stack development—from low-level C programming to high-level frameworks like Django and Vue.js—as well as integrating AI to build futuristic solutions.

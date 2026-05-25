@@ -1,9 +1,10 @@
 const i18nSelectors = {
-  navAbout: ".nav-links li:nth-child(1) a, .mobile-links li:nth-child(1) a, .footer-links li:nth-child(1) a",
-  navSkills: ".nav-links li:nth-child(2) a, .mobile-links li:nth-child(2) a, .footer-links li:nth-child(2) a",
-  navProjects: ".nav-links li:nth-child(3) a, .mobile-links li:nth-child(3) a, .footer-links li:nth-child(3) a",
-  navCerts: ".nav-links li:nth-child(4) a, .mobile-links li:nth-child(4) a, .footer-links li:nth-child(4) a",
-  navContact: ".mobile-links li:nth-child(5) a, .footer-links li:nth-child(5) a",
+  navAbout: ".nav-links a[href='#about'], .mobile-links a[href='#about'], .footer-links a[href='#about']",
+  navSkills: ".nav-links a[href='#services'], .mobile-links a[href='#services'], .footer-links a[href='#services']",
+  navProjects: ".nav-links a[href='#work'], .mobile-links a[href='#work'], .footer-links a[href='#work']",
+  navTimeline: ".nav-links a[href='#timeline'], .mobile-links a[href='#timeline']",
+  navCerts: ".nav-links a[href='#certifications'], .mobile-links a[href='#certifications'], .footer-links a[href='#certifications']",
+  navContact: ".mobile-links a[href='#contact'], .footer-links a[href='#contact']",
   navHire: ".nav-cta",
   heroLine1: "#hero .hero-headline .line:nth-child(1) .line-inner",
   heroLine2: "#hero .hero-headline .line:nth-child(2) .line-inner",
@@ -40,7 +41,7 @@ const i18nSelectors = {
 
 const translations = {
   en: {
-    navAbout: "About", navSkills: "Skills", navProjects: "Projects", navCerts: "Certifications", navContact: "Contact", navHire: "Hire Me",
+    navAbout: "About", navSkills: "Skills", navProjects: "Projects", navTimeline: "Timeline", navCerts: "Credentials", navContact: "Contact", navHire: "Hire Me",
     heroLine1: "Code. Design.", heroLine2: "Deploy.",
     heroDesc: "I am <strong style='font-family: var(--font-disp); letter-spacing: 0.05em;'>ABDENNOUR GUELLAA</strong>, a software engineering student at EMSI dedicated to crafting high-performance web applications, scalable software solutions, and exploring the futuristic frontiers of Artificial Intelligence.",
     scroll: "Scroll", langAvail: "Available",
@@ -71,7 +72,7 @@ const translations = {
     footerTagline: "Software Engineering Student & Full-Stack Developer.", footerCopy: "© 2026 ABDENNOUR GUELLAA. Built with Passion.",
   },
   fr: {
-    navAbout: "À propos", navSkills: "Compétences", navProjects: "Projets", navCerts: "Certifications", navContact: "Contact", navHire: "Recrutez-moi",
+    navAbout: "À propos", navSkills: "Compétences", navProjects: "Projets", navTimeline: "Parcours", navCerts: "Certifications", navContact: "Contact", navHire: "Recrutez-moi",
     heroLine1: "Coder. Créer.", heroLine2: "Déployer.",
     heroDesc: "Je suis <strong style='font-family: var(--font-disp); letter-spacing: 0.05em;'>ABDENNOUR GUELLAA</strong>, étudiant en génie logiciel à l'EMSI, passionné par la création d'applications web performantes et l'exploration des frontières futuristes de l'Intelligence Artificielle.",
     scroll: "Défiler", langAvail: "Disponible",
@@ -102,7 +103,7 @@ const translations = {
     footerTagline: "Étudiant en Génie Logiciel & Développeur Full-Stack.", footerCopy: "© 2026 ABDENNOUR GUELLAA. Fait avec passion.",
   },
   ar: {
-    navAbout: "نبذة", navSkills: "مهارات", navProjects: "مشاريع", navCerts: "الشهادات", navContact: "اتصال", navHire: "وظفني",
+    navAbout: "نبذة", navSkills: "مهارات", navProjects: "مشاريع", navTimeline: "المسار", navCerts: "الشهادات", navContact: "اتصال", navHire: "وظفني",
     heroLine1: "برمجة. تصميم.", heroLine2: "نشر.",
     heroDesc: "أنا <strong style='font-family: var(--font-disp); letter-spacing: 0.05em;'>عبد النور قلاع</strong>، طالب هندسة برمجيات مكرس لبناء تطبيقات ويب عالية الأداء واستكشاف الآفاق المستقبلية للذكاء الاصطناعي.",
     scroll: "تمرير", langAvail: "متاح",
@@ -217,8 +218,13 @@ function applyTranslation(lang) {
   Object.keys(i18nSelectors).forEach(key => {
     const els = document.querySelectorAll(i18nSelectors[key]);
     els.forEach(el => {
-      const translation = langTranslations[key];
+      let translation = langTranslations[key];
       if (translation) {
+        // Special case: on mobile displays (<= 768px), keep the "Hire Me" button in English when French is selected
+        if (key === 'navHire' && window.innerWidth <= 768 && lang === 'fr') {
+          translation = translations.en.navHire;
+        }
+
         if (key === 'formSubmit') {
           // Preserve the send icon SVG inside the submit button
           el.innerHTML = translation + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>';
@@ -228,6 +234,9 @@ function applyTranslation(lang) {
         } else if (key === 'btnCV') {
           // Preserve the download SVG inside the Download CV button
           el.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12l4.5 4.5m0 0l4.5-4.5M12 3v13.5" /></svg> ' + translation;
+        } else if (key === 'aboutCTA') {
+          // Preserve the arrow SVG inside the Get in touch button
+          el.innerHTML = translation + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>';
         } else if (el.innerHTML.includes('<svg') && el.innerHTML.includes('arrow')) {
           // Keep the arrow svg on footer CTA and project visits
           const btnContent = translation + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>';

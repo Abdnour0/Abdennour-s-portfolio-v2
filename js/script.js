@@ -451,93 +451,73 @@ if (window.innerWidth > 768) {
 
 /* ── WORK FILTER ─────────────────────────────────────────────────────── */
 const filterBtns = document.querySelectorAll('.filter-btn');
-const workSection = document.getElementById('work');
 const workGrid = document.querySelector('.work-grid');
-let isFiltering = false; // Prevent rapid clicks during animation
+let isFiltering = false;
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (isFiltering) return;
-    
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+if (filterBtns.length && workGrid) {
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (isFiltering) return;
 
-    const filter = btn.dataset.filter;
-    const isAll = filter === 'all';
-    const cards = Array.from(workGrid.querySelectorAll('.work-card'));
+      // Update active button
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-    isFiltering = true;
+      const filter = btn.dataset.filter;
+      const isAll  = filter === 'all';
+      const cards  = Array.from(workGrid.querySelectorAll('.work-card'));
 
-    // Phase 1: Fade all cards out
-    gsap.to(cards, {
-      opacity: 0,
-      y: 20,
-      scale: 0.97,
-      duration: 0.3,
-      stagger: 0.03,
-      ease: "power2.in",
-      onComplete: () => {
-        // Phase 2: Reorder DOM — matching cards first
-        const matched = [];
-        const unmatched = [];
-        cards.forEach(card => {
-          const match = isAll || card.dataset.category.split(' ').includes(filter);
-          if (match) matched.push(card);
-          else unmatched.push(card);
-        });
+      const matched   = cards.filter(c => isAll || (c.dataset.category || '').split(' ').includes(filter));
+      const unmatched = cards.filter(c => !matched.includes(c));
 
-        // Move matched cards to the top of the grid
-        matched.forEach(card => workGrid.prepend(card));
+      isFiltering = true;
 
-        // Toggle uniform grid layout when filtering
-        workGrid.classList.toggle('filtered', !isAll);
+      // Kill any running tweens first
+      gsap.killTweensOf(cards);
 
-        // Phase 3: Fade matching cards in, keep non-matching dimmed
-        matched.forEach(card => {
-          card.style.pointerEvents = 'auto';
-        });
-        unmatched.forEach(card => {
-          card.style.pointerEvents = 'none';
-        });
+      // Phase 1: fade everything out quickly
+      gsap.to(cards, {
+        opacity: 0,
+        y: 16,
+        duration: 0.22,
+        ease: 'power2.in',
+        onComplete: () => {
+          // Toggle filtered class for uniform grid columns
+          workGrid.classList.toggle('filtered', !isAll);
 
-        gsap.to(matched, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.45,
-          stagger: 0.06,
-          ease: "power2.out",
-          clearProps: "transform"
-        });
+          // Show / hide cards BEFORE animating back in
+          matched.forEach(c => {
+            c.style.display = '';
+            c.style.pointerEvents = 'auto';
+            c.classList.toggle('filtered-visible', !isAll);
+          });
+          unmatched.forEach(c => {
+            c.style.display = 'none';
+            c.style.pointerEvents = 'none';
+            c.classList.remove('filtered-visible');
+          });
 
-        gsap.to(unmatched, {
-          opacity: 0.12,
-          y: 0,
-          scale: 0.95,
-          duration: 0.4,
-          stagger: 0.04,
-          delay: matched.length * 0.06,
-          ease: "power2.out",
-          onComplete: () => { isFiltering = false; }
-        });
+          // Phase 2: fade matched cards back in
+          gsap.fromTo(matched,
+            { opacity: 0, y: 16 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.4,
+              stagger: 0.06,
+              ease: 'power2.out',
+              clearProps: 'all',
+              onComplete: () => { isFiltering = false; }
+            }
+          );
 
-        // If there are no unmatched cards (filter = all), unlock immediately
-        if (unmatched.length === 0) {
-          isFiltering = false;
+          // Edge case: no unmatched ("All" selected) — unlock immediately
+          if (matched.length === 0) { isFiltering = false; }
         }
-      }
-    });
-
-    // Scroll the work section to the top of the viewport
-    if (workSection) {
-      lenis.scrollTo(workSection, {
-        offset: -80,
-        duration: 1,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
-    }
+    });
   });
-});
+}
 
 /* ── COUNTER ANIMATION ───────────────────────────────────────────────── */
 const statTargets  = [5, 3, 2, 2028];
@@ -801,6 +781,110 @@ if (cvDropdown && cvMenu && isTouchDevice) {
     }
   });
 }
+
+/* ── WORD-BY-WORD TEXT REVEAL ────────────────────────────────────────── */
+/**
+ * Splits every .section-title into individual word spans and staggers
+ * them in as the section enters the viewport.
+ * Only targets .section-title (guaranteed plain-text with only <br> tags).
+ * The contact-headline and cta-title are skipped because they contain
+ * <em> italic wrappers that must remain intact.
+ */
+(function initWordReveal() {
+  // Only plain-text headings — avoids stripping <em> / &amp; in others
+  const targets = document.querySelectorAll('.section-title');
+
+  targets.forEach(el => {
+    // Skip already-processed or dynamically-filled elements (modal title)
+    if (el.dataset.wordReveal || el.id === 'modal-title') return;
+    el.dataset.wordReveal = '1';
+
+    // innerHTML may contain <br> — split on those first to preserve line breaks
+    const rawHTML = el.innerHTML;
+    const lines   = rawHTML.split(/<br\s*\/?>/gi);
+
+    const wrappedLines = lines.map(line => {
+      // Each line is plain text (or HTML entities like &amp;) — no inner tags
+      const words = line.trim().split(/\s+/);
+      return words
+        .filter(w => w.length > 0)
+        .map(w => `<span class="word-wrap"><span class="word">${w}</span></span>`)
+        .join(' ');
+    });
+
+    el.innerHTML = wrappedLines.join('<br>');
+
+    // Collect all .word spans inside this element
+    const wordSpans = el.querySelectorAll('.word');
+
+    gsap.fromTo(wordSpans,
+      { y: '110%', opacity: 0 },
+      {
+        y: '0%',
+        opacity: 1,
+        duration: 0.75,
+        ease: 'power3.out',
+        stagger: 0.07,
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          once: true,
+          toggleActions: 'play none none none'
+        },
+        clearProps: 'transform,opacity'
+      }
+    );
+  });
+})();
+
+/* ── TIMELINE VERTICAL LINE FILL ─────────────────────────────────────── */
+/**
+ * Drives the gold fill on the centre timeline line as the user scrolls
+ * through the #timeline section, making it feel like the story is being
+ * "written" in real-time.
+ */
+(function initTimelineFill() {
+  const lineFill = document.querySelector('.timeline-line-fill');
+  const timelineSection = document.getElementById('timeline');
+
+  if (!lineFill || !timelineSection) return;
+
+  gsap.to(lineFill, {
+    height: '100%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: timelineSection,
+      start: 'top 70%',
+      end: 'bottom 60%',
+      scrub: 1
+    }
+  });
+
+  // Stagger-animate each timeline card sliding in from its side
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  timelineItems.forEach((item, i) => {
+    const side = item.dataset.side === 'right' ? 60 : -60;
+    const card = item.querySelector('.timeline-card');
+    if (!card) return;
+
+    gsap.fromTo(card,
+      { x: side, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 85%',
+          once: true,
+          toggleActions: 'play none none none'
+        },
+        clearProps: 'transform,opacity'
+      }
+    );
+  });
+})();
 
 /* ── THEME TOGGLE ────────────────────────────────────────────────────── */
 const themeToggleBtn = document.getElementById('theme-toggle');

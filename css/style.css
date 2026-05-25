@@ -1712,6 +1712,18 @@ section { padding: 8rem 3rem; }
   button, .filter-btn, .work-card, .nav-cta, .btn-primary, .btn-secondary,
   .about-cta, .cv-dropdown button, .modal-close, #back-to-top { cursor: pointer; }
 
+  /* Mobile Timeline */
+  #timeline { padding: 4rem 1.5rem; }
+  .timeline-line { left: 12px; transform: none; }
+  .timeline-dot { left: 12px; }
+  .timeline-item { display: block; margin-bottom: 3rem; }
+  .timeline-card {
+    width: calc(100% - 36px);
+    margin-left: 36px !important;
+    margin-right: 0 !important;
+    padding: 1.5rem;
+  }
+
   /* Hire Me button — compact on mobile */
   .nav-cta {
     font-size: 0.68rem;

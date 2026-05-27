@@ -4,58 +4,62 @@ gsap.registerPlugin(ScrollTrigger);
 /* ── LOADING SCREEN ─────────────────────────────────────────────────── */
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
-  const loaderLine = document.querySelector('.loader-line');
-  
-  const tl = gsap.timeline();
-  
-  tl.to(loaderLine, {
-    width: '100%',
-    duration: 0.8,
-    ease: "power2.inOut"
-  })
-  .to(loader, {
-    yPercent: -100,
-    duration: 0.8,
-    ease: "power4.inOut"
-  }, "+=0.2");
+  if (loader) {
+    setTimeout(() => loader.classList.add('loaded'), 600);
+  }
 });
 
-/* ── LENIS SMOOTH SCROLL ──────────────────────────────────────────────── */
-const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  orientation: 'vertical',
-  gestureOrientation: 'vertical',
-  smoothWheel: true,
-  wheelMultiplier: 1,
-  smoothTouch: false,
-  touchMultiplier: 2,
-  infinite: false,
-});
+/* ── PERFORMANCE DETECTION ───────────────────────────────────────────── */
+const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+const isLowEnd = isTouchDevice || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
 
-function raf(time) {
-  lenis.raf(time);
+/* ── LENIS SMOOTH SCROLL (disabled on touch/low-end for perf) ────────── */
+let lenis = null;
+if (!isTouchDevice && !isLowEnd) {
+  lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    infinite: false,
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
   requestAnimationFrame(raf);
 }
 
-requestAnimationFrame(raf);
-
 /* ── SCROLL PROGRESS ─────────────────────────────────────────────────── */
 const scrollProgress = document.getElementById('scroll-progress');
-lenis.on('scroll', (e) => {
-  const progress = e.scroll / (document.documentElement.scrollHeight - window.innerHeight);
+function updateScrollProgress(e) {
+  const scrollY = lenis ? e.scroll : window.scrollY;
+  const progress = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
   gsap.to(scrollProgress, {
     width: `${progress * 100}%`,
     duration: 0.1,
     ease: "none"
   });
-});
+}
+if (lenis) {
+  lenis.on('scroll', updateScrollProgress);
+} else {
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+}
 
-/* ── CURSOR ──────────────────────────────────────────────────────────── */
+/* ── CURSOR (desktop only) ───────────────────────────────────────────── */
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursor-ring');
 const cursorText = document.getElementById('cursor-text');
 const cursorGlow = document.getElementById('cursor-glow');
+
+if (!isTouchDevice && cursor) {
 let mx = 0, my = 0;
 
 // Set initial center position for GSAP
@@ -93,6 +97,7 @@ document.addEventListener('mousemove', e => {
     ease: "power2.out"
   });
 });
+} // end cursor (desktop only)
 
 /* ── PROJECT MODALS ─────────────────────────────────────────────────── */
 const modalLink = document.getElementById('modal-link');
@@ -337,12 +342,19 @@ document.addEventListener('langChanged', (e) => {
 /* ── NAV SCROLL ──────────────────────────────────────────────────────── */
 const nav = document.getElementById('nav');
 
-lenis.on('scroll', (e) => {  if (!nav) return;  nav.classList.toggle('scrolled', e.scroll > 60);
-});
+function handleNavScroll(e) {
+  if (!nav) return;
+  const scrollY = lenis ? e.scroll : window.scrollY;
+  nav.classList.toggle('scrolled', scrollY > 60);
+}
+if (lenis) {
+  lenis.on('scroll', handleNavScroll);
+} else {
+  window.addEventListener('scroll', handleNavScroll, { passive: true });
+}
 
 /* ── MAGNETIC BUTTONS ────────────────────────────────────────────────── */
 const magneticEls = document.querySelectorAll('.nav-logo, .nav-links a, .nav-cta, .btn-primary, .btn-secondary, .filter-btn, .about-cta');
-const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 if (!isTouchDevice) {
   magneticEls.forEach(el => {
@@ -405,30 +417,36 @@ if (marqueeTrack) {
 const reveals = document.querySelectorAll('.reveal');
 
 if (window.gsap && window.ScrollTrigger) {
+  // On very low-end devices, skip GSAP reveals entirely
+  if (isLowEnd) {
+    reveals.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  } else {
+  const revealConfig = isTouchDevice ? { y: 20, duration: 0.5 } : { y: 40, duration: 1.2 };
+
   reveals.forEach(el => {
-    // Determine delay based on class name if present
     let delay = 0;
-    if (el.classList.contains('reveal-delay-1')) delay = 0.15;
-    else if (el.classList.contains('reveal-delay-2')) delay = 0.3;
-    else if (el.classList.contains('reveal-delay-3')) delay = 0.45;
-    else if (el.classList.contains('reveal-delay-4')) delay = 0.6;
-    else if (el.classList.contains('reveal-delay-5')) delay = 0.75;
+    if (el.classList.contains('reveal-delay-1')) delay = 0.1;
+    else if (el.classList.contains('reveal-delay-2')) delay = 0.15;
+    else if (el.classList.contains('reveal-delay-3')) delay = 0.2;
+    else if (el.classList.contains('reveal-delay-4')) delay = 0.25;
+    else if (el.classList.contains('reveal-delay-5')) delay = 0.3;
 
     gsap.from(el, {
       scrollTrigger: {
         trigger: el,
-        start: "top 90%", // Reveal earlier
-        once: true, // Only play once to prevent disappearing on scroll back up
+        start: isTouchDevice ? "top 95%" : "top 90%",
+        once: true,
         toggleActions: "play none none none"
       },
-      y: 40,
+      y: revealConfig.y,
       opacity: 0,
-      duration: 1.2,
-      delay: delay,
+      duration: revealConfig.duration,
+      delay: isTouchDevice ? 0 : delay,
       ease: "power2.out",
-      clearProps: "transform,opacity" // Ensure no layout shifts after animation
+      clearProps: "transform,opacity"
     });
   });
+  } // end else (low-end fallback)
 }
 
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────────────── */
@@ -565,29 +583,33 @@ if (menuToggle) {
     menuToggle.classList.toggle('active');
     
     if (isMenuOpen) {
-      gsap.set(mobileNav, { display: 'block' });
+      gsap.set(mobileNav, { display: 'block', y: '100%', opacity: 0 });
       gsap.to(mobileNav, {
+        y: '0%',
         opacity: 1,
         duration: 0.5,
-        ease: "power2.out"
+        ease: "power3.out"
       });
       gsap.from('.mobile-links li', {
-        y: 50,
+        y: 60,
         opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
+        duration: 0.4,
+        stagger: 0.07,
         ease: "power2.out",
-        delay: 0.2
+        delay: 0.15
       });
-      lenis.stop(); // Stop scrolling when menu is open
+      if (lenis) lenis.stop(); // Stop scrolling when menu is open
+      document.body.style.overflow = 'hidden';
     } else {
       gsap.to(mobileNav, {
+        y: '100%',
         opacity: 0,
-        duration: 0.5,
-        ease: "power2.in",
-        onComplete: () => gsap.set(mobileNav, { display: 'none' })
+        duration: 0.4,
+        ease: "power3.in",
+        onComplete: () => gsap.set(mobileNav, { display: 'none', y: '0%' })
       });
-      lenis.start();
+      if (lenis) lenis.start();
+      document.body.style.overflow = '';
     }
   });
 }
@@ -598,12 +620,14 @@ mobileLinks.forEach(link => {
     isMenuOpen = false;
     menuToggle.classList.remove('active');
     gsap.to(mobileNav, {
+      y: '100%',
       opacity: 0,
-      duration: 0.5,
-      ease: "power2.in",
-      onComplete: () => gsap.set(mobileNav, { display: 'none' })
+      duration: 0.35,
+      ease: "power3.in",
+      onComplete: () => gsap.set(mobileNav, { display: 'none', y: '0%' })
     });
-    lenis.start();
+    if (lenis) lenis.start();
+    document.body.style.overflow = '';
   });
 });
 
@@ -667,55 +691,44 @@ updateLiveTime();
 
 /* ── CONTACT FORM HANDLER ───────────────────────────────────────────── */
 const contactForm = document.getElementById('contact-form');
+const formFeedback = document.getElementById('form-feedback');
 if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+    formFeedback.className = '';
+    formFeedback.textContent = '';
+
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    
-    // Disable button and show loading state
+
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'Sending...';
-    
+
     const formData = new FormData(contactForm);
-    
+
     try {
       const response = await fetch(contactForm.action, {
         method: 'POST',
         body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
-        // Success state
-        submitBtn.style.backgroundColor = '#28a745'; // Green
-        submitBtn.style.borderColor = '#28a745';
-        submitBtn.style.color = '#fff';
-        submitBtn.innerHTML = 'Message Sent! ✓';
+        formFeedback.className = 'success';
+        formFeedback.textContent = 'Message sent successfully! I\'ll get back to you soon.';
         contactForm.reset();
       } else {
-        // Fallback to standard form submission if Formspree returns an error
-        console.warn('Formspree error, submitting normally...', data);
-        contactForm.submit();
+        formFeedback.className = 'error';
+        formFeedback.textContent = 'Something went wrong. Please try again or email me directly.';
       }
     } catch (error) {
-      console.error('Fetch error, submitting normally...', error);
-      // Fallback to standard form submission on network error
-      contactForm.submit();
+      formFeedback.className = 'error';
+      formFeedback.textContent = 'Network error. Please check your connection or email me directly.';
     } finally {
-      // Reset button after 5 seconds if not redirected
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-        submitBtn.style.backgroundColor = '';
-        submitBtn.style.borderColor = '';
-        submitBtn.style.color = '';
-      }, 5000);
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
     }
   });
 }
@@ -724,40 +737,47 @@ if (contactForm) {
 const backToTop = document.getElementById('back-to-top');
 
 if (backToTop) {
-  lenis.on('scroll', (e) => {
-    if (e.scroll > 500) {
-      backToTop.classList.add('visible');
-    } else {
-      backToTop.classList.remove('visible');
-    }
-  });
+  function handleBackToTopScroll(e) {
+    const scrollY = lenis ? e.scroll : window.scrollY;
+    backToTop.classList.toggle('visible', scrollY > 500);
+  }
+  if (lenis) {
+    lenis.on('scroll', handleBackToTopScroll);
+  } else {
+    window.addEventListener('scroll', handleBackToTopScroll, { passive: true });
+  }
 
   backToTop.addEventListener('click', () => {
-    lenis.scrollTo(0, {
-      duration: 1.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-    });
+    if (lenis) {
+      lenis.scrollTo(0, {
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   });
 }
 
 /* ── SMOOTH NAV ANCHOR CLICKS ────────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
-  // Skip work-card links — they have their own click handler
   if (link.closest('.work-card')) return;
 
   link.addEventListener('click', e => {
-    // Always prevent default to stop the browser from navigating/reloading
     e.preventDefault();
-
     const targetSelector = link.getAttribute('href');
     if (targetSelector && targetSelector !== '#') {
       const targetEl = document.querySelector(targetSelector);
       if (targetEl) {
-        lenis.scrollTo(targetEl, {
-          offset: 0,
-          duration: 1.5,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-        });
+        if (lenis) {
+          lenis.scrollTo(targetEl, {
+            offset: 0,
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+          });
+        } else {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
   });
@@ -783,14 +803,8 @@ if (cvDropdown && cvMenu && isTouchDevice) {
 }
 
 /* ── WORD-BY-WORD TEXT REVEAL ────────────────────────────────────────── */
-/**
- * Splits every .section-title into individual word spans and staggers
- * them in as the section enters the viewport.
- * Only targets .section-title (guaranteed plain-text with only <br> tags).
- * The contact-headline and cta-title are skipped because they contain
- * <em> italic wrappers that must remain intact.
- */
 (function initWordReveal() {
+  if (isLowEnd) return; // skip on low-end devices
   // Only plain-text headings — avoids stripping <em> / &amp; in others
   const targets = document.querySelectorAll('.section-title');
 
@@ -817,17 +831,18 @@ if (cvDropdown && cvMenu && isTouchDevice) {
     // Collect all .word spans inside this element
     const wordSpans = el.querySelectorAll('.word');
 
+    const isMobile = window.innerWidth <= 768;
     gsap.fromTo(wordSpans,
-      { y: '110%', opacity: 0 },
+      { y: isMobile ? '50%' : '110%', opacity: 0 },
       {
         y: '0%',
         opacity: 1,
-        duration: 0.75,
+        duration: isMobile ? 0.35 : 0.75,
         ease: 'power3.out',
-        stagger: 0.07,
+        stagger: isMobile ? 0.03 : 0.07,
         scrollTrigger: {
           trigger: el,
-          start: 'top 88%',
+          start: isMobile ? 'top 92%' : 'top 88%',
           once: true,
           toggleActions: 'play none none none'
         },
@@ -838,45 +853,52 @@ if (cvDropdown && cvMenu && isTouchDevice) {
 })();
 
 /* ── TIMELINE VERTICAL LINE FILL ─────────────────────────────────────── */
-/**
- * Drives the gold fill on the centre timeline line as the user scrolls
- * through the #timeline section, making it feel like the story is being
- * "written" in real-time.
- */
 (function initTimelineFill() {
   const lineFill = document.querySelector('.timeline-line-fill');
   const timelineSection = document.getElementById('timeline');
 
   if (!lineFill || !timelineSection) return;
 
-  gsap.to(lineFill, {
-    height: '100%',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: timelineSection,
-      start: 'top 70%',
-      end: 'bottom 60%',
-      scrub: 1
-    }
-  });
+  // On low-end, just show the fill immediately
+  if (!isLowEnd) {
+    gsap.to(lineFill, {
+      height: '100%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: timelineSection,
+        start: 'top 70%',
+        end: 'bottom 60%',
+        scrub: 1
+      }
+    });
+  } else {
+    lineFill.style.height = '100%';
+  }
 
   // Stagger-animate each timeline card sliding in from its side
   const timelineItems = document.querySelectorAll('.timeline-item');
   timelineItems.forEach((item, i) => {
-    const side = item.dataset.side === 'right' ? 60 : -60;
+    const isMobile = window.innerWidth <= 768;
+    const side = isMobile ? 0 : (item.dataset.side === 'right' ? 60 : -60);
     const card = item.querySelector('.timeline-card');
     if (!card) return;
+
+    if (isLowEnd) {
+      card.style.opacity = '1';
+      card.style.transform = 'none';
+      return;
+    }
 
     gsap.fromTo(card,
       { x: side, opacity: 0 },
       {
         x: 0,
         opacity: 1,
-        duration: 0.8,
+        duration: isMobile ? 0.4 : 0.8,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: item,
-          start: 'top 85%',
+          start: isMobile ? 'top 92%' : 'top 85%',
           once: true,
           toggleActions: 'play none none none'
         },
@@ -923,3 +945,51 @@ if (themeToggleBtn) {
     }, 400);
   });
 }
+
+/* ── IMAGE LOADING BLUR-UP ──────────────────────────────────────────── */
+document.querySelectorAll('.about-img-wrap').forEach(wrap => {
+  const img = wrap.querySelector('img');
+  if (img) {
+    wrap.classList.add('loading');
+    if (img.complete) {
+      wrap.classList.remove('loading');
+      wrap.classList.add('loaded');
+    } else {
+      img.addEventListener('load', () => {
+        wrap.classList.remove('loading');
+        wrap.classList.add('loaded');
+      });
+    }
+  }
+});
+
+/* ── NAV ACTIVE SECTION TRACKING ────────────────────────────────────── */
+(function initActiveNav() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  if (!navLinks.length) return;
+
+  const sections = [];
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      const section = document.querySelector(href);
+      if (section) sections.push({ link, section });
+    }
+  });
+
+  if (!sections.length) return;
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const active = sections.find(s => s.section === entry.target);
+        if (active) {
+          sections.forEach(s => s.link.classList.remove('nav-active'));
+          active.link.classList.add('nav-active');
+        }
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' });
+
+  sections.forEach(s => observer.observe(s.section));
+})();

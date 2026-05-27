@@ -36,7 +36,17 @@ const i18nSelectors = {
   btnEmail: ".contact-buttons .btn-primary", btnCV: ".cv-dropdown .btn-secondary",
   footerEyebrow: "footer .cta-eyebrow", footerTitle: "footer .cta-title", footerCTA: "footer .cta-huge-link",
   footerTagline: "footer .footer-tagline", footerCopy: "footer .footer-copy",
-  langAvail: ".status-label"
+  langAvail: ".status-label",
+  timelineIntro: "#timeline .clients-intro",
+  timelineLabel: "#timeline .section-label",
+  timelineTitle: "#timeline .section-title",
+  t1Year: "#timeline .timeline-item:nth-child(1) .timeline-year", t1Title: "#timeline .timeline-item:nth-child(1) .timeline-title", t1Desc: "#timeline .timeline-item:nth-child(1) .timeline-desc",
+  t2Year: "#timeline .timeline-item:nth-child(2) .timeline-year", t2Title: "#timeline .timeline-item:nth-child(2) .timeline-title", t2Desc: "#timeline .timeline-item:nth-child(2) .timeline-desc",
+  t3Year: "#timeline .timeline-item:nth-child(3) .timeline-year", t3Title: "#timeline .timeline-item:nth-child(3) .timeline-title", t3Desc: "#timeline .timeline-item:nth-child(3) .timeline-desc",
+  t4Year: "#timeline .timeline-item:nth-child(4) .timeline-year", t4Title: "#timeline .timeline-item:nth-child(4) .timeline-title", t4Desc: "#timeline .timeline-item:nth-child(4) .timeline-desc",
+  t5Year: "#timeline .timeline-item:nth-child(5) .timeline-year", t5Title: "#timeline .timeline-item:nth-child(5) .timeline-title", t5Desc: "#timeline .timeline-item:nth-child(5) .timeline-desc",
+  t6Year: "#timeline .timeline-item:nth-child(6) .timeline-year", t6Title: "#timeline .timeline-item:nth-child(6) .timeline-title", t6Desc: "#timeline .timeline-item:nth-child(6) .timeline-desc",
+  t7Year: "#timeline .timeline-item:nth-child(7) .timeline-year", t7Title: "#timeline .timeline-item:nth-child(7) .timeline-title", t7Desc: "#timeline .timeline-item:nth-child(7) .timeline-desc"
 };
 
 const translations = {
@@ -70,6 +80,14 @@ const translations = {
     btnEmail: "Email Me", btnCV: "Download CV",
     footerEyebrow: "Have an idea?", footerTitle: "Let's build something <br><em>Extraordinary</em> together.", footerCTA: "Get in touch <span class=\"arrow\">↗</span>",
     footerTagline: "Software Engineering Student & Full-Stack Developer.", footerCopy: "© 2026 ABDENNOUR GUELLAA. Built with Passion.",
+    timelineLabel: "My Journey", timelineTitle: "Education &<br>Milestones", timelineIntro: "Every step of the path has shaped who I am as a developer and engineer.",
+    t1Year: "2022", t1Title: "High School Baccalaureate", t1Desc: "Graduated with a focus in Physical Sciences — the foundation that sparked my love for problem-solving and logical thinking.",
+    t2Year: "2023", t2Title: "Joined EMSI Casablanca", t2Desc: "Started the <strong>Engineering Degree in Software Engineering</strong> at <a href='https://emsi.ma/' target='_blank' rel='noopener noreferrer' class='timeline-link'>EMSI</a> — one of Morocco's top engineering schools.",
+    t3Year: "2023", t3Title: "C1 English — American Language Centre", t3Desc: "Achieved advanced English proficiency (C1) at the American Language Centre, enabling confident collaboration in international environments.",
+    t4Year: "2024", t4Title: "Responsive Web Design — freeCodeCamp", t4Desc: "Completed 300+ hours of structured web development training, earning a verified certificate in Responsive Web Design.",
+    t5Year: "2025", t5Title: "OOP in C++ — EPFL", t5Desc: "Completed the Introduction to Object-Oriented Programming (C++) course by EPFL on Coursera, deepening my understanding of software design principles.",
+    t6Year: "2026", t6Title: "JavaScript, jQuery & JSON — EMSI", t6Desc: "Earned a verified certification in JavaScript fundamentals from EMSI, reinforcing my front-end development expertise.",
+    t7Year: "2028", t7Title: "Expected Graduation", t7Desc: "On track to graduate with a full <strong>Software Engineering degree</strong> from EMSI — ready to build the future.",
   },
   fr: {
     navAbout: "À propos", navSkills: "Compétences", navProjects: "Projets", navTimeline: "Parcours", navCerts: "Certifications", navContact: "Contact", navHire: "Recrutez-moi",
@@ -101,6 +119,14 @@ const translations = {
     btnEmail: "M'envoyer un e-mail", btnCV: "Télécharger CV",
     footerEyebrow: "Une idée ?", footerTitle: "Construisons ensemble <br>quelque chose d'<em>Extraordinaire</em>.", footerCTA: "Contactez-moi <span class=\"arrow\">↗</span>",
     footerTagline: "Étudiant en Génie Logiciel & Développeur Full-Stack.", footerCopy: "© 2026 ABDENNOUR GUELLAA. Fait avec passion.",
+    timelineLabel: "Mon Parcours", timelineTitle: "Études &<br>Étapes Clés", timelineIntro: "Chaque étape m'a façonné en tant que développeur et ingénieur.",
+    t1Year: "2022", t1Title: "Baccalauréat Scientifique", t1Desc: "Diplômé en Sciences Physiques — la base qui a éveillé ma passion pour la résolution de problèmes.",
+    t2Year: "2023", t2Title: "EMSI Casablanca", t2Desc: "Début du <strong>Diplôme d'Ingénieur en Génie Logiciel</strong> à <a href='https://emsi.ma/' target='_blank' rel='noopener noreferrer' class='timeline-link'>EMSI</a> — l'une des meilleures écoles d'ingénieurs au Maroc.",
+    t3Year: "2023", t3Title: "Anglais C1 — American Language Centre", t3Desc: "Obtention du niveau avancé (C1) à l'American Language Centre, permettant une collaboration internationale.",
+    t4Year: "2024", t4Title: "Responsive Web Design — freeCodeCamp", t4Desc: "Plus de 300 heures de formation en développement web, avec une certification certifiée en conception Web adaptative.",
+    t5Year: "2025", t5Title: "POO en C++ — EPFL", t5Desc: "Cours Introduction à la Programmation Orientée Objet (C++) par EPFL sur Coursera, approfondissant ma compréhension des principes de conception logicielle.",
+    t6Year: "2026", t6Title: "JavaScript, jQuery & JSON — EMSI", t6Desc: "Certification vérifiée en JavaScript fondamentaux d'EMSI, renforçant mon expertise en développement front-end.",
+    t7Year: "2028", t7Title: "Diplôme Prévu", t7Desc: "En voie d'obtenir mon <strong>diplôme d'ingénieur en génie logiciel</strong> d'EMSI — prêt à construire l'avenir.",
   },
   ar: {
     navAbout: "نبذة", navSkills: "مهارات", navProjects: "مشاريع", navTimeline: "المسار", navCerts: "الشهادات", navContact: "اتصال", navHire: "وظفني",
@@ -132,6 +158,14 @@ const translations = {
     btnEmail: "راسلني بالبريد", btnCV: "تحميل السيرة الذاتية",
     footerEyebrow: "هل لديك فكرة؟", footerTitle: "لنبني شيئًا <br><em>استثنائيًا</em> معًا.", footerCTA: "تواصل معي <span class=\"arrow\">↗</span>",
     footerTagline: "طالب هندسة برمجيات ومطور متكامل.", footerCopy: "© 2026 عبد النور قلاع. صُنع بشغف.",
+    timelineLabel: "مسيرتي", timelineTitle: "التعليم<br>والمحطات", timelineIntro: "كل خطوة في طريقي شكلت شخصيتي كمطور ومهندس.",
+    t1Year: "2022", t1Title: "شهادة البكالوريا", t1Desc: "تخرجت في شعبة العلوم الفيزيائية — الأساس الذي أشعل شغفي بحل المشكلات والتفكير المنطقي.",
+    t2Year: "2023", t2Title: "الالتحاق بـ EMSI الدار البيضاء", t2Desc: "بدء <strong>دراسة هندسة البرمجيات</strong> في <a href='https://emsi.ma/' target='_blank' rel='noopener noreferrer' class='timeline-link'>EMSI</a> — إحدى أبرز مدارس الهندسة في المغرب.",
+    t3Year: "2023", t3Title: "الإنجليزية C1 — المركز الأمريكي", t3Desc: "حصول على مستوى متقدم في اللغة الإنجليزية (C1) في المركز الأمريكي، مما يمكنني من التعاون بثقة في بيئات دولية.",
+    t4Year: "2024", t4Title: "تصميم الويب المتجاوب — freeCodeCamp", t4Desc: "أكملت أكثر من 300 ساعة من التدريب المنظم في تطوير الويب، وحصلت على شهادة معتمدة في تصميم الويب المتجاوب.",
+    t5Year: "2025", t5Title: "البرمجة كائنية التوجه C++ — EPFL", t5Desc: "أكملت دورة مقدمة في البرمجة كائنية التوجه بلغة C++ من EPFL على Coursera، مما عزز فهمي لمبادئ تصميم البرمجيات.",
+    t6Year: "2026", t6Title: "جافا سكريبت و jQuery و JSON — EMSI", t6Desc: "حصلت على شهادة معتمدة في أساسيات جافا سكريبت من EMSI، مما عزز خبرتي في تطوير الواجهات الأمامية.",
+    t7Year: "2028", t7Title: "التخرج المتوقع", t7Desc: "في طريقي للتخرج بشهادة <strong>هندسة البرمجيات</strong> من EMSI — مستعد لبناء المستقبل.",
   }
 };
 
@@ -269,8 +303,12 @@ function applyTranslation(lang) {
 }
 
 window.setPortfolioLang = function(lang) {
+  document.body.classList.add('lang-switching');
   localStorage.setItem('portfolioLang', lang);
-  applyTranslation(lang);
+  setTimeout(() => {
+    applyTranslation(lang);
+    setTimeout(() => document.body.classList.remove('lang-switching'), 50);
+  }, 150);
 };
 
 // Ensure the default lang is picked up on load

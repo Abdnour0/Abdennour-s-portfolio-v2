@@ -1,0 +1,23 @@
+{
+  "name": "Abdennour Guellaa — Portfolio",
+  "short_name": "AG Portfolio",
+  "description": "Software Engineering Student & Full-Stack Developer based in Casablanca, Morocco.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070d1a",
+  "theme_color": "#1ab8e8",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/logo-blanc.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "images/logo-blanc.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ],
+  "categories": ["portfolio", "developer"]
+}

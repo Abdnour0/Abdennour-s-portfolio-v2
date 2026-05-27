@@ -6,9 +6,12 @@
   <title>ABDENNOUR GUELLAA — Software Engineering Student</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=block" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="images/logo-blanc.webp" type="image/webp" />
+  <link rel="apple-touch-icon" href="images/logo-blanc.webp" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#080808" />
   <meta name="description" content="Abdennour Guellaa — Software Engineering Student at EMSI Casablanca. Full-Stack Developer specializing in Django, Vue.js, and Laravel." />
   <meta name="robots" content="index, follow" />
   <!-- Open Graph -->
@@ -221,7 +224,7 @@
         <a href="https://ecommerce-frontend-v2-beryl.vercel.app/" target="_blank" rel="noopener noreferrer" class="work-card reveal" data-category="web">
           <div class="work-img">
             <div class="work-img-inner">
-              <img src="images/nike shoes.png" alt="E-Commerce Project" style="width:100%; height:100%; object-fit:cover;">
+              <img src="images/nike shoes.png" alt="E-Commerce Project" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover;">
             </div>
           </div>
           <div class="work-overlay">
@@ -364,7 +367,7 @@
       <div class="timeline-item reveal" data-side="left">
         <div class="timeline-dot"></div>
         <div class="timeline-card">
-          <span class="timeline-year">2019</span>
+          <span class="timeline-year">2022</span>
           <h3 class="timeline-title">High School Baccalaureate</h3>
           <p class="timeline-desc">Graduated with a focus in Physical Sciences — the foundation that sparked my love for problem-solving and logical thinking.</p>
         </div>
@@ -373,7 +376,7 @@
       <div class="timeline-item reveal reveal-delay-1" data-side="right">
         <div class="timeline-dot"></div>
         <div class="timeline-card">
-          <span class="timeline-year">2021</span>
+          <span class="timeline-year">2023</span>
           <h3 class="timeline-title">Joined EMSI Casablanca</h3>
           <p class="timeline-desc">Started the <strong>Engineering Degree in Software Engineering</strong> at <a href="https://emsi.ma/" target="_blank" rel="noopener noreferrer" class="timeline-link">EMSI</a> — one of Morocco's top engineering schools.</p>
         </div>
@@ -400,7 +403,7 @@
       <div class="timeline-item reveal reveal-delay-2" data-side="left">
         <div class="timeline-dot"></div>
         <div class="timeline-card">
-          <span class="timeline-year">2024</span>
+          <span class="timeline-year">2025</span>
           <h3 class="timeline-title">OOP in C++ — EPFL</h3>
           <p class="timeline-desc">Completed the Introduction to Object-Oriented Programming (C++) course by EPFL on Coursera, deepening my understanding of software design principles.</p>
         </div>
@@ -529,6 +532,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
           </svg>
         </button>
+        <div id="form-feedback"></div>
       </form>
     </div>
 

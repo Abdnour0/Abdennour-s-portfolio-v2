@@ -43,6 +43,13 @@
 /* ─── RESET ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+html.fonts-loading .hero-headline,
+html.fonts-loading .section-title,
+html.fonts-loading .loader-logo,
+html.fonts-loading .nav-logo,
+html.fonts-loading .timeline-title {
+  opacity: 0;
+}
 
 .theme-transition,
 .theme-transition *,
@@ -1916,15 +1923,15 @@ section:last-of-type::after { display: none; }
 
   /* Mobile Timeline */
   #timeline { padding: 4rem 1.5rem; }
-  .timeline-line { left: 12px; transform: none; }
-  .timeline-dot { left: 12px; }
-  .timeline-item { display: block; margin-bottom: 3rem; }
-  .timeline-card {
-    width: calc(100% - 36px);
-    margin-left: 36px !important;
-    margin-right: 0 !important;
-    padding: 1.5rem;
+  .timeline-line { left: 20px; transform: none; }
+  .timeline-dot { left: 20px; }
+  .timeline-item { gap: 1rem; padding-left: 40px; margin-bottom: 3rem; }
+  .timeline-item[data-side="left"] .timeline-card,
+  .timeline-item[data-side="right"] .timeline-card {
+    width: 100%;
+    margin: 0;
   }
+  .timeline-card { padding: 1.5rem; }
 
   /* Hire Me button — compact on mobile */
   .nav-cta {
@@ -1976,16 +1983,6 @@ section:last-of-type::after { display: none; }
   .footer-links { justify-content: center; flex-wrap: wrap; gap: 1.2rem 2rem; margin-bottom: 1rem; }
   .footer-tagline { max-width: 420px; margin: 0 auto; }
 
-  /* Timeline mobile: single column */
-  .timeline-line { left: 20px; }
-  .timeline-dot { left: 20px; }
-  .timeline-item { flex-direction: column !important; gap: 1rem; padding-left: 40px; margin-bottom: 3rem; }
-  .timeline-item[data-side="left"] .timeline-card,
-  .timeline-item[data-side="right"] .timeline-card {
-    width: 100%;
-    margin: 0;
-  }
-  .timeline-card { padding: 1.5rem; }
   /* Remove will-change on mobile to reduce GPU memory pressure */
   .work-card, .word-wrap .word { will-change: auto; }
 }

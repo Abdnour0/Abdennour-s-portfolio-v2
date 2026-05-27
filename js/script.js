@@ -12,12 +12,14 @@ if (!HAS_GSAP) {
 }
 
 /* ── PERFORMANCE DETECTION ───────────────────────────────────────────── */
-const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-const isLowEnd = isTouchDevice || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
+var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+// Only check for fine pointer (mouse) — touch-capable laptops should not be treated as touch-only
+var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
 
-/* ── LENIS SMOOTH SCROLL (disabled on touch/low-end for perf) ────────── */
+/* ── LENIS SMOOTH SCROLL (disabled on touch / low-end for perf) ────── */
 let lenis = null;
-if (!isTouchDevice && !isLowEnd) {
+if (hasMouse && !isLowEnd && !isTouchDevice) {
   lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -55,13 +57,13 @@ if (lenis) {
   window.addEventListener('scroll', updateScrollProgress, { passive: true });
 }
 
-/* ── CURSOR (desktop only) ───────────────────────────────────────────── */
+/* ── CURSOR (mouse only) ─────────────────────────────────────────────── */
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursor-ring');
 const cursorText = document.getElementById('cursor-text');
 const cursorGlow = document.getElementById('cursor-glow');
 
-if (!isTouchDevice && cursor) {
+if (hasMouse && cursor) {
 var mx = 0, my = 0;
 
 if (HAS_GSAP) {

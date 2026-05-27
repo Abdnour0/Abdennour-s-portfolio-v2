@@ -4,7 +4,7 @@ export default defineConfig({
   root: '.',
   build: {
     outDir: 'dist',
-    minify: 'terser',
+    minify: 'esbuild',
     cssCodeSplit: false,
     rollupOptions: {
       input: { main: './index.html' },

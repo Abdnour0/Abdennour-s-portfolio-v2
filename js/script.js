@@ -1,17 +1,6 @@
 /* ── GSAP SETUP ──────────────────────────────────────────────────────── */
 gsap.registerPlugin(ScrollTrigger);
 
-/* ── LOADING SCREEN ─────────────────────────────────────────────────── */
-function hideLoader() {
-  const loader = document.getElementById('loader');
-  if (!loader || loader.classList.contains('loaded')) return;
-  loader.classList.add('loaded');
-  setTimeout(() => loader.classList.add('hidden'), 700);
-}
-window.addEventListener('load', hideLoader);
-// Fallback: hide loader after 5s even if load event hasn't fired
-setTimeout(hideLoader, 5000);
-
 /* ── PERFORMANCE DETECTION ───────────────────────────────────────────── */
 const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 const isLowEnd = isTouchDevice || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;

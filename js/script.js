@@ -1,5 +1,15 @@
 /* ── GSAP SETUP ──────────────────────────────────────────────────────── */
-gsap.registerPlugin(ScrollTrigger);
+const HAS_GSAP = typeof gsap !== 'undefined';
+if (!HAS_GSAP) {
+  window.gsap = { to:function(){}, from:function(){}, fromTo:function(){}, set:function(){}, killTweensOf:function(){}, registerPlugin:function(){} };
+  document.body.style.cursor = 'auto';
+  ['#cursor','#cursor-ring','#cursor-text','#cursor-glow'].forEach(function(s) {
+    var el = document.querySelector(s);
+    if (el) el.remove();
+  });
+} else {
+  try { gsap.registerPlugin(ScrollTrigger); } catch (e) {}
+}
 
 /* ── PERFORMANCE DETECTION ───────────────────────────────────────────── */
 const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
@@ -31,13 +41,13 @@ if (!isTouchDevice && !isLowEnd) {
 /* ── SCROLL PROGRESS ─────────────────────────────────────────────────── */
 const scrollProgress = document.getElementById('scroll-progress');
 function updateScrollProgress(e) {
-  const scrollY = lenis ? e.scroll : window.scrollY;
-  const progress = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-  gsap.to(scrollProgress, {
-    width: `${progress * 100}%`,
-    duration: 0.1,
-    ease: "none"
-  });
+  var scrollY = lenis ? e.scroll : window.scrollY;
+  var progress = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  if (HAS_GSAP) {
+    gsap.to(scrollProgress, { width: progress * 100 + '%', duration: 0.1, ease: 'none' });
+  } else {
+    scrollProgress.style.width = progress * 100 + '%';
+  }
 }
 if (lenis) {
   lenis.on('scroll', updateScrollProgress);
@@ -52,42 +62,28 @@ const cursorText = document.getElementById('cursor-text');
 const cursorGlow = document.getElementById('cursor-glow');
 
 if (!isTouchDevice && cursor) {
-let mx = 0, my = 0;
+var mx = 0, my = 0;
 
-// Set initial center position for GSAP
-gsap.set([cursor, ring, cursorText, cursorGlow], { xPercent: -50, yPercent: -50 });
+if (HAS_GSAP) {
+  gsap.set([cursor, ring, cursorText, cursorGlow], { xPercent: -50, yPercent: -50 });
+}
 
-document.addEventListener('mousemove', e => {
+document.addEventListener('mousemove', function(e) {
   mx = e.clientX;
   my = e.clientY;
-  
-  gsap.to(cursor, {
-    x: mx,
-    y: my,
-    duration: 0.1,
-    ease: "power2.out"
-  });
 
-  gsap.to(cursorText, {
-    x: mx,
-    y: my,
-    duration: 0.1,
-    ease: "power2.out"
-  });
-
-  gsap.to(cursorGlow, {
-    x: mx,
-    y: my,
-    duration: 0.6,
-    ease: "power2.out"
-  });
-  
-  gsap.to(ring, {
-    x: mx,
-    y: my,
-    duration: 0.3,
-    ease: "power2.out"
-  });
+  if (HAS_GSAP) {
+    gsap.to(cursor,     { x: mx, y: my, duration: 0.1, ease: 'power2.out' });
+    gsap.to(cursorText, { x: mx, y: my, duration: 0.1, ease: 'power2.out' });
+    gsap.to(cursorGlow, { x: mx, y: my, duration: 0.6, ease: 'power2.out' });
+    gsap.to(ring,       { x: mx, y: my, duration: 0.3, ease: 'power2.out' });
+  } else {
+    var p = 'translate(' + mx + 'px, ' + my + 'px) translate(-50%, -50%)';
+    cursor.style.transform     = p;
+    cursorText.style.transform = p;
+    cursorGlow.style.transform = p;
+    ring.style.transform       = p;
+  }
 });
 } // end cursor (desktop only)
 
@@ -313,15 +309,17 @@ function initTyped(lang) {
     'Open to Internship Opportunities'
   ];
 
-  typedInstance = new Typed('#typed', {
-    strings: strings,
-    typeSpeed: 50,
-    backSpeed: 30,
-    backDelay: 2000,
-    loop: true,
-    showCursor: true,
-    cursorChar: '|'
-  });
+  if (typeof Typed !== 'undefined') {
+    typedInstance = new Typed('#typed', {
+      strings: strings,
+      typeSpeed: 50,
+      backSpeed: 30,
+      backDelay: 2000,
+      loop: true,
+      showCursor: true,
+      cursorChar: '|'
+    });
+  }
 }
 
 const currentLang = localStorage.getItem('portfolioLang') || 'en';
@@ -575,31 +573,30 @@ if (menuToggle) {
     menuToggle.classList.toggle('active');
     
     if (isMenuOpen) {
-      gsap.set(mobileNav, { display: 'block', y: '100%', opacity: 0 });
-      gsap.to(mobileNav, {
-        y: '0%',
-        opacity: 1,
-        duration: 0.5,
-        ease: "power3.out"
-      });
-      gsap.from('.mobile-links li', {
-        y: 60,
-        opacity: 0,
-        duration: 0.4,
-        stagger: 0.07,
-        ease: "power2.out",
-        delay: 0.15
-      });
-      if (lenis) lenis.stop(); // Stop scrolling when menu is open
+      if (HAS_GSAP) {
+        gsap.set(mobileNav, { display: 'block', y: '100%', opacity: 0 });
+        gsap.to(mobileNav, { y: '0%', opacity: 1, duration: 0.5, ease: 'power3.out' });
+        gsap.from('.mobile-links li', {
+          y: 60, opacity: 0, stagger: 0.07, duration: 0.4, delay: 0.15, ease: 'power2.out'
+        });
+      } else {
+        mobileNav.style.display = 'block';
+        mobileNav.style.transform = 'translateY(0%)';
+        mobileNav.style.opacity = '1';
+      }
+      if (lenis) lenis.stop();
       document.body.style.overflow = 'hidden';
     } else {
-      gsap.to(mobileNav, {
-        y: '100%',
-        opacity: 0,
-        duration: 0.4,
-        ease: "power3.in",
-        onComplete: () => gsap.set(mobileNav, { display: 'none', y: '0%' })
-      });
+      if (HAS_GSAP) {
+        gsap.to(mobileNav, {
+          y: '100%', opacity: 0, duration: 0.4, ease: 'power3.in',
+          onComplete: function() { gsap.set(mobileNav, { display: 'none', y: '0%' }); }
+        });
+      } else {
+        mobileNav.style.transform = 'translateY(100%)';
+        mobileNav.style.opacity = '0';
+        mobileNav.style.display = 'none';
+      }
       if (lenis) lenis.start();
       document.body.style.overflow = '';
     }
@@ -611,13 +608,16 @@ mobileLinks.forEach(link => {
   link.addEventListener('click', () => {
     isMenuOpen = false;
     menuToggle.classList.remove('active');
-    gsap.to(mobileNav, {
-      y: '100%',
-      opacity: 0,
-      duration: 0.35,
-      ease: "power3.in",
-      onComplete: () => gsap.set(mobileNav, { display: 'none', y: '0%' })
-    });
+    if (HAS_GSAP) {
+      gsap.to(mobileNav, {
+        y: '100%', opacity: 0, duration: 0.35, ease: 'power3.in',
+        onComplete: function() { gsap.set(mobileNav, { display: 'none', y: '0%' }); }
+      });
+    } else {
+      mobileNav.style.transform = 'translateY(100%)';
+      mobileNav.style.opacity = '0';
+      mobileNav.style.display = 'none';
+    }
     if (lenis) lenis.start();
     document.body.style.overflow = '';
   });

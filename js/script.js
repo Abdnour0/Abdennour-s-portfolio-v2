@@ -331,6 +331,16 @@ document.addEventListener('langChanged', (e) => {
   initTyped(e.detail);
 });
 
+/* ── BFCACHE FIX ──────────────────────────────────────────────────────── */
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    initTyped(currentLang);
+    if (window.gsap && window.ScrollTrigger) {
+      ScrollTrigger.refresh();
+    }
+  }
+});
+
 /* ── NAV SCROLL ──────────────────────────────────────────────────────── */
 const nav = document.getElementById('nav');
 

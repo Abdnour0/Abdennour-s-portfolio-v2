@@ -1932,6 +1932,7 @@ section:last-of-type::after { display: none; }
     margin: 0;
   }
   .timeline-card { padding: 1.5rem; }
+  .timeline-title { margin-bottom: 1rem; }
   .timeline-item:first-child .timeline-year {
     font-size: 0.85rem;
     padding: 0.15rem 0.5rem;

@@ -901,6 +901,7 @@ if (backToTop) {
 /* ── SMOOTH NAV ANCHOR CLICKS ────────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   if (link.closest('.work-card')) return;
+  if (link.classList.contains('skip-link')) return; // let skip link use native behavior
 
   link.addEventListener('click', e => {
     e.preventDefault();

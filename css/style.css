@@ -1931,13 +1931,16 @@ section:last-of-type::after { display: none; }
     width: 100%;
     margin: 0;
   }
-  .timeline-card { padding: 1.5rem; }
-  .timeline-title { margin-bottom: 1rem; }
+  .timeline-card { padding: 1.5rem 1.2rem; }
+  .timeline-year { margin-bottom: 0.8rem; display: block; }
+  .timeline-title { font-size: 1.05rem; margin-bottom: 0.9rem; line-height: 1.4; }
+  .timeline-desc { font-size: 0.82rem; line-height: 1.6; }
   .timeline-item:first-child .timeline-year {
     font-size: 0.85rem;
     padding: 0.15rem 0.5rem;
     background: rgba(201,168,76,0.12);
     border-radius: 4px;
+    display: inline-block;
   }
 
   /* Hire Me button — compact on mobile */
@@ -2083,6 +2086,12 @@ section:last-of-type::after { display: none; }
   .contact-headline { font-size: clamp(2.4rem, 12vw, 3.8rem); }
   .contact-headline em { -webkit-text-stroke: 1px rgba(240,237,234,0.22); }
   .cta-title { font-size: clamp(2.6rem, 12.5vw, 4rem); }
+
+  /* Timeline extra spacing on tiny screens */
+  .timeline-card { padding: 1.2rem 1rem; }
+  .timeline-title { font-size: 0.95rem; margin-bottom: 0.7rem; }
+  .timeline-desc { font-size: 0.78rem; }
+  .timeline-year { margin-bottom: 0.6rem; }
 }
 
 /* ─── BACK TO TOP ─────────────────────────────────────────────────────── */

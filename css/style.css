@@ -1839,7 +1839,7 @@ section:last-of-type::after { display: none; }
   .status-range,
   .status-tz { display: none; }
 
-  #hero { padding: 8rem 1.5rem 3.5rem; justify-content: flex-end; overflow: visible; }
+  #hero { padding: 5rem 1.5rem 3.5rem; justify-content: flex-end; overflow: visible; }
   /* Hero rule: allow typed text to wrap on small screens */
   .hero-rule { margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.7rem; }
   .hero-rule-line { max-width: 60px; }
@@ -1932,6 +1932,12 @@ section:last-of-type::after { display: none; }
     margin: 0;
   }
   .timeline-card { padding: 1.5rem; }
+  .timeline-item:first-child .timeline-year {
+    font-size: 0.85rem;
+    padding: 0.15rem 0.5rem;
+    background: rgba(201,168,76,0.12);
+    border-radius: 4px;
+  }
 
   /* Hire Me button — compact on mobile */
   .nav-cta {
@@ -2022,10 +2028,26 @@ section:last-of-type::after { display: none; }
     transform: scale(1.05);
   }
 
-  /* 4️⃣ Service cards — tighter padding */
+  /* 4️⃣ Service cards — horizontal row like certifications */
   .service-card {
-    padding: 2rem 1.5rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.2rem;
+    border-radius: 10px;
   }
+  .service-card .service-num { display: none; }
+  .service-card .service-icon {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .service-card .service-name {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+  .service-card .service-desc { font-size: 0.8rem; }
+  .service-card > :nth-child(2) ~ * { min-width: 0; }
 
   /* 5️⃣ Work images — softer aspect ratio */
   .work-img {

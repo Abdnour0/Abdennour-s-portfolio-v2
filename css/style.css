@@ -2217,6 +2217,137 @@ section:last-of-type::after { display: none; }
   display: none;
 }
 
+/* ─── SKIP TO CONTENT ─────────────────────────────────────────────────── */
+.skip-link {
+  position: fixed; top: -100%; left: 1rem;
+  z-index: 99999;
+  background: var(--gold); color: var(--bg);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+  border-radius: 0 0 8px 8px;
+  transition: top 0.3s;
+}
+.skip-link:focus { top: 0; }
+
+/* ─── SECTION PROGRESS NAV ───────────────────────────────────────────── */
+#section-nav {
+  position: fixed;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.section-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  border: 1.5px solid transparent;
+  transition: all 0.3s var(--ease);
+  position: relative;
+}
+.section-dot span {
+  display: block;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+}
+.section-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(201,168,76,0.5);
+  transform: scale(1.3);
+}
+.section-dot:hover { transform: scale(1.2); }
+@media (max-width: 768px) { #section-nav { display: none; } }
+
+/* ─── SKILL PROFICIENCY DOTS ─────────────────────────────────────────── */
+.service-proficiency {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0.8rem;
+}
+.service-proficiency .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.service-proficiency .dot.on {
+  background: var(--gold);
+  box-shadow: 0 0 4px rgba(201,168,76,0.4);
+}
+.service-card:hover .service-proficiency .dot.on {
+  box-shadow: 0 0 8px rgba(201,168,76,0.6);
+}
+@media (max-width: 480px) {
+  .service-proficiency { margin-bottom: 0.4rem; }
+  .service-proficiency .dot { width: 6px; height: 6px; }
+}
+
+/* ─── TESTIMONIALS ───────────────────────────────────────────────────── */
+#testimonials {
+  padding: 6rem 3rem;
+  background: var(--bg-2);
+  text-align: center;
+  overflow: hidden;
+}
+.testimonials-track {
+  display: flex;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 4rem auto 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.testimonials-track::-webkit-scrollbar { display: none; }
+.testimonial-card {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  padding: 2.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  text-align: left;
+  transition: opacity 0.4s;
+}
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+.testimonial-author {
+  font-size: 0.82rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.testimonials-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.t-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.t-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+@media (max-width: 768px) {
+  #testimonials { padding: 4rem 1.5rem; }
+  .testimonial-card { padding: 1.5rem; }
+}
+
 /* RTL Mode Overrides */
 html[dir="rtl"] body {
   font-family: 'DM Sans', system-ui, -apple-system, sans-serif;

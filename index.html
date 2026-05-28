@@ -36,6 +36,9 @@
 </head>
 <body>
 
+  <!-- SKIP TO CONTENT -->
+  <a href="#main-content" class="skip-link" id="skip-link">Skip to content</a>
+
   <!-- LOADING SCREEN -->
   <div id="loader">
     <div class="loader-content">
@@ -54,6 +57,18 @@
   <div id="cursor-glow"></div>
   <div id="cursor-text">VIEW</div>
 
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
+  <!-- Section Progress Nav -->
+  <nav id="section-nav" aria-label="Section Navigation">
+    <a href="#hero" class="section-dot" aria-label="Hero"><span></span></a>
+    <a href="#services" class="section-dot" aria-label="Skills"><span></span></a>
+    <a href="#work" class="section-dot" aria-label="Projects"><span></span></a>
+    <a href="#about" class="section-dot" aria-label="About"><span></span></a>
+    <a href="#timeline" class="section-dot" aria-label="Timeline"><span></span></a>
+    <a href="#certifications" class="section-dot" aria-label="Certifications"><span></span></a>
+    <a href="#contact" class="section-dot" aria-label="Contact"><span></span></a>
+  </nav>
   <!-- NAV -->
   <nav id="nav">
     <div class="nav-left" style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem;">
@@ -157,6 +172,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/>
         </svg>
         <h3 class="service-name">Languages</h3>
+        <div class="service-proficiency" aria-label="Proficiency: 4 out of 5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
         <p class="service-desc">Proficient in C, C++, Java, and Python. Solid understanding of OOP principles and data structures.</p>
       </div>
 
@@ -166,6 +182,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/>
         </svg>
         <h3 class="service-name">Web Development</h3>
+        <div class="service-proficiency" aria-label="Proficiency: 5 out of 5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></div>
         <p class="service-desc">Building modern apps with Django, Vue.js, and Laravel. Expertise in responsive design and interactive UIs.</p>
       </div>
 
@@ -175,6 +192,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.128 16.556 17.975 12 17.975s-8.25-1.847-8.25-4.125v-3.75m16.5 0v3.75"/>
         </svg>
         <h3 class="service-name">Databases</h3>
+        <div class="service-proficiency" aria-label="Proficiency: 4 out of 5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
         <p class="service-desc">Designing and managing SQL (MySQL, PostgreSQL, SQLite) and NoSQL (MongoDB) database systems.</p>
       </div>
 
@@ -184,6 +202,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5"/>
         </svg>
         <h3 class="service-name">Software Engineering</h3>
+        <div class="service-proficiency" aria-label="Proficiency: 3 out of 5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
         <p class="service-desc">Applying UML modeling, design patterns, and system architecture principles for robust software delivery.</p>
       </div>
 
@@ -193,6 +212,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25"/>
         </svg>
         <h3 class="service-name">Systems & Tools</h3>
+        <div class="service-proficiency" aria-label="Proficiency: 4 out of 5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
         <p class="service-desc">Proficient in Linux environments, version control with Git/GitHub, and Redis caching for performance.</p>
       </div>
 
@@ -202,6 +222,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C13.287 7.89 12.135 10.19 10.5 12.25c-1.235-1.55-2.244-3.264-3-5.064m0 0a48.39 48.39 0 0 1-4.708 5.607M12.25 8.25c.03.213.044.43.044.65 0 1.582-.443 3.06-1.212 4.312m-1.13 1.157a7.483 7.483 0 0 1-3.59 2.372"/>
         </svg>
         <h3 class="service-name">Communication</h3>
+        <div class="service-proficiency" aria-label="Proficiency: 4 out of 5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
         <p class="service-desc">Fluent in Arabic and English (C1), intermediate in French (B1). Strong cross-cultural collaboration and documentation skills.</p>
       </div>
     </div>
@@ -501,6 +522,31 @@
     </div>
   </section>
 
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="section">
+    <div class="section-label reveal">Kind Words</div>
+    <h2 class="section-title reveal reveal-delay-1">Testimonials</h2>
+    <div class="testimonials-track reveal reveal-delay-2">
+      <div class="testimonial-card">
+        <div class="testimonial-text">"Abdennour is a dedicated and talented developer. His ability to quickly grasp complex concepts and deliver quality work sets him apart. Highly recommended for any full-stack role."</div>
+        <div class="testimonial-author">— Professor, EMSI Casablanca</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-text">"Working with Abdennour on the e-commerce project was a great experience. His attention to detail and clean code made the collaboration seamless."</div>
+        <div class="testimonial-author">— Peer Developer, University Project</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-text">"Abdennour's passion for software engineering is evident in every project he takes on. He's always eager to learn and push boundaries."</div>
+        <div class="testimonial-author">— Classmate, EMSI</div>
+      </div>
+    </div>
+    <div class="testimonials-dots" id="testimonials-dots">
+      <button class="t-dot active" data-index="0" aria-label="Testimonial 1"></button>
+      <button class="t-dot" data-index="1" aria-label="Testimonial 2"></button>
+      <button class="t-dot" data-index="2" aria-label="Testimonial 3"></button>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact">
     <span class="contact-eyebrow reveal">Let's Connect</span>
@@ -626,11 +672,12 @@
       </div>
     </div>
   </footer>
+  </main>
 
   <!-- Project Detail Modal -->
-  <div id="project-modal">
+  <div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-overlay"></div>
-    <div class="modal-container" data-lenis-prevent>
+    <div class="modal-container" data-lenis-prevent tabindex="-1">
       <button class="modal-close" aria-label="Close Modal">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
@@ -646,6 +693,7 @@
           <div class="modal-body">
             <div class="modal-actions" style="margin-bottom: 2rem; margin-top: 0;">
               <a href="#" target="_blank" id="modal-link" class="btn-primary">View Live Project <span class="arrow">↗</span></a>
+              <button id="modal-share" class="btn-secondary" style="margin-left:0.5rem;" aria-label="Share Project">Share <span style="font-size:1.1rem;">↗</span></button>
             </div>
             <p id="modal-desc"></p>
             <div class="modal-info-grid">

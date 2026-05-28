@@ -175,6 +175,26 @@ const projectData = {
 const modal = document.getElementById('project-modal');
 const modalClose = document.querySelector('.modal-close');
 const modalOverlay = document.querySelector('.modal-overlay');
+let lastFocusedElement = null;
+
+function getFocusableElements(container) {
+  return container.querySelectorAll('a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])');
+}
+
+function trapFocus(e) {
+  if (!modal.classList.contains('active')) return;
+  const focusable = getFocusableElements(modal);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (e.key === 'Tab') {
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }
+}
 
 function openModal(title) {
   if (!modal) return;
@@ -213,6 +233,29 @@ function openModal(title) {
   modal.classList.add('active');
   document.documentElement.classList.add('modal-open');
   document.body.classList.add('modal-open');
+  lastFocusedElement = document.activeElement;
+  
+  // Focus the modal container
+  const container = document.querySelector('.modal-container');
+  if (container) container.focus();
+  
+  // Set up share link
+  const shareBtn = document.getElementById('modal-share');
+  if (shareBtn) {
+    shareBtn.onclick = function() {
+      if (navigator.share) {
+        navigator.share({ title: data.title || title, text: data.desc, url: data.link }).catch(function(){});
+      } else {
+        navigator.clipboard.writeText(data.link).then(function() {
+          shareBtn.textContent = 'Copied!';
+          setTimeout(function(){ shareBtn.textContent = 'Share ↗'; }, 2000);
+        }).catch(function(){});
+      }
+    };
+  }
+  
+  // Add keyboard trap listener
+  document.addEventListener('keydown', trapFocus);
   
   // Simplified animation for modal content to ensure visibility
   gsap.fromTo('.modal-right > *', 
@@ -234,6 +277,8 @@ function closeModal() {
   modal.classList.remove('active');
   document.documentElement.classList.remove('modal-open');
   document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', trapFocus);
+  if (lastFocusedElement) { lastFocusedElement.focus(); lastFocusedElement = null; }
 }
 
 if (modalClose) {
@@ -475,69 +520,156 @@ const workGrid = document.querySelector('.work-grid');
 let isFiltering = false;
 
 if (filterBtns.length && workGrid) {
+  // Restore filter from URL hash on load
+  var hashFilter = location.hash.replace('#filter=', '');
+  if (hashFilter) {
+    var targetBtn = Array.from(filterBtns).find(function(b){ return b.dataset.filter === hashFilter; });
+    if (targetBtn) {
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      targetBtn.classList.add('active');
+    }
+  }
+
+  function applyFilter(filter) {
+    if (isFiltering) return;
+
+    // Update active button
+    var activeBtn = Array.from(filterBtns).find(function(b){ return b.dataset.filter === filter; });
+    if (!activeBtn) return;
+    filterBtns.forEach(function(b){ b.classList.remove('active'); });
+    activeBtn.classList.add('active');
+
+    var isAll  = filter === 'all';
+    var cards  = Array.from(workGrid.querySelectorAll('.work-card'));
+
+    var matched   = cards.filter(function(c){ return isAll || (c.dataset.category || '').split(' ').includes(filter); });
+    var unmatched = cards.filter(function(c){ return !matched.includes(c); });
+
+    isFiltering = true;
+    gsap.killTweensOf(cards);
+
+    gsap.to(cards, {
+      opacity: 0,
+      y: 16,
+      duration: 0.22,
+      ease: 'power2.in',
+      onComplete: function() {
+        workGrid.classList.toggle('filtered', !isAll);
+        matched.forEach(function(c){
+          c.style.display = '';
+          c.style.pointerEvents = 'auto';
+          c.classList.toggle('filtered-visible', !isAll);
+        });
+        unmatched.forEach(function(c){
+          c.style.display = 'none';
+          c.style.pointerEvents = 'none';
+          c.classList.remove('filtered-visible');
+        });
+        gsap.fromTo(matched,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out', onComplete: function(){ isFiltering = false; } }
+        );
+      }
+    });
+  }
+
+  // Apply saved hash filter
+  if (hashFilter) { applyFilter(hashFilter); }
+
   filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', function() {
       if (isFiltering) return;
-
-      // Update active button
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.dataset.filter;
-      const isAll  = filter === 'all';
-      const cards  = Array.from(workGrid.querySelectorAll('.work-card'));
-
-      const matched   = cards.filter(c => isAll || (c.dataset.category || '').split(' ').includes(filter));
-      const unmatched = cards.filter(c => !matched.includes(c));
-
-      isFiltering = true;
-
-      // Kill any running tweens first
-      gsap.killTweensOf(cards);
-
-      // Phase 1: fade everything out quickly
-      gsap.to(cards, {
-        opacity: 0,
-        y: 16,
-        duration: 0.22,
-        ease: 'power2.in',
-        onComplete: () => {
-          // Toggle filtered class for uniform grid columns
-          workGrid.classList.toggle('filtered', !isAll);
-
-          // Show / hide cards BEFORE animating back in
-          matched.forEach(c => {
-            c.style.display = '';
-            c.style.pointerEvents = 'auto';
-            c.classList.toggle('filtered-visible', !isAll);
-          });
-          unmatched.forEach(c => {
-            c.style.display = 'none';
-            c.style.pointerEvents = 'none';
-            c.classList.remove('filtered-visible');
-          });
-
-          // Phase 2: fade matched cards back in
-          gsap.fromTo(matched,
-            { opacity: 0, y: 16 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.4,
-              stagger: 0.06,
-              ease: 'power2.out',
-              clearProps: 'all',
-              onComplete: () => { isFiltering = false; }
-            }
-          );
-
-          // Edge case: no unmatched ("All" selected) — unlock immediately
-          if (matched.length === 0) { isFiltering = false; }
-        }
-      });
+      var filter = this.dataset.filter;
+      history.replaceState(null, '', filter === 'all' ? '#' : '#filter=' + filter);
+      applyFilter(filter);
     });
   });
-}
+} // end if filterBtns.length
+
+/* ── SECTION PROGRESS NAV ────────────────────────────────────────────── */
+(function initSectionNav() {
+  var nav = document.getElementById('section-nav');
+  if (!nav) return;
+  var dots = nav.querySelectorAll('.section-dot');
+  var sections = [];
+  dots.forEach(function(dot){
+    var href = dot.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      var section = document.querySelector(href);
+      if (section) sections.push({ dot: dot, section: section });
+    }
+  });
+  if (!sections.length) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var match = sections.find(function(s){ return s.section === entry.target; });
+      if (match) {
+        if (entry.isIntersecting) {
+          sections.forEach(function(s){ s.dot.classList.remove('active'); });
+          match.dot.classList.add('active');
+        }
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' });
+  sections.forEach(function(s){ obs.observe(s.section); });
+})();
+
+/* ── TESTIMONIALS CAROUSEL ───────────────────────────────────────────── */
+(function initTestimonials() {
+  var track = document.querySelector('.testimonials-track');
+  var dots = document.querySelectorAll('.t-dot');
+  if (!track || !dots.length) return;
+  var current = 0;
+  var interval;
+  function goTo(index) {
+    current = index;
+    dots.forEach(function(d){ d.classList.remove('active'); });
+    dots[current].classList.add('active');
+    track.scrollTo({ left: track.clientWidth * current, behavior: 'smooth' });
+  }
+  dots.forEach(function(dot){
+    dot.addEventListener('click', function(){
+      clearInterval(interval);
+      goTo(parseInt(this.dataset.index));
+      interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000);
+    });
+  });
+  interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000);
+  // Pause on hover
+  track.addEventListener('mouseenter', function(){ clearInterval(interval); });
+  track.addEventListener('mouseleave', function(){ interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000); });
+  // Handle manual scroll
+  track.addEventListener('scroll', function(){
+    var idx = Math.round(track.scrollLeft / track.clientWidth);
+    if (idx !== current && idx >= 0 && idx < dots.length) {
+      current = idx;
+      dots.forEach(function(d){ d.classList.remove('active'); });
+      dots[current].classList.add('active');
+    }
+  });
+})();
+
+/* ── GITHUB PINNED REPOS ─────────────────────────────────────────────── */
+(function fetchGitHub() {
+  var exploreCard = document.querySelector('.work-card:last-child');
+  if (!exploreCard) return;
+  var overlay = exploreCard.querySelector('.work-overlay');
+  if (!overlay) return;
+  fetch('https://api.github.com/users/Abdnour0/repos?sort=updated&per_page=3')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(repos){
+      if (!repos || !repos.length) return;
+      var tag = overlay.querySelector('.work-tag');
+      if (tag) tag.textContent = 'Latest: ' + repos[0].name.replace(/-/g, ' ');
+      var title = overlay.querySelector('.work-title');
+      if (title) {
+        var repo = repos[0];
+        title.innerHTML = repo.name.replace(/-/g, ' ') + '<br><span style="font-size:0.6rem;opacity:0.6;">' + (repo.description || '').substring(0, 40) + '...</span>';
+      }
+      exploreCard.href = repos[0].html_url;
+    })
+    .catch(function(){});
+})();
 
 /* ── COUNTER ANIMATION ───────────────────────────────────────────────── */
 const statTargets  = [5, 3, 2, 2028];
@@ -924,6 +1056,13 @@ if (savedTheme === 'light') {
     sunIcon.style.display = 'none';
     moonIcon.style.display = 'block';
   }
+} else if (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches) {
+  document.documentElement.setAttribute('data-theme', 'light');
+  if (sunIcon && moonIcon) {
+    sunIcon.style.display = 'none';
+    moonIcon.style.display = 'block';
+  }
+  localStorage.setItem('portfolioTheme', 'light');
 }
 
 if (themeToggleBtn) {

@@ -242,19 +242,22 @@ function openModal(title) {
   // Set up share link
   const shareBtn = document.getElementById('modal-share');
   if (shareBtn) {
-    shareBtn.onclick = function() {
+    shareBtn._shareHandler = function() {
       if (navigator.share) {
         navigator.share({ title: data.title || title, text: data.desc, url: data.link }).catch(function(){});
       } else {
         navigator.clipboard.writeText(data.link).then(function() {
           shareBtn.textContent = 'Copied!';
-          setTimeout(function(){ shareBtn.textContent = 'Share ↗'; }, 2000);
+          setTimeout(function(){ shareBtn.textContent = 'Share \u2197'; }, 2000);
         }).catch(function(){});
       }
     };
+    shareBtn.removeEventListener('click', shareBtn._shareHandler);
+    shareBtn.addEventListener('click', shareBtn._shareHandler);
   }
   
-  // Add keyboard trap listener
+  // Add keyboard trap listener (remove first to avoid duplicates)
+  document.removeEventListener('keydown', trapFocus);
   document.addEventListener('keydown', trapFocus);
   
   // Simplified animation for modal content to ensure visibility
@@ -521,7 +524,7 @@ let isFiltering = false;
 
 if (filterBtns.length && workGrid) {
   // Restore filter from URL hash on load
-  var hashFilter = location.hash.replace('#filter=', '');
+  var hashFilter = location.hash.indexOf('#filter=') === 0 ? location.hash.replace('#filter=', '') : '';
   if (hashFilter) {
     var targetBtn = Array.from(filterBtns).find(function(b){ return b.dataset.filter === hashFilter; });
     if (targetBtn) {

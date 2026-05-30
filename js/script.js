@@ -589,33 +589,7 @@ if (filterBtns.length && workGrid) {
   });
 } // end if filterBtns.length
 
-/* ── SECTION PROGRESS NAV ────────────────────────────────────────────── */
-(function initSectionNav() {
-  var nav = document.getElementById('section-nav');
-  if (!nav) return;
-  var dots = nav.querySelectorAll('.section-dot');
-  var sections = [];
-  dots.forEach(function(dot){
-    var href = dot.getAttribute('href');
-    if (href && href.startsWith('#')) {
-      var section = document.querySelector(href);
-      if (section) sections.push({ dot: dot, section: section });
-    }
-  });
-  if (!sections.length) return;
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      var match = sections.find(function(s){ return s.section === entry.target; });
-      if (match) {
-        if (entry.isIntersecting) {
-          sections.forEach(function(s){ s.dot.classList.remove('active'); });
-          match.dot.classList.add('active');
-        }
-      }
-    });
-  }, { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' });
-  sections.forEach(function(s){ obs.observe(s.section); });
-})();
+
 
 /* ── TESTIMONIALS CAROUSEL ───────────────────────────────────────────── */
 (function initTestimonials() {

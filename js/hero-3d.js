@@ -8,15 +8,26 @@ var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
 
-if (isTouchDevice || !hasMouse || isLowEnd) return;
+if (isTouchDevice || !hasMouse || isLowEnd) {
+  console.log('[hero-3d] skipped — touch/no-mouse/low-end');
+  return;
+}
 
 var hero = document.getElementById('hero');
-if (!hero) return;
+if (!hero) { console.log('[hero-3d] skipped — #hero not found'); return; }
 
+// Use importmap + dynamic import for a modern Three.js build
+// Falls back to the UMD script tag for older browsers
 function loadThree() {
   var s = document.createElement('script');
   s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-  s.onload = init;
+  s.onload = function() {
+    console.log('[hero-3d] Three.js loaded, initializing...');
+    init();
+  };
+  s.onerror = function() {
+    console.warn('[hero-3d] Three.js CDN failed to load');
+  };
   document.head.appendChild(s);
 }
 

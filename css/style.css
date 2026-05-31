@@ -43,13 +43,13 @@
 /* ─── RESET ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-html.fonts-loading .hero-headline,
 html.fonts-loading .section-title,
 html.fonts-loading .loader-logo,
 html.fonts-loading .nav-logo,
 html.fonts-loading .timeline-title {
   opacity: 0;
 }
+
 
 .theme-transition,
 .theme-transition *,
@@ -496,18 +496,7 @@ nav.scrolled {
   z-index: 2;
 }
 .hero-headline .line        { display: block; overflow: hidden; }
-.hero-headline .line-inner  {
-  display: block;
-  opacity: 0; transform: translateY(110%);
-  animation: slideUp 0.9s var(--ease) forwards;
-}
-.hero-headline .line:nth-child(1) .line-inner { animation-delay: 0.35s; }
-.hero-headline .line:nth-child(2) .line-inner { animation-delay: 0.50s; }
-.hero-headline .line:nth-child(3) .line-inner {
-  animation-delay: 0.65s;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(240,237,234,0.3);
-}
+.hero-headline .line-inner  { display: block; }
 
 .hero-bottom {
   display: flex; justify-content: space-between; align-items: flex-end;
@@ -1599,9 +1588,8 @@ section:last-of-type::after { display: none; }
 @keyframes fadeUp {
   to { opacity: 1; transform: none; }
 }
-@keyframes slideUp {
-  to { opacity: 1; transform: none; }
-}
+
+
 
 /* ─── MODAL ───────────────────────────────────────────────────────────── */
 #project-modal {

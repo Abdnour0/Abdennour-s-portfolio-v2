@@ -32,12 +32,19 @@ if (hasMouse && !isLowEnd && !isTouchDevice) {
     infinite: false,
   });
 
-  function raf(time) {
-    lenis.raf(time);
+  if (window.ScrollTrigger) {
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(time) {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+  } else {
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
     requestAnimationFrame(raf);
   }
-
-  requestAnimationFrame(raf);
 }
 
 /* ── SCROLL PROGRESS ─────────────────────────────────────────────────── */
@@ -383,6 +390,18 @@ document.addEventListener('langChanged', (e) => {
 window.addEventListener('pageshow', (e) => {
   if (e.persisted) {
     initTyped(currentLang);
+    var headline = document.querySelector('.hero-headline');
+    if (headline) {
+      gsap.killTweensOf(headline);
+      headline.style.opacity = '';
+      headline.style.transform = '';
+    }
+    var heroLines = document.querySelectorAll('.hero-headline .line-inner');
+    gsap.killTweensOf(heroLines);
+    heroLines.forEach(function(el) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
     if (window.gsap && window.ScrollTrigger) {
       ScrollTrigger.refresh();
     }
@@ -512,6 +531,20 @@ if (window.innerWidth > 768) {
     y: -50,
     opacity: 0
   });
+}
+
+// Hero headline entrance animation (GSAP — not CSS, avoids race conditions)
+if (!isLowEnd) {
+  gsap.set(".hero-headline .line-inner", { y: "110%", opacity: 0 });
+  var heroTl = gsap.timeline();
+  heroTl.to(".hero-headline .line-inner", {
+    y: "0%",
+    opacity: 1,
+    duration: 0.9,
+    stagger: 0.15,
+    ease: "power3.out",
+    clearProps: "transform,opacity"
+  }, 0.35);
 }
 
 // Section Title Animation removed as it conflicts with .reveal
@@ -1140,3 +1173,18 @@ document.querySelectorAll('.about-img-wrap').forEach(wrap => {
 
   sections.forEach(s => observer.observe(s.section));
 })();
+
+/* ── REFRESH SCROLLTRIGGER AFTER SETUP ─────────────────────────────── */
+if (window.ScrollTrigger) {
+  ScrollTrigger.refresh();
+}
+
+/* ── HERO HEADLINE SAFETY NET ────────────────────────────────────────── */
+setTimeout(function() {
+  var h = document.querySelector('.hero-headline');
+  if (h) h.style.opacity = '1';
+  document.querySelectorAll('.hero-headline .line-inner').forEach(function(el) {
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  });
+}, 2000);

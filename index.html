@@ -51,7 +51,7 @@
       <div class="loader-line"></div>
     </div>
   </div>
-  <script>(function(){var l=document.getElementById('loader');if(!l)return;function h(){if(l.classList.contains('loaded'))return;l.classList.add('loaded');setTimeout(function(){l.classList.add('hidden')},1200)}window.addEventListener('load',h);setTimeout(h,5000)})()</script>
+  <script>(function(){var l=document.getElementById('loader');if(!l)return;if(sessionStorage.getItem('visited')){l.style.display='none';return}sessionStorage.setItem('visited','1');function h(){if(l.classList.contains('loaded'))return;l.classList.add('loaded');setTimeout(function(){l.classList.add('hidden')},1200)}window.addEventListener('load',h);setTimeout(h,5000)})()</script>
 
   <!-- Scroll Progress -->
   <div id="scroll-progress"></div>
@@ -780,7 +780,11 @@
   </script>
   <!-- Back to Top Button -->
   <button id="back-to-top" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg class="btt-ring" viewBox="0 0 36 36" width="36" height="36">
+      <circle cx="18" cy="18" r="16" fill="none" stroke="var(--border)" stroke-width="1.5" />
+      <circle cx="18" cy="18" r="16" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-dasharray="100.53" stroke-dashoffset="100.53" transform="rotate(-90 18 18)" />
+    </svg>
+    <svg class="btt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
     </svg>
   </button>

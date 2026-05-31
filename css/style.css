@@ -66,6 +66,7 @@ body {
   overflow-x: hidden;
   cursor: none;
   touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
 }
 html.modal-open,
 body.modal-open {
@@ -631,14 +632,15 @@ section:last-of-type::after { display: none; }
   margin-top: 4rem;
 }
 .service-card {
-  padding: 3.5rem 2.5rem;
-  background: var(--bg-2);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.5s var(--ease);
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem;
+  border-radius: 12px;
+  background: var(--bg-3);
   border: 1px solid var(--border);
-  backdrop-filter: blur(5px);
-  isolation: isolate;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.4s var(--ease), border 0.3s, background 0.3s, box-shadow 0.4s var(--ease);
 }
 .service-card::before {
   content: '';
@@ -715,6 +717,7 @@ section:last-of-type::after { display: none; }
   transition: all 0.25s;
   cursor: none;
   position: relative;
+  touch-action: manipulation;
 }
 .filter-btn::after {
   content: '';
@@ -741,10 +744,16 @@ section:last-of-type::after { display: none; }
   gap: 1.5rem;
 }
 .work-card {
-  position: relative; overflow: hidden;
-  background: var(--bg-3);
-  cursor: none;
-  will-change: opacity, transform;
+  display: flex; flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  will-change: transform;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 .work-card:nth-child(1) { grid-column: span 7; }
 .work-card:nth-child(2) { grid-column: span 5; }
@@ -756,9 +765,17 @@ section:last-of-type::after { display: none; }
 /* When a filter is active, use uniform card sizes so layout looks clean */
 .work-grid.filtered .work-card {
   grid-column: span 6;
+  will-change: filter, opacity, transform;
 }
 .work-grid.filtered .work-card .work-img {
   aspect-ratio: 4/3;
+}
+/* Blurred non-matching cards */
+.work-card.blurred {
+  filter: blur(4px) grayscale(40%);
+  opacity: 0.45;
+  pointer-events: none;
+  transition: filter 0.4s ease, opacity 0.4s ease;
 }
 /* Single visible card: full width */
 .work-grid.filtered .work-card.filtered-visible:first-child:last-child {
@@ -2123,6 +2140,13 @@ section:last-of-type::after { display: none; }
   transition: all 0.4s var(--ease);
   cursor: pointer;
 }
+
+/* ─── TOUCH TARGETS ─────────────────────────────────────────────────── */
+a, button, .work-card, .service-card, .cert-cell, .client-cell,
+.filter-btn, .nav-cta, .btn-primary, .btn-secondary, .about-cta,
+.cv-dropdown button, .modal-close, #back-to-top {
+  touch-action: manipulation;
+}
 #back-to-top.visible {
   opacity: 1;
   visibility: visible;
@@ -2135,12 +2159,22 @@ section:last-of-type::after { display: none; }
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(201,168,76,0.3);
 }
-#back-to-top svg {
-  width: 24px;
-  height: 24px;
+.btt-ring {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  pointer-events: none;
+}
+.btt-arrow {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  z-index: 1;
   transition: transform 0.3s var(--ease);
 }
-#back-to-top:hover svg {
+#back-to-top:hover .btt-arrow {
   transform: translateY(-3px);
 }
 

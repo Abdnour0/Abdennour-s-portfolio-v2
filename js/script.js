@@ -375,11 +375,31 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+/* ── WORK CARD HOVER SOUND ───────────────────────────────────────────── */
+var audioCtx = null;
+function playHoverSound() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(380, audioCtx.currentTime + 0.06);
+    gain.gain.setValueAtTime(0.035, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.08);
+  } catch (e) {}
+}
+
 /* Handle Cursor Text for Projects and Modal Opening */
 const workCards = document.querySelectorAll('.work-card');
 workCards.forEach(card => {
   if (hasMouse) {
     card.addEventListener('mouseenter', () => {
+      playHoverSound();
       gsap.to(cursorText, { opacity: 1, scale: 1, duration: 0.3 });
       gsap.to(cursor, { 
         width: 100, 

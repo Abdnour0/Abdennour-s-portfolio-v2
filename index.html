@@ -847,7 +847,7 @@
       caches.keys().then(function(keys) {
         return Promise.all(keys.map(function(k) { return caches.delete(k); }));
       }).then(function() {
-        navigator.serviceWorker.register('/sw.js');
+        navigator.serviceWorker.register('/sw.js?v=20260531-2');
       });
     }
   </script>

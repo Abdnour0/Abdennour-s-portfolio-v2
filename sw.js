@@ -1,11 +1,15 @@
 /* ── SERVICE WORKER — Cache-first for static shell ─────────────────── */
-const CACHE_NAME = 'ag-portfolio-v2';
+/* Increment SW_VERSION to force re-cache on deploy */
+const SW_VERSION = '2026-05-31-2';
+const CACHE_NAME = 'ag-portfolio-' + SW_VERSION;
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/404.html',
   '/css/style.css',
   '/js/script.js',
   '/js/i18n.js',
+  '/js/hero-3d.js',
   '/images/IMG_9858.webp',
   '/images/nike shoes.webp',
   '/images/photo.webp',

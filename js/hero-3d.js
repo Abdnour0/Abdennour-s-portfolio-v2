@@ -1,5 +1,5 @@
 /* ── 3D HERO BACKGROUND ────────────────────────────────────────────── */
-/* Floating geometric shapes using Three.js                          */
+/* Floating geometric shapes using Three.js — loaded on-demand         */
 /* Disabled on touch / low-end devices for performance                */
 
 (function() {
@@ -8,10 +8,17 @@ var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
 
-if (isTouchDevice || !hasMouse || isLowEnd || typeof THREE === 'undefined') return;
+if (isTouchDevice || !hasMouse || isLowEnd) return;
 
 var hero = document.getElementById('hero');
 if (!hero) return;
+
+function loadThree() {
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  s.onload = init;
+  document.head.appendChild(s);
+}
 
 var scene, camera, renderer;
 var shapes = [];
@@ -133,21 +140,6 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-function destroy() {
-  if (animId) cancelAnimationFrame(animId);
-  if (renderer) {
-    renderer.domElement.remove();
-    renderer.dispose();
-  }
-  shapes.forEach(function(s) {
-    s.geometry.dispose();
-    s.material.dispose();
-  });
-  shapes = [];
-  document.removeEventListener('mousemove', onMove);
-  window.removeEventListener('resize', onResize);
-}
-
-init();
+loadThree();
 
 })();

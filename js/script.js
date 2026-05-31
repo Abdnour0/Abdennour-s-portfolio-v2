@@ -96,6 +96,70 @@ document.addEventListener('mousemove', function(e) {
 });
 } // end cursor (desktop only)
 
+/* ── CURSOR TRAIL ────────────────────────────────────────────────────── */
+if (hasMouse && HAS_GSAP) {
+  var trail = [];
+  for (var i = 0; i < 12; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'cursor-trail-dot';
+    document.body.appendChild(dot);
+    trail.push(dot);
+    gsap.set(dot, { opacity: 0 });
+  }
+  var ti = 0;
+  document.addEventListener('mousemove', function(e) {
+    var dot = trail[ti % trail.length];
+    gsap.set(dot, { x: e.clientX, y: e.clientY, opacity: 0.6, scale: 1 });
+    gsap.to(dot, { opacity: 0, scale: 0.2, duration: 0.6, ease: 'power2.out' });
+    ti++;
+  });
+}
+
+/* ── 3D TILT HOVER ON CARDS ──────────────────────────────────────────── */
+if (hasMouse && HAS_GSAP) {
+  document.querySelectorAll('.service-card, .work-card, .cert-cell').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width;
+      var y = (e.clientY - rect.top) / rect.height;
+      gsap.to(card, {
+        rotateX: (y - 0.5) * -12,
+        rotateY: (x - 0.5) * 12,
+        transformPerspective: 800,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+    });
+    card.addEventListener('mouseleave', function() {
+      gsap.to(card, {
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+    });
+  });
+}
+
+/* ── ABOUT IMAGE PARALLAX ────────────────────────────────────────────── */
+if (window.gsap && window.ScrollTrigger && !isTouchDevice) {
+  var aboutImg = document.querySelector('.about-img-wrap');
+  if (aboutImg) {
+    gsap.fromTo(aboutImg, {
+      y: 0
+    }, {
+      y: -40,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: aboutImg,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+  }
+}
+
 /* ── PROJECT MODALS ─────────────────────────────────────────────────── */
 const modalLink = document.getElementById('modal-link');
 if (modalLink) {
@@ -472,15 +536,13 @@ if (!isTouchDevice) {
   });
 }
 
-/* ── MARQUEE ANIMATION ───────────────────────────────────────────────── */
-const marqueeTrack = document.querySelector('.marquee-track');
-if (marqueeTrack) {
-  // Duplicate for seamless loop only once (CSS keyframes drive the animation)
-  if (!marqueeTrack.dataset.duplicated) {
-    marqueeTrack.innerHTML += marqueeTrack.innerHTML;
-    marqueeTrack.dataset.duplicated = 'true';
+/* ── MARQUEE DUPLICATION ──────────────────────────────────────────────── */
+document.querySelectorAll('.marquee-track').forEach(function(track) {
+  if (!track.dataset.duplicated) {
+    track.innerHTML += track.innerHTML;
+    track.dataset.duplicated = 'true';
   }
-}
+});
 
 /* ── REVEAL ON SCROLL ────────────────────────────────────────────────── */
 const reveals = document.querySelectorAll('.reveal');
@@ -623,33 +685,6 @@ if (filterBtns.length && workGrid) {
 } // end if filterBtns.length
 
 /* ── SECTION PROGRESS NAV ────────────────────────────────────────────── */
-(function initSectionNav() {
-  var nav = document.getElementById('section-nav');
-  if (!nav) return;
-  var dots = nav.querySelectorAll('.section-dot');
-  var sections = [];
-  dots.forEach(function(dot){
-    var href = dot.getAttribute('href');
-    if (href && href.startsWith('#')) {
-      var section = document.querySelector(href);
-      if (section) sections.push({ dot: dot, section: section });
-    }
-  });
-  if (!sections.length) return;
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      var match = sections.find(function(s){ return s.section === entry.target; });
-      if (match) {
-        if (entry.isIntersecting) {
-          sections.forEach(function(s){ s.dot.classList.remove('active'); });
-          match.dot.classList.add('active');
-        }
-      }
-    });
-  }, { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' });
-  sections.forEach(function(s){ obs.observe(s.section); });
-})();
-
 /* ── TESTIMONIALS CAROUSEL ───────────────────────────────────────────── */
 (function initTestimonials() {
   var track = document.querySelector('.testimonials-track');
@@ -1182,7 +1217,7 @@ document.querySelectorAll('.ring-fill').forEach(function(ring) {
   var circumference = 94.25;
   var target = circumference - (circumference * progress / 100);
 
-  if (window.ScrollTrigger && !isLowEnd) {
+if (window.ScrollTrigger) {
     gsap.to(ring, {
       strokeDashoffset: target,
       duration: 1.2,

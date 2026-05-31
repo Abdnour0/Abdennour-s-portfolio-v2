@@ -52,6 +52,11 @@ const i18nSelectors = {
 const translations = {
   en: {
     navAbout: "About", navSkills: "Skills", navProjects: "Projects", navTimeline: "Timeline", navCerts: "Credentials", navContact: "Contact", navHire: "Hire Me",
+    seoTitle: "Abdennour Guellaa — Full Stack Developer | Django · Vue.js | Casablanca, Morocco",
+    seoDesc: "Software Engineering Student at EMSI Casablanca. Full Stack Developer specializing in Django, Vue.js and Laravel. Open to web development internship — July 2026.",
+    seoAlt: "Abdennour Guellaa - Full Stack Developer Casablanca Morocco",
+    seoOGTitle: "Abdennour Guellaa — Full Stack Developer | Casablanca, Morocco",
+    seoOGDesc: "Software Engineering Student & Full Stack Developer based in Casablanca, Morocco. Django · Vue.js · Laravel.",
     heroLine1: "Code. Design.", heroLine2: "Deploy.",
     heroDesc: "I am <strong style='font-family: var(--font-disp); letter-spacing: 0.05em;'>ABDENNOUR GUELLAA</strong>, a software engineering student at EMSI dedicated to crafting high-performance web applications, scalable software solutions, and exploring the futuristic frontiers of Artificial Intelligence.",
     scroll: "Scroll", langAvail: "Available",
@@ -91,6 +96,11 @@ const translations = {
   },
   fr: {
     navAbout: "À propos", navSkills: "Compétences", navProjects: "Projets", navTimeline: "Parcours", navCerts: "Certifications", navContact: "Contact", navHire: "Recrutez-moi",
+    seoTitle: "Abdennour Guellaa — Développeur Full Stack | Django · Vue.js | Casablanca, Maroc",
+    seoDesc: "Étudiant ingénieur en génie logiciel à l'EMSI Casablanca. Développeur Full Stack spécialisé en Django, Vue.js et Laravel. Disponible pour un stage en développement web — Juillet 2026.",
+    seoAlt: "Abdennour Guellaa - Développeur Full Stack Casablanca Maroc",
+    seoOGTitle: "Abdennour Guellaa — Développeur Full Stack | Casablanca, Maroc",
+    seoOGDesc: "Étudiant en génie logiciel & Développeur Full Stack basé à Casablanca, Maroc. Django · Vue.js · Laravel.",
     heroLine1: "Coder. Créer.", heroLine2: "Déployer.",
     heroDesc: "Je suis <strong style='font-family: var(--font-disp); letter-spacing: 0.05em;'>ABDENNOUR GUELLAA</strong>, étudiant en génie logiciel à l'EMSI, passionné par la création d'applications web performantes et l'exploration des frontières futuristes de l'Intelligence Artificielle.",
     scroll: "Défiler", langAvail: "Disponible",
@@ -130,6 +140,11 @@ const translations = {
   },
   ar: {
     navAbout: "نبذة", navSkills: "مهارات", navProjects: "مشاريع", navTimeline: "المسار", navCerts: "الشهادات", navContact: "اتصال", navHire: "وظفني",
+    seoTitle: "عبد النور قلاع — مطور ويب شامل | Django · Vue.js | الدار البيضاء، المغرب",
+    seoDesc: "طالب هندسة برمجيات في EMSI الدار البيضاء. مطور ويب شامل متخصص في Django و Vue.js و Laravel. متاح لتدريب في تطوير الويب — يوليو 2026.",
+    seoAlt: "عبد النور قلاع - مطور ويب شامل الدار البيضاء المغرب",
+    seoOGTitle: "عبد النور قلاع — مطور ويب شامل | الدار البيضاء، المغرب",
+    seoOGDesc: "طالب هندسة برمجيات ومطور ويب شامل مقيم في الدار البيضاء، المغرب. Django · Vue.js · Laravel.",
     heroLine1: "برمجة. تصميم.", heroLine2: "نشر.",
     heroDesc: "أنا <strong style='font-family: var(--font-disp); letter-spacing: 0.05em;'>عبد النور قلاع</strong>، طالب هندسة برمجيات مكرس لبناء تطبيقات ويب عالية الأداء واستكشاف الآفاق المستقبلية للذكاء الاصطناعي.",
     scroll: "تمرير", langAvail: "متاح",
@@ -280,6 +295,31 @@ function applyTranslation(lang) {
         }
       }
     });
+  });
+
+  // Update SEO meta tags
+  var titleEl = document.querySelector('title');
+  if (titleEl && langTranslations.seoTitle) titleEl.textContent = langTranslations.seoTitle;
+
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc && langTranslations.seoDesc) metaDesc.setAttribute('content', langTranslations.seoDesc);
+
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle && langTranslations.seoOGTitle) ogTitle.setAttribute('content', langTranslations.seoOGTitle);
+
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc && langTranslations.seoOGDesc) ogDesc.setAttribute('content', langTranslations.seoOGDesc);
+
+  var twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twTitle && langTranslations.seoOGTitle) twTitle.setAttribute('content', langTranslations.seoOGTitle);
+
+  var twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twDesc && langTranslations.seoOGDesc) twDesc.setAttribute('content', langTranslations.seoOGDesc);
+
+  // Update alt text on images with data-i18n-alt
+  document.querySelectorAll('[data-i18n-alt]').forEach(function(img) {
+    var key = img.getAttribute('data-i18n-alt');
+    if (langTranslations[key]) img.setAttribute('alt', langTranslations[key]);
   });
 
   // Re-init typed.js via custom event 

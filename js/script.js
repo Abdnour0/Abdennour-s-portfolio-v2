@@ -1174,6 +1174,31 @@ document.querySelectorAll('.about-img-wrap').forEach(wrap => {
   sections.forEach(s => observer.observe(s.section));
 })();
 
+/* ── SKILL PROGRESS RINGS ─────────────────────────────────────────────── */
+document.querySelectorAll('.ring-fill').forEach(function(ring) {
+  var wrapper = ring.closest('.service-proficiency');
+  if (!wrapper) return;
+  var progress = parseInt(wrapper.getAttribute('data-progress'), 10) || 0;
+  var circumference = 94.25;
+  var target = circumference - (circumference * progress / 100);
+
+  if (window.ScrollTrigger && !isLowEnd) {
+    gsap.to(ring, {
+      strokeDashoffset: target,
+      duration: 1.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: ring.closest('.service-card'),
+        start: 'top 92%',
+        once: true,
+        toggleActions: 'play none none none'
+      }
+    });
+  } else {
+    ring.setAttribute('stroke-dashoffset', target);
+  }
+});
+
 /* ── REFRESH SCROLLTRIGGER AFTER SETUP ─────────────────────────────── */
 if (window.ScrollTrigger) {
   ScrollTrigger.refresh();

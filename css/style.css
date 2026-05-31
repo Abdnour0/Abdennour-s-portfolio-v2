@@ -2240,28 +2240,37 @@ section:last-of-type::after { display: none; }
 .skip-link:focus { top: 0; }
 
 
-/* ─── SKILL PROFICIENCY DOTS ─────────────────────────────────────────── */
+/* ─── SKILL PROGRESS RINGS ──────────────────────────────────────────── */
 .service-proficiency {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 0.8rem;
 }
-.service-proficiency .dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--border);
-  transition: background 0.3s;
+.progress-ring {
+  display: block;
+  flex-shrink: 0;
 }
-.service-proficiency .dot.on {
-  background: var(--gold);
-  box-shadow: 0 0 4px rgba(201,168,76,0.4);
+.ring-track {
+  stroke: var(--border);
+  opacity: 0.5;
 }
-.service-card:hover .service-proficiency .dot.on {
-  box-shadow: 0 0 8px rgba(201,168,76,0.6);
+.ring-fill {
+  stroke: var(--gold);
+  filter: drop-shadow(0 0 3px rgba(201,168,76,0.3));
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ring-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  opacity: 0.8;
 }
 @media (max-width: 480px) {
   .service-proficiency { margin-bottom: 0.4rem; }
-  .service-proficiency .dot { width: 6px; height: 6px; }
+  .progress-ring { width: 32px; height: 32px; }
+  .ring-label { font-size: 0.6rem; }
 }
 
 /* ─── TESTIMONIALS ───────────────────────────────────────────────────── */

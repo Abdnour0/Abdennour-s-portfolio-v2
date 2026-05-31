@@ -208,7 +208,7 @@ const projectData = {
     challenge: "Managing complex state transitions for student progress across multiple modules and ensuring data persistence during session timeouts.",
     solution: "Utilized Vuex for centralized state management and implemented a background sync service to periodically save student progress without interrupting the user experience.",
     role: "Full-Stack Developer",
-    img: null,
+    img: 'images/ElearningHubBackImage.png',
     gradient: "linear-gradient(135deg, #00101a 0%, #003d5c 40%, #4cc9c5 100%)",
     link: "https://github.com/Abdnour0",
     tag: "Laravel · Vue.js · 2024"

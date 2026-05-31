@@ -2453,3 +2453,25 @@ html[dir="rtl"] .hero-rule-line {
   margin-left: unset;
   margin-right: 1.5rem;
 }
+
+/* ─── PRINT STYLES ──────────────────────────────────────────────────────── */
+@media print {
+  * { background: transparent !important; color: #000 !important; text-shadow: none !important; box-shadow: none !important; }
+  body { font-size: 11pt; line-height: 1.4; }
+  nav, #mobile-nav, #cursor, #cursor-ring, #cursor-glow, #cursor-text,
+  #loader, #scroll-progress, #back-to-top, .blob, .grain-overlay,
+  .marquee-section, .work-filter, .work-arrow, .work-overlay,
+  .about-badge, .hero-scroll, #project-modal, .cv-dropdown,
+  #menu-toggle, .footer-cta { display: none !important; }
+  section { padding: 1.5rem 0 !important; page-break-inside: avoid; }
+  .hero-headline { font-size: 2.5rem; }
+  .hero-desc { max-width: 100%; }
+  .services-grid, .work-grid, .about-content { break-inside: avoid; }
+  .work-card, .service-card, .cert-cell { break-inside: avoid; border: 1px solid #ccc !important; }
+  .work-img { aspect-ratio: auto; }
+  .section-title { font-size: 1.8rem; }
+  a[href]::after { content: " (" attr(href) ")"; font-size: 0.8em; }
+  nav a[href]::after, .footer-links a[href]::after { content: none; }
+  .about-cta::after { content: none; }
+  @page { margin: 1.5cm; }
+}

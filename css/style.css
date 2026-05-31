@@ -189,7 +189,7 @@ body::before {
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
-  mix-blend-mode: difference;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.3), 0 0 8px rgba(201,168,76,0.4);
 }
 #cursor-ring {
   position: fixed;
@@ -231,7 +231,7 @@ body::before {
 .work-card:hover ~ #cursor {
   width: 100px; height: 100px;
   background: var(--gold);
-  mix-blend-mode: normal;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 20px rgba(201,168,76,0.3);
 }
 .work-card:hover ~ #cursor-text {
   opacity: 1;
@@ -389,10 +389,11 @@ nav.scrolled {
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.6rem 1.4rem;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  transition: background 0.25s, color 0.25s;
+  color: var(--bg);
+  background: var(--gold);
+  padding: 0.55rem 1.6rem;
+  border-radius: 100px;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
 }
 .nav-cta:hover { background: var(--gold); color: var(--bg); }
 
@@ -547,6 +548,17 @@ nav.scrolled {
   overflow: hidden;
   background: var(--bg-2);
   display: flex;
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(201,168,76,0.04);
+}
+.marquee-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.04) 50%, transparent 100%);
+  pointer-events: none;
+}
+[data-theme="light"] .marquee-section {
+  background: var(--bg-3);
 }
 .marquee-track {
   display: flex; gap: 4rem;
@@ -579,7 +591,7 @@ nav.scrolled {
 }
 
 /* ─── SECTION UTILS ───────────────────────────────────────────────────── */
-section { padding: 8rem 3rem; position: relative; }
+section { padding: 8rem 3rem; position: relative; scroll-margin-top: 90px; }
 section::after {
   content: '';
   position: absolute; bottom: 0; left: 10%; right: 10%;
@@ -640,6 +652,8 @@ section:last-of-type::after { display: none; }
   border: 1px solid var(--border);
   cursor: pointer;
   touch-action: manipulation;
+  position: relative;
+  overflow: hidden;
   transition: transform 0.4s var(--ease), border 0.3s, background 0.3s, box-shadow 0.4s var(--ease);
 }
 .service-card::before {
@@ -747,13 +761,19 @@ section:last-of-type::after { display: none; }
   display: flex; flex-direction: column;
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 12px;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
   touch-action: manipulation;
   will-change: transform;
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.work-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.08);
 }
 .work-card:nth-child(1) { grid-column: span 7; }
 .work-card:nth-child(2) { grid-column: span 5; }
@@ -798,6 +818,11 @@ section:last-of-type::after { display: none; }
 .work-img-inner {
   width: 100%; height: 100%;
   transition: transform 0.7s var(--ease);
+  display: flex; align-items: center; justify-content: center;
+}
+.work-placeholder-svg {
+  width: 100%; height: 100%;
+  display: block;
 }
 .work-card:hover .work-img-inner { transform: scale(1.08); }
 .work-img-inner img {
@@ -2047,7 +2072,7 @@ section:last-of-type::after { display: none; }
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
   .hero-desc { max-width: 100%; }
   .hero-scroll { display: none; }
-  .about-badge   { display: none; }
+  .about-badge   { transform: scale(0.7); bottom: -0.5rem; right: -0.5rem; }
   .clients-grid  { grid-template-columns: 1fr; }
 
   /* 2️⃣ Hamburger — larger tap target */

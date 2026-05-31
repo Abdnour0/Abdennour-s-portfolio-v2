@@ -2,7 +2,7 @@
 /* Three.js scene with 3D tech brand logos floating in hero bg      */
 /* Disabled on touch / low-end devices for performance              */
 
-(function() {
+import * as THREE from 'three';
 
 var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -10,25 +10,10 @@ var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <
 
 if (isTouchDevice || !hasMouse || isLowEnd) {
   console.log('[hero-3d] skipped — touch/no-mouse/low-end');
-  return;
-}
-
-var hero = document.getElementById('hero');
-if (!hero) { console.log('[hero-3d] skipped — #hero not found'); return; }
-
-// Use importmap + dynamic import for a modern Three.js build
-// Falls back to the UMD script tag for older browsers
-function loadThree() {
-  var s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-  s.onload = function() {
-    console.log('[hero-3d] Three.js loaded, initializing...');
-    init();
-  };
-  s.onerror = function() {
-    console.warn('[hero-3d] Three.js CDN failed to load');
-  };
-  document.head.appendChild(s);
+} else {
+  var hero = document.getElementById('hero');
+  if (!hero) { console.log('[hero-3d] skipped — #hero not found'); }
+  else { init(); }
 }
 
 var scene, camera, renderer;
@@ -402,7 +387,3 @@ function animate() {
     renderer.render(scene, camera);
   } catch (e) { /* keep animating */ }
 }
-
-loadThree();
-
-})();

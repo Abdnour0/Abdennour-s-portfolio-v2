@@ -4,8 +4,8 @@
   "description": "Software Engineering Student & Full-Stack Developer based in Casablanca, Morocco.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#070d1a",
-  "theme_color": "#1ab8e8",
+  "background_color": "#080808",
+  "theme_color": "#080808",
   "orientation": "portrait-primary",
   "icons": [
     {

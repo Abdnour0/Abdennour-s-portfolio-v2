@@ -10,9 +10,11 @@ const STATIC_ASSETS = [
   '/js/script.js',
   '/js/i18n.js',
   '/js/hero-3d.js',
-  '/images/IMG_9858.webp',
-  '/images/nike shoes.webp',
-  '/images/photo.webp',
+  '/images/IMG_9858.jpg',
+  '/images/nike-shoes.png',
+  '/images/photo.jpg',
+  '/images/ElearningHubFrontImage.png',
+  '/images/ElearningHubBackImage.png',
   '/manifest.json'
 ];
 

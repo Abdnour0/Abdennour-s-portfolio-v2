@@ -20,17 +20,21 @@ var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <
 /* ── LENIS SMOOTH SCROLL (disabled on touch / low-end for perf) ────── */
 let lenis = null;
 if (hasMouse && !isLowEnd && !isTouchDevice) {
-  lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-    smoothWheel: true,
-    wheelMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
-    infinite: false,
-  });
+  try {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+  } catch (e) {
+    lenis = null;
+  }
 
   if (window.ScrollTrigger) {
     lenis.on('scroll', ScrollTrigger.update);
@@ -914,22 +918,6 @@ mobileLinks.forEach(link => {
     if (lenis) lenis.start();
     document.body.style.overflow = '';
   });
-});
-
-/* ── SMOOTH ANCHOR SCROLL ───────────────────────────────────────────── */
-document.addEventListener('click', function(e) {
-  var link = e.target.closest('a[href^="#"]');
-  if (!link) return;
-  var id = link.getAttribute('href');
-  if (id === '#' || !id) return;
-  var target = document.querySelector(id);
-  if (!target) return;
-  e.preventDefault();
-  if (lenis) {
-    lenis.scrollTo(target, { offset: -80, duration: 1.2 });
-  } else {
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
 });
 
 /* ── LIVE STATUS TIME ────────────────────────────────────────────────── */

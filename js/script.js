@@ -137,11 +137,12 @@ if (hasMouse && HAS_GSAP) {
 /* ── 3D TILT HOVER ON CARDS ──────────────────────────────────────────── */
 if (hasMouse && HAS_GSAP) {
   document.querySelectorAll('.service-card, .work-card, .cert-cell').forEach(function(card) {
-    var _tiltRAF = false, _tiltX = 0.5, _tiltY = 0.5;
+    var _tiltRAF = false, _tiltX = 0.5, _tiltY = 0.5, _tiltRect = null;
+    card.addEventListener('mouseenter', function() { _tiltRect = card.getBoundingClientRect(); });
     card.addEventListener('mousemove', function(e) {
-      var rect = card.getBoundingClientRect();
-      _tiltX = (e.clientX - rect.left) / rect.width;
-      _tiltY = (e.clientY - rect.top) / rect.height;
+      if (!_tiltRect) return;
+      _tiltX = (e.clientX - _tiltRect.left) / _tiltRect.width;
+      _tiltY = (e.clientY - _tiltRect.top) / _tiltRect.height;
       if (!_tiltRAF) {
         _tiltRAF = true;
         requestAnimationFrame(function() {
@@ -157,6 +158,7 @@ if (hasMouse && HAS_GSAP) {
       }
     });
     card.addEventListener('mouseleave', function() {
+      _tiltRect = null;
       gsap.to(card, {
         rotateX: 0,
         rotateY: 0,
@@ -996,8 +998,12 @@ function updateLiveTime() {
     }
   }
 }
-setInterval(updateLiveTime, 1000);
+var liveInterval = setInterval(updateLiveTime, 1000);
 updateLiveTime();
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) { clearInterval(liveInterval); }
+  else { liveInterval = setInterval(updateLiveTime, 1000); }
+});
 
 /* ── CONTACT FORM HANDLER ───────────────────────────────────────────── */
 const contactForm = document.getElementById('contact-form');

@@ -87,21 +87,14 @@ button { cursor: none; border: none; background: none; font-family: inherit; }
 body::before {
   content: '';
   position: fixed;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.028;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAYAAACI7Fo9AAAAAXNSR0IArs4c6QAAAPlJREFUeF7t2bkRwCAQxUCTfwsl0H8JhFACDul0czt7eHgYERkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAsQI/AKJ1wjHgk2xPgAAAABJRU5ErkJggg==");
+  opacity: 0.015;
   pointer-events: none;
   z-index: 9999;
-  animation: grain 2s steps(2) infinite;
-}
-@keyframes grain {
-  0%   { transform: translate(0, 0); }
-  25%  { transform: translate(-2%, 3%); }
-  50%  { transform: translate(3%, -1%); }
-  75%  { transform: translate(-1%, 2%); }
-  100% { transform: translate(2%, -2%); }
+  transform: translateZ(0);
 }
 
 /* ─── LOADER ──────────────────────────────────────────────────────────── */
@@ -223,8 +216,8 @@ body::before {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  transform: translate(-50%, -50%);
-  filter: blur(40px);
+  filter: blur(20px);
+  transform: translate(-50%, -50%) translateZ(0);
 }
 
 /* ─── LENIS ──────────────────────────────────────────────────────────── */
@@ -293,12 +286,11 @@ nav {
 #menu-toggle.active span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
 
 nav.scrolled {
-  background: rgba(8,8,8,0.82);
-  backdrop-filter: blur(14px);
+  background: rgba(8,8,8,0.95);
   border-bottom: 1px solid var(--border);
 }
 [data-theme="light"] nav.scrolled {
-  background: rgba(249,249,249,0.85);
+  background: rgba(249,249,249,0.95);
 }
 
 /* ─── LANG SWITCH SMOOTH TRANSITION ──────────────────────────────────── */
@@ -425,8 +417,9 @@ nav.scrolled {
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
+  filter: blur(60px);
   pointer-events: none;
+  transform: translateZ(0);
 }
 .blob-1 {
   width: 600px; height: 600px;
@@ -617,7 +610,7 @@ section:last-of-type::after { display: none; }
 }
 
 /* ─── SERVICES ────────────────────────────────────────────────────────── */
-#services { background: var(--bg); }
+#services { background: var(--bg); content-visibility: auto; contain-intrinsic-size: 700px; }
 
 .services-grid {
   display: grid;
@@ -629,6 +622,7 @@ section:last-of-type::after { display: none; }
 .service-card {
   display: flex;
   flex-direction: column;
+  contain: layout style paint;
   padding: 1.8rem;
   border-radius: 12px;
   background: var(--bg-3);
@@ -696,7 +690,7 @@ section:last-of-type::after { display: none; }
 }
 
 /* ─── WORK ────────────────────────────────────────────────────────────── */
-#work { background: var(--bg-2); }
+#work { background: var(--bg-2); content-visibility: auto; contain-intrinsic-size: 900px; }
 
 .work-header {
   display: flex; justify-content: space-between; align-items: flex-end;
@@ -749,7 +743,8 @@ section:last-of-type::after { display: none; }
   color: inherit;
   cursor: pointer;
   touch-action: manipulation;
-  will-change: transform;
+  will-change: auto; /* GSAP handles promotion during hover animation */
+  contain: layout style paint;
   background: var(--bg-2);
   border: 1px solid var(--border);
   transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
@@ -905,6 +900,7 @@ section:last-of-type::after { display: none; }
 /* ─── ABOUT ───────────────────────────────────────────────────────────── */
 #about {
   background: var(--bg);
+  content-visibility: auto; contain-intrinsic-size: 800px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6rem;
@@ -1036,6 +1032,7 @@ section:last-of-type::after { display: none; }
 /* ─── CLIENTS ─────────────────────────────────────────────────────────── */
 #certifications {
   background: var(--bg-2);
+  content-visibility: auto; contain-intrinsic-size: 500px;
   text-align: center;
 }
 .clients-intro {
@@ -1088,6 +1085,7 @@ section:last-of-type::after { display: none; }
 /* ─── EDUCATION TIMELINE ──────────────────────────────────────────────── */
 #timeline {
   background: var(--bg);
+  content-visibility: auto; contain-intrinsic-size: 600px;
   text-align: center;
   padding: 8rem 3rem;
 }
@@ -1240,8 +1238,7 @@ section:last-of-type::after { display: none; }
 }
 .word-wrap .word {
   display: inline-block;
-  /* GSAP sets initial y/opacity — no CSS override needed */
-  will-change: transform, opacity;
+  /* GSAP manages will-change during animation */
 }
 
 /* ─── CURSOR TRAIL ────────────────────────────────────────────────────── */
@@ -1366,6 +1363,7 @@ section:last-of-type::after { display: none; }
 /* ─── CONTACT ─────────────────────────────────────────────────────────── */
 #contact {
   background: var(--bg);
+  content-visibility: auto; contain-intrinsic-size: 900px;
   text-align: center;
   padding: 10rem 3rem;
 }
@@ -2200,9 +2198,7 @@ a, button, .work-card, .service-card, .cert-cell, .client-cell,
 
 /* ─── MOBILE / LOW-END PERF: disable heavy animations ────────────────── */
 @media (max-width: 768px) {
-  /* Disable grain overlay animation - constant repaints on mobile */
   body::before {
-    animation: none !important;
     opacity: 0.018;
   }
   /* Simplify blob animations - just static blur */
@@ -2319,6 +2315,7 @@ a, button, .work-card, .service-card, .cert-cell, .client-cell,
 #testimonials {
   padding: 6rem 3rem;
   background: var(--bg-2);
+  content-visibility: auto; contain-intrinsic-size: 400px;
   text-align: center;
   overflow: hidden;
 }

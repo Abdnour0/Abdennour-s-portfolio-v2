@@ -94,7 +94,7 @@ body::before {
   opacity: 0.028;
   pointer-events: none;
   z-index: 9999;
-  animation: grain 0.5s steps(2) infinite;
+  animation: grain 2s steps(2) infinite;
 }
 @keyframes grain {
   0%   { transform: translate(0, 0); }
@@ -225,17 +225,6 @@ body::before {
   z-index: -1;
   transform: translate(-50%, -50%);
   filter: blur(40px);
-}
-
-/* Hovering on work cards */
-.work-card:hover ~ #cursor {
-  width: 100px; height: 100px;
-  background: var(--gold);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 20px rgba(201,168,76,0.3);
-}
-.work-card:hover ~ #cursor-text {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
 }
 
 /* ─── LENIS ──────────────────────────────────────────────────────────── */
@@ -517,6 +506,7 @@ nav.scrolled {
   display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
   font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--muted);
+  animation: scrollBounce 2s ease-in-out infinite;
 }
 .hero-scroll-line {
   width: 1px; height: 60px; background: var(--border);
@@ -527,9 +517,6 @@ nav.scrolled {
   position: absolute; top: -100%; left: 0; right: 0; bottom: 0;
   background: var(--gold);
   animation: scrollDrop 1.8s var(--ease) 1.2s infinite;
-}
-.hero-scroll {
-  animation: scrollBounce 2s ease-in-out infinite;
 }
 @keyframes scrollBounce {
   0%, 100% { transform: translateY(0); }
@@ -624,10 +611,6 @@ section:last-of-type::after { display: none; }
 .reveal {
   opacity: 1; /* Ensure text is visible by default */
   transform: none; /* Reset transform to avoid layout shifts */
-}
-.reveal.visible {
-  opacity: 1;
-  transform: none;
 }
 .reveal-delay-1, .reveal-delay-2, .reveal-delay-3, .reveal-delay-4 {
   transition-delay: 0s; /* Reset CSS delays to let GSAP handle it */

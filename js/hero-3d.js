@@ -1,27 +1,32 @@
-/* ── 3D FLOATING TECH LOGOS ──────────────────────────────────────── */
-/* Three.js scene with 3D tech brand logos floating in hero bg      */
-/* Disabled on touch / low-end devices for performance              */
-
-import * as THREE from 'three';
-
 var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
 
+(function() {
 if (isTouchDevice || !hasMouse || isLowEnd) {
-  console.log('[hero-3d] skipped — touch/no-mouse/low-end');
-} else {
-  var hero = document.getElementById('hero');
-  if (!hero) { console.log('[hero-3d] skipped — #hero not found'); }
-  else { init(); }
+  return;
 }
 
+var hero = document.getElementById('hero');
+if (!hero) { return; }
+
+var THREE = null;
 var scene, camera, renderer;
 var logos = [];
 var mouseX = 0, mouseY = 0;
-var animId;
+var animId = null;
+var stopped = false;
 
-/* ── CANVAS LOGO DRAWERS (for texture-based logos) ──────────────── */
+var TEXTURE_DRAWERS = [
+  drawDjango, drawLaravel, drawPython, drawJS, drawTS,
+  drawGit, drawDocker, drawNode
+];
+
+var TEXTURE_NAMES = [
+  'Django', 'Laravel', 'Python', 'JS', 'TS',
+  'Git', 'Docker', 'Node'
+];
+
 var SIZE = 128;
 var HALF = SIZE / 2;
 
@@ -135,12 +140,10 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-/* ── 3D LOGO BUILDERS ───────────────────────────────────────────── */
 function buildReactLogo() {
   var group = new THREE.Group();
   var gold = 0x61dafb;
 
-  // Outer ring (torus)
   var torus = new THREE.Mesh(
     new THREE.TorusGeometry(0.8, 0.04, 16, 48),
     new THREE.MeshStandardMaterial({ color: gold, emissive: gold, emissiveIntensity: 0.15, transparent: true, opacity: 0.7 })
@@ -148,7 +151,6 @@ function buildReactLogo() {
   torus.rotation.x = Math.PI / 2;
   group.add(torus);
 
-  // Three orbital rings as flattened tubes
   var angles = [0, Math.PI / 3, -Math.PI / 3];
   var tubeMat = new THREE.MeshStandardMaterial({ color: gold, emissive: gold, emissiveIntensity: 0.1, transparent: true, opacity: 0.5 });
   angles.forEach(function(a) {
@@ -162,7 +164,6 @@ function buildReactLogo() {
     group.add(ring);
   });
 
-  // Center sphere
   var dot = new THREE.Mesh(
     new THREE.SphereGeometry(0.1, 12, 12),
     new THREE.MeshStandardMaterial({ color: gold, emissive: gold, emissiveIntensity: 0.2 })
@@ -194,7 +195,6 @@ function buildVueLogo() {
   var outer = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0x42b883, emissive: 0x42b883, emissiveIntensity: 0.1, metalness: 0.3, roughness: 0.4 }));
   group.add(outer);
 
-  // secondary inner V (dark)
   var innerShape = new THREE.Shape();
   innerShape.moveTo(0, 0.9);
   innerShape.lineTo(0.25, -0.6);
@@ -208,16 +208,6 @@ function buildVueLogo() {
 
   return group;
 }
-
-var TEXTURE_DRAWERS = [
-  drawDjango, drawLaravel, drawPython, drawJS, drawTS,
-  drawGit, drawDocker, drawNode
-];
-
-var TEXTURE_NAMES = [
-  'Django', 'Laravel', 'Python', 'JS', 'TS',
-  'Git', 'Docker', 'Node'
-];
 
 function createLogoTexture(drawFn) {
   var canvas = document.createElement('canvas');
@@ -239,7 +229,6 @@ function buildBoxLogo(tex, opacity) {
     color: 0x222222, transparent: true, opacity: opacity * 0.5,
     metalness: 0.1, roughness: 0.8
   });
-  // BoxGeometry face order: +x, -x, +y, -y, +z, -z
   var mats = [sideMat, sideMat, sideMat, sideMat, frontMat, frontMat];
   var geo = new THREE.BoxGeometry(1, 1, 0.15);
   return new THREE.Mesh(geo, mats);
@@ -256,11 +245,10 @@ function init() {
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(w, h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.domElement.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;';
   hero.insertBefore(renderer.domElement, hero.firstChild);
 
-  // Lights for 3D shading
   var ambient = new THREE.AmbientLight(0xffffff, 0.4);
   scene.add(ambient);
   var key = new THREE.DirectionalLight(0xc9a84c, 0.8);
@@ -270,7 +258,6 @@ function init() {
   fill.position.set(-3, 1, 3);
   scene.add(fill);
 
-  // Vue + React use custom geometry groups
   var customBuilders = [
     { fn: buildVueLogo, name: 'Vue' },
     { fn: buildReactLogo, name: 'React' }
@@ -308,7 +295,6 @@ function init() {
     logos.push(group);
   });
 
-  // Texture-based logos use 3D BoxGeometry
   for (var i = 0; i < TEXTURE_DRAWERS.length; i++) {
     var tex = createLogoTexture(TEXTURE_DRAWERS[i]);
     var opacity = 0.55 + Math.random() * 0.3;
@@ -346,14 +332,40 @@ function init() {
   document.addEventListener('mousemove', onMove);
   window.addEventListener('resize', onResize);
   window.addEventListener('pageshow', function(pe) {
-    if (pe.persisted && renderer) { renderer.render(scene, camera); }
+    if (pe.persisted && renderer && !stopped) { renderer.render(scene, camera); }
   });
+
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        stopped = false;
+        if (animId === null) animate();
+      } else {
+        stopped = true;
+        if (animId !== null) {
+          cancelAnimationFrame(animId);
+          animId = null;
+        }
+      }
+    });
+  }, { threshold: 0 });
+  obs.observe(hero);
+
   animate();
 }
 
+var _rafPending = false, _lastMX = 0, _lastMY = 0;
 function onMove(e) {
-  mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-  mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+  _lastMX = (e.clientX / window.innerWidth) * 2 - 1;
+  _lastMY = -(e.clientY / window.innerHeight) * 2 + 1;
+  if (!_rafPending) {
+    _rafPending = true;
+    requestAnimationFrame(function() {
+      mouseX = _lastMX;
+      mouseY = _lastMY;
+      _rafPending = false;
+    });
+  }
 }
 
 function onResize() {
@@ -366,6 +378,7 @@ function onResize() {
 }
 
 function animate() {
+  if (stopped) { animId = null; return; }
   animId = requestAnimationFrame(animate);
   try {
     var t = Date.now() * 0.001;
@@ -385,5 +398,12 @@ function animate() {
     camera.position.y += (mouseY * 0.8 - camera.position.y) * 0.015;
     camera.lookAt(0, 0, 0);
     renderer.render(scene, camera);
-  } catch (e) { /* keep animating */ }
+  } catch (e) {}
 }
+
+import('three').then(function(mod) {
+  THREE = mod.default || mod;
+  init();
+});
+
+})();

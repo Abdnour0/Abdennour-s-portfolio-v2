@@ -80,7 +80,7 @@ const cursorText = document.getElementById('cursor-text');
 const cursorGlow = document.getElementById('cursor-glow');
 
 if (hasMouse && cursor) {
-var mx = 0, my = 0;
+var mx = 0, my = 0, _cursorRAF = false;
 
 if (HAS_GSAP) {
   gsap.set([cursor, ring, cursorText, cursorGlow], { xPercent: -50, yPercent: -50 });
@@ -89,18 +89,23 @@ if (HAS_GSAP) {
 document.addEventListener('mousemove', function(e) {
   mx = e.clientX;
   my = e.clientY;
-
-  if (HAS_GSAP) {
-    gsap.to(cursor,     { x: mx, y: my, duration: 0.1, ease: 'power2.out' });
-    gsap.to(cursorText, { x: mx, y: my, duration: 0.1, ease: 'power2.out' });
-    gsap.to(cursorGlow, { x: mx, y: my, duration: 0.6, ease: 'power2.out' });
-    gsap.to(ring,       { x: mx, y: my, duration: 0.3, ease: 'power2.out' });
-  } else {
-    var p = 'translate(' + mx + 'px, ' + my + 'px) translate(-50%, -50%)';
-    cursor.style.transform     = p;
-    cursorText.style.transform = p;
-    cursorGlow.style.transform = p;
-    ring.style.transform       = p;
+  if (!_cursorRAF) {
+    _cursorRAF = true;
+    requestAnimationFrame(function() {
+      _cursorRAF = false;
+      if (HAS_GSAP) {
+        gsap.to(cursor,     { x: mx, y: my, duration: 0.1, ease: 'power2.out' });
+        gsap.to(cursorText, { x: mx, y: my, duration: 0.1, ease: 'power2.out' });
+        gsap.to(cursorGlow, { x: mx, y: my, duration: 0.6, ease: 'power2.out' });
+        gsap.to(ring,       { x: mx, y: my, duration: 0.3, ease: 'power2.out' });
+      } else {
+        var p = 'translate(' + mx + 'px, ' + my + 'px) translate(-50%, -50%)';
+        cursor.style.transform     = p;
+        cursorText.style.transform = p;
+        cursorGlow.style.transform = p;
+        ring.style.transform       = p;
+      }
+    });
   }
 });
 } // end cursor (desktop only)
@@ -115,29 +120,41 @@ if (hasMouse && HAS_GSAP) {
     trail.push(dot);
     gsap.set(dot, { opacity: 0 });
   }
-  var ti = 0;
+  var ti = 0, _trailRAF = false;
   document.addEventListener('mousemove', function(e) {
-    var dot = trail[ti % trail.length];
-    gsap.set(dot, { x: e.clientX, y: e.clientY, opacity: 0.6, scale: 1 });
-    gsap.to(dot, { opacity: 0, scale: 0.2, duration: 0.6, ease: 'power2.out' });
-    ti++;
+    if (_trailRAF) return;
+    _trailRAF = true;
+    requestAnimationFrame(function() {
+      _trailRAF = false;
+      var dot = trail[ti % trail.length];
+      gsap.set(dot, { x: e.clientX, y: e.clientY, opacity: 0.6, scale: 1 });
+      gsap.to(dot, { opacity: 0, scale: 0.2, duration: 0.6, ease: 'power2.out' });
+      ti++;
+    });
   });
 }
 
 /* ── 3D TILT HOVER ON CARDS ──────────────────────────────────────────── */
 if (hasMouse && HAS_GSAP) {
   document.querySelectorAll('.service-card, .work-card, .cert-cell').forEach(function(card) {
+    var _tiltRAF = false, _tiltX = 0.5, _tiltY = 0.5;
     card.addEventListener('mousemove', function(e) {
       var rect = card.getBoundingClientRect();
-      var x = (e.clientX - rect.left) / rect.width;
-      var y = (e.clientY - rect.top) / rect.height;
-      gsap.to(card, {
-        rotateX: (y - 0.5) * -12,
-        rotateY: (x - 0.5) * 12,
-        transformPerspective: 800,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
+      _tiltX = (e.clientX - rect.left) / rect.width;
+      _tiltY = (e.clientY - rect.top) / rect.height;
+      if (!_tiltRAF) {
+        _tiltRAF = true;
+        requestAnimationFrame(function() {
+          _tiltRAF = false;
+          gsap.to(card, {
+            rotateX: (_tiltY - 0.5) * -12,
+            rotateY: (_tiltX - 0.5) * 12,
+            transformPerspective: 800,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        });
+      }
     });
     card.addEventListener('mouseleave', function() {
       gsap.to(card, {
@@ -212,7 +229,7 @@ const projectData = {
     challenge: "Managing complex state transitions for student progress across multiple modules and ensuring data persistence during session timeouts.",
     solution: "Utilized Vuex for centralized state management and implemented a background sync service to periodically save student progress without interrupting the user experience.",
     role: "Full-Stack Developer",
-    img: 'images/ElearningHubBackImage.png',
+    img: new URL('../images/ElearningHubBackImage.png', import.meta.url).href,
     gradient: "linear-gradient(135deg, #00101a 0%, #003d5c 40%, #4cc9c5 100%)",
     link: "https://github.com/Abdnour0",
     tag: "Laravel · Vue.js · 2024"
@@ -547,21 +564,26 @@ if (!isTouchDevice) {
 
     el.addEventListener('mousemove', e => {
       if (!cachedRect) return;
-      const x = e.clientX - cachedRect.left - cachedRect.width / 2;
-      const y = e.clientY - cachedRect.top - cachedRect.height / 2;
+      const mx = e.clientX - cachedRect.left - cachedRect.width / 2;
+      const my = e.clientY - cachedRect.top - cachedRect.height / 2;
 
-      gsap.to(el, {
-        x: x * 0.35,
-        y: y * 0.35,
-        duration: 0.4,
-        ease: "power2.out",
-        overwrite: "auto"
-      });
-      
-      gsap.to(ring, {
-        scale: 1.5,
-        duration: 0.3
-      });
+      if (!el._magRAF) {
+        el._magRAF = true;
+        requestAnimationFrame(() => {
+          el._magRAF = false;
+          gsap.to(el, {
+            x: mx * 0.35,
+            y: my * 0.35,
+            duration: 0.4,
+            ease: "power2.out",
+            overwrite: "auto"
+          });
+          gsap.to(ring, {
+            scale: 1.5,
+            duration: 0.3
+          });
+        });
+      }
     });
 
     el.addEventListener('mouseleave', () => {
@@ -766,7 +788,6 @@ if (filterBtns.length && workGrid) {
   });
 } // end if filterBtns.length
 
-/* ── SECTION PROGRESS NAV ────────────────────────────────────────────── */
 /* ── TESTIMONIALS CAROUSEL ───────────────────────────────────────────── */
 (function initTestimonials() {
   var track = document.querySelector('.testimonials-track');

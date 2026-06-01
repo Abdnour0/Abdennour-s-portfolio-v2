@@ -50,7 +50,9 @@ const i18nSelectors = {
   t4Year: "#timeline .timeline-item:nth-child(5) .timeline-year", t4Title: "#timeline .timeline-item:nth-child(5) .timeline-title", t4Desc: "#timeline .timeline-item:nth-child(5) .timeline-desc",
   t5Year: "#timeline .timeline-item:nth-child(6) .timeline-year", t5Title: "#timeline .timeline-item:nth-child(6) .timeline-title", t5Desc: "#timeline .timeline-item:nth-child(6) .timeline-desc",
   t6Year: "#timeline .timeline-item:nth-child(7) .timeline-year", t6Title: "#timeline .timeline-item:nth-child(7) .timeline-title", t6Desc: "#timeline .timeline-item:nth-child(7) .timeline-desc",
-  t7Year: "#timeline .timeline-item:nth-child(8) .timeline-year", t7Title: "#timeline .timeline-item:nth-child(8) .timeline-title", t7Desc: "#timeline .timeline-item:nth-child(8) .timeline-desc"
+  t7Year: "#timeline .timeline-item:nth-child(8) .timeline-year", t7Title: "#timeline .timeline-item:nth-child(8) .timeline-title", t7Desc: "#timeline .timeline-item:nth-child(8) .timeline-desc",
+  modalTech: ".info-item:nth-child(1) .info-label", modalRole: ".info-item:nth-child(2) .info-label",
+  modalChallenge: ".modal-case-study .case-item:nth-child(1) .info-label", modalSolution: ".modal-case-study .case-item:nth-child(2) .info-label"
 };
 
 const translations = {
@@ -104,6 +106,7 @@ const translations = {
     t5Year: "2025", t5Title: "OOP in C++ — EPFL", t5Desc: "Completed the Introduction to Object-Oriented Programming (C++) course by EPFL on Coursera, deepening my understanding of software design principles.",
     t6Year: "2026", t6Title: "JavaScript, jQuery & JSON — EMSI", t6Desc: "Earned a verified certification in JavaScript fundamentals from EMSI, reinforcing my front-end development expertise.",
     t7Year: "2028", t7Title: "Expected Graduation", t7Desc: "On track to graduate with a full <strong>Software Engineering degree</strong> from EMSI — ready to build the future.",
+    modalTech: "Tech Stack", modalRole: "Role", modalChallenge: "The Challenge", modalSolution: "The Solution",
   },
   fr: {
     navAbout: "À propos", navSkills: "Compétences", navProjects: "Projets", navTimeline: "Parcours", navCerts: "Certifications", navContact: "Contact", navHire: "Recrutez-moi",
@@ -155,6 +158,7 @@ const translations = {
     t5Year: "2025", t5Title: "POO en C++ — EPFL", t5Desc: "Cours Introduction à la Programmation Orientée Objet (C++) par EPFL sur Coursera, approfondissant ma compréhension des principes de conception logicielle.",
     t6Year: "2026", t6Title: "JavaScript, jQuery & JSON — EMSI", t6Desc: "Certification vérifiée en JavaScript fondamentaux d'EMSI, renforçant mon expertise en développement front-end.",
     t7Year: "2028", t7Title: "Diplôme Prévu", t7Desc: "En voie d'obtenir mon <strong>diplôme d'ingénieur en génie logiciel</strong> d'EMSI — prêt à construire l'avenir.",
+    modalTech: "Technologies", modalRole: "Rôle", modalChallenge: "Le Défi", modalSolution: "La Solution",
   },
   ar: {
     navAbout: "نبذة", navSkills: "مهارات", navProjects: "مشاريع", navTimeline: "المسار", navCerts: "الشهادات", navContact: "اتصال", navHire: "وظفني",
@@ -206,6 +210,7 @@ const translations = {
     t5Year: "2025", t5Title: "البرمجة كائنية التوجه C++ — EPFL", t5Desc: "أكملت دورة مقدمة في البرمجة كائنية التوجه بلغة C++ من EPFL على Coursera، مما عزز فهمي لمبادئ تصميم البرمجيات.",
     t6Year: "2026", t6Title: "جافا سكريبت و jQuery و JSON — EMSI", t6Desc: "حصلت على شهادة معتمدة في أساسيات جافا سكريبت من EMSI، مما عزز خبرتي في تطوير الواجهات الأمامية.",
     t7Year: "2028", t7Title: "التخرج المتوقع", t7Desc: "في طريقي للتخرج بشهادة <strong>هندسة البرمجيات</strong> من EMSI — مستعد لبناء المستقبل.",
+    modalTech: "التقنيات", modalRole: "الدور", modalChallenge: "التحدي", modalSolution: "الحل",
   }
 };
 
@@ -345,6 +350,12 @@ function applyTranslation(lang) {
   document.querySelectorAll('[data-i18n-alt]').forEach(function(img) {
     var key = img.getAttribute('data-i18n-alt');
     if (langTranslations[key]) img.setAttribute('alt', langTranslations[key]);
+  });
+
+  // Update placeholders on form inputs with data-i18n-placeholder
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(input) {
+    var key = input.getAttribute('data-i18n-placeholder');
+    if (langTranslations[key]) input.setAttribute('placeholder', langTranslations[key]);
   });
 
   // Re-init typed.js via custom event 

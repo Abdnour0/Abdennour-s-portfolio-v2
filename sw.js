@@ -1,39 +1,23 @@
 /* ── SERVICE WORKER — Cache-first for static shell ─────────────────── */
-/* Increment SW_VERSION to force re-cache on deploy */
-const SW_VERSION = '2026-05-31-2';
+const SW_VERSION = '2026-06-01-1';
 const CACHE_NAME = 'ag-portfolio-' + SW_VERSION;
-const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/404.html',
-  '/css/style.css',
-  '/js/script.js',
-  '/js/i18n.js',
-  '/js/hero-3d.js',
-  '/images/IMG_9858.jpg',
-  '/images/nike-shoes.png',
-  '/images/photo.jpg',
-  '/images/ElearningHubFrontImage.png',
-  '/images/ElearningHubBackImage.png',
-  '/manifest.json'
-];
 
-/* Install: pre-cache all shell assets */
+/* Install: just take control, no pre-cache (Vite hashes filenames) */
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
-  );
   self.skipWaiting();
 });
 
-/* Activate: delete old caches */
+/* Activate: delete old caches and claim clients */
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
+      Promise.all(
+        keys
+          .filter(k => k.startsWith('ag-portfolio-') && k !== CACHE_NAME)
+          .map(k => caches.delete(k))
+      )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 /* Fetch: cache-first for same-origin, network-only for 3rd party */
@@ -41,23 +25,19 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip cross-origin requests (fonts, CDN scripts)
   if (url.origin !== location.origin) return;
+  if (request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(request).then(cached => {
       if (cached) return cached;
       return fetch(request).then(response => {
-        // Only cache successful GET responses
-        if (!response || response.status !== 200 || request.method !== 'GET') {
-          return response;
-        }
+        if (!response || response.status !== 200) return response;
         const clone = response.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
         return response;
       });
     }).catch(() => {
-      // Offline fallback — return cached index.html
       if (request.destination === 'document') {
         return caches.match('/index.html');
       }

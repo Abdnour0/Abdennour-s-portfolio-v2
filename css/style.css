@@ -1853,14 +1853,14 @@ section:last-of-type::after { display: none; }
 }
 
 @media (max-width: 768px) {
-  nav { padding: 1rem 1.2rem; flex-wrap: nowrap; gap: 0.5rem; justify-content: space-between; overflow: hidden; }
+  nav { padding: 1rem 1.2rem; flex-wrap: nowrap; gap: 0.5rem; justify-content: space-between; }
   .nav-links { display: none; }
   #menu-toggle { display: flex; flex-shrink: 0; }
-  .nav-right { gap: 0.75rem; margin-left: auto; flex: 0 0 auto; max-width: 50%; justify-content: flex-end; }
-  .nav-cta, #theme-toggle { flex-shrink: 0; }
+  .nav-right { gap: 0.5rem; flex: 0 0 auto; justify-content: flex-end; align-items: center; }
+  .nav-cta, #theme-toggle { flex-shrink: 0; white-space: nowrap; }
   section { padding: 5rem 1.5rem; }
-  /* Nav left: Stack logo and live-status on mobile */
-  .nav-left { flex-direction: column; align-items: flex-start; gap: 0.3rem; flex: 0 0 auto; max-width: 50%; }
+  /* Nav left: shrinks to give nav-right all the space it needs */
+  .nav-left { flex-direction: column; align-items: flex-start; gap: 0.25rem; flex: 1 1 0; min-width: 0; overflow: hidden; }
   .live-status {
     display: inline-flex;
     padding: 0.2rem 0.5rem;

@@ -1,11 +1,9 @@
 var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
-var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) || !window.requestIdleCallback;
 
 (function() {
-// Skip on low-end devices AND iOS (WebGL throttling causes jank/black canvas on Safari)
-if (isLowEnd || isIOS) {
+if (isLowEnd) {
   return;
 }
 

@@ -18,7 +18,7 @@ if (!HAS_GSAP) {
 var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 // Only check for fine pointer (mouse) ΓÇö touch-capable laptops should not be treated as touch-only
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
+var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) || !window.requestIdleCallback;
 
 /* ΓöÇΓöÇ LENIS SMOOTH SCROLL (disabled on touch / low-end for perf) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 let lenis = null;

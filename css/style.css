@@ -114,21 +114,29 @@ body::before {
   to { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 }
 .loader-content {
-  text-align: center;
+  position: relative;
   width: 200px;
+  height: 120px;
 }
 .loader-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: var(--font-disp);
   font-size: 4rem;
   color: var(--gold);
-  margin-bottom: 1rem;
+  white-space: nowrap;
 }
 .loader-line {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   height: 2px;
   background: var(--gold);
   width: 0;
-  margin: 0 auto;
-  animation: loaderFill 2.7s ease-in-out forwards; /* synced with JS 2.8s minimum wait */
+  animation: loaderFill 2.7s ease-in-out forwards;
 }
 @keyframes loaderFill {
   to { width: 100%; }

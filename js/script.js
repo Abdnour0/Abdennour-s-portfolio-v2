@@ -724,12 +724,13 @@ if (filterBtns.length && workGrid) {
             c.classList.remove('blurred', 'filtered-visible');
             c.style.pointerEvents = '';
           });
-          gsap.fromTo(cards,
-            { opacity: 0, y: 10, filter: 'blur(4px) grayscale(40%)' },
-            { opacity: 1, y: 0, filter: 'blur(0px) grayscale(0%)', duration: 0.35, stagger: 0.04, ease: 'power2.out', onComplete: function(){
-              isFiltering = false;
-            } }
-          );
+            gsap.fromTo(cards,
+              { opacity: 0, y: 10, filter: 'blur(4px) grayscale(40%)' },
+              { opacity: 1, y: 0, filter: 'blur(0px) grayscale(0%)', duration: 0.35, stagger: 0.04, ease: 'power2.out', onComplete: function(){
+                isFiltering = false;
+                if (window.ScrollTrigger) ScrollTrigger.refresh();
+              } }
+            );
           return;
         }
 
@@ -763,13 +764,14 @@ if (filterBtns.length && workGrid) {
             stagger: 0.04,
             ease: 'power2.out',
             onComplete: function(){
-              isFiltering = false;
-              ordered.forEach(function(c){
-                c.querySelectorAll('img[loading="lazy"]').forEach(function(img){
-                  if (!img.complete) { img.loading = 'eager'; }
+                isFiltering = false;
+                ordered.forEach(function(c){
+                  c.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+                    if (!img.complete) { img.loading = 'eager'; }
+                  });
                 });
-              });
-            }
+                if (window.ScrollTrigger) ScrollTrigger.refresh();
+              }
           }
         );
       }

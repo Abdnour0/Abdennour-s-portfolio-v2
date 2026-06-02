@@ -1,4 +1,4 @@
-const SW_VERSION = '2026-06-01-2';
+const SW_VERSION = '2026-06-02-1';
 const CACHE_NAME = 'ag-portfolio-' + SW_VERSION;
 const CORE_ASSETS = ['/', '/index.html', '/404.html', '/manifest.json'];
 

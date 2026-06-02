@@ -78,7 +78,7 @@
       <div class="loader-line"></div>
     </div>
   </div>
-  <script>(function(){var l=document.getElementById('loader');if(!l)return;if(sessionStorage.getItem('visited')){l.style.display='none';return}sessionStorage.setItem('visited','1');var start=Date.now();function h(){if(l.classList.contains('loaded'))return;var elapsed=Date.now()-start;var remaining=Math.max(0,2800-elapsed);setTimeout(function(){l.classList.add('loaded');setTimeout(function(){l.classList.add('hidden')},1500)},remaining)}window.addEventListener('load',h);setTimeout(h,5000)})()</script>
+  <script>(function(){var l=document.getElementById('loader');if(!l)return;if(sessionStorage.getItem('visited')){l.style.display='none';return}sessionStorage.setItem('visited','1');var start=Date.now();function h(){if(l.classList.contains('loaded'))return;var elapsed=Date.now()-start;var remaining=Math.max(0,2800-elapsed);setTimeout(function(){l.classList.add('loaded');setTimeout(function(){l.classList.add('hidden')},1500)},remaining)}if(document.readyState==='complete'){h()}else{window.addEventListener('load',h)}setTimeout(h,5000)})()</script>
 
   <!-- Scroll Progress -->
   <div id="scroll-progress"></div>

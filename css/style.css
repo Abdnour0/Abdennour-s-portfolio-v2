@@ -119,6 +119,7 @@ body::before {
   align-items: center;
   justify-content: center;
   width: 200px;
+  position: relative;
 }
 .loader-logo {
   font-family: var(--font-disp);
@@ -128,17 +129,19 @@ body::before {
   text-align: center;
   width: 100%;
   margin: 0;
-  margin-bottom: 1.2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   letter-spacing: 0;
 }
 .loader-line {
+  position: absolute;
+  bottom: -1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
   height: 2px;
   background: var(--gold);
   width: 0;
-  margin: 0 auto;
   animation: loaderFill 2.7s ease-in-out forwards;
 }
 @keyframes loaderFill {
@@ -2133,7 +2136,7 @@ section:last-of-type::after { display: none; }
   /* Nav on very small phones: tighten further */
   .nav-logo { font-size: 1.1rem; }
   .nav-cta { font-size: 0.62rem; padding: 0.4rem 0.75rem; }
-  .live-status { padding: 0.2rem 0.5rem; }
+  .live-status { display: none; }
 
   .contact-eyebrow { margin-bottom: 1rem; }
   .contact-headline { font-size: clamp(2.4rem, 12vw, 3.8rem); }

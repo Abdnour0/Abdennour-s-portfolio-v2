@@ -3,7 +3,7 @@ var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
 
 (function() {
-if (isTouchDevice || !hasMouse || isLowEnd) {
+if (isLowEnd) {
   return;
 }
 
@@ -240,12 +240,14 @@ function init() {
   var w = hero.clientWidth;
   var h = hero.clientHeight;
 
-  camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100);
-  camera.position.set(0, 0, 14);
+  var isMobile = isTouchDevice || !hasMouse;
 
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100);
+  camera.position.set(0, 0, isMobile ? 16 : 14);
+
+  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile });
   renderer.setSize(w, h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
   renderer.domElement.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;';
   hero.insertBefore(renderer.domElement, hero.firstChild);
 
@@ -295,7 +297,8 @@ function init() {
     logos.push(group);
   });
 
-  for (var i = 0; i < TEXTURE_DRAWERS.length; i++) {
+  var texStep = isMobile ? 2 : 1;
+  for (var i = 0; i < TEXTURE_DRAWERS.length; i += texStep) {
     var tex = createLogoTexture(TEXTURE_DRAWERS[i]);
     var opacity = 0.55 + Math.random() * 0.3;
     var mesh = buildBoxLogo(tex, opacity);

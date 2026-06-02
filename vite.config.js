@@ -5,6 +5,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     minify: 'esbuild',
+    chunkSizeWarningLimit: 800,
     cssCodeSplit: false,
     rollupOptions: {
       input: { main: './index.html' },

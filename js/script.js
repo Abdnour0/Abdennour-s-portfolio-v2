@@ -1,3 +1,6 @@
+import './i18n.js';
+import './hero-3d.js';
+
 /* ── GSAP SETUP ──────────────────────────────────────────────────────── */
 const HAS_GSAP = typeof gsap !== 'undefined';
 if (!HAS_GSAP) {
@@ -504,6 +507,8 @@ document.addEventListener('langChanged', (e) => {
 });
 
 /* ── BFCACHE FIX ──────────────────────────────────────────────────────── */
+// When restoring from bfcache, just ensure visibility — don't re-trigger
+// the entrance animation, which would cause a flash.
 window.addEventListener('pageshow', (e) => {
   if (e.persisted) {
     initTyped(currentLang);
@@ -513,31 +518,11 @@ window.addEventListener('pageshow', (e) => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
+    var h = document.querySelector('.hero-headline');
+    if (h) h.style.opacity = '1';
     if (window.gsap && window.ScrollTrigger) {
       ScrollTrigger.refresh();
     }
-    // Re-trigger hero entrance timeline after a frame
-    clearTimeout(heroSafetyTimer);
-    requestAnimationFrame(function() {
-      if (!isLowEnd) {
-        gsap.set(".hero-headline .line-inner", { y: "110%", opacity: 0 });
-        var heroTl = gsap.timeline();
-        heroTl.to(".hero-headline", { opacity: 1, duration: 0.01 }, 0);
-        heroTl.to(".hero-headline .line-inner", {
-          y: "0%",
-          opacity: 1,
-          duration: 0.9,
-          stagger: 0.15,
-          ease: "power3.out"
-        }, 0.35);
-      }
-      heroSafetyTimer = setTimeout(function() {
-        document.querySelectorAll('.hero-headline .line-inner').forEach(function(el) {
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-        });
-      }, 2000);
-    });
   }
 });
 
@@ -658,6 +643,7 @@ if (window.gsap && window.ScrollTrigger) {
 
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────────────── */
 // Hero Section Parallax (disabled on mobile to prevent title overlap)
+// Subtle y movement only — headline stays fully visible (avoids "disappears on scroll" issue)
 if (window.innerWidth > 768) {
   gsap.to(".hero-headline", {
     scrollTrigger: {
@@ -666,8 +652,7 @@ if (window.innerWidth > 768) {
       end: "bottom top",
       scrub: true
     },
-    y: -50,
-    opacity: 0
+    y: -80
   });
 }
 

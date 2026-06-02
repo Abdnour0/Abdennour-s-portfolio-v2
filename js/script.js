@@ -1,7 +1,7 @@
-import './i18n.js';
+﻿import './i18n.js';
 import './hero-3d.js';
 
-/* ── GSAP SETUP ──────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ GSAP SETUP ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const HAS_GSAP = typeof gsap !== 'undefined';
 if (!HAS_GSAP) {
   window.gsap = { to:function(){}, from:function(){}, fromTo:function(){}, set:function(){}, killTweensOf:function(){}, registerPlugin:function(){} };
@@ -14,18 +14,13 @@ if (!HAS_GSAP) {
   try { gsap.registerPlugin(ScrollTrigger); } catch (e) {}
 }
 
-/* ── SAFE STORAGE WRAPPER (Safari Private Mode guard) ────────────────── */
-const safeStorage = {
-  get: function(k, def) { try { return localStorage.getItem(k) || (def !== undefined ? def : null); } catch(e) { return def !== undefined ? def : null; } },
-  set: function(k, v)   { try { localStorage.setItem(k, v); } catch(e) {} }
-};
-
-/* ── PERFORMANCE DETECTION ───────────────────────────────────────────── */
+/* ΓöÇΓöÇ PERFORMANCE DETECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+// Only check for fine pointer (mouse) ΓÇö touch-capable laptops should not be treated as touch-only
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
 
-/* ── LENIS SMOOTH SCROLL (disabled on touch / low-end for perf) ────── */
+/* ΓöÇΓöÇ LENIS SMOOTH SCROLL (disabled on touch / low-end for perf) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 let lenis = null;
 if (hasMouse && !isLowEnd && !isTouchDevice) {
   try {
@@ -58,7 +53,7 @@ if (hasMouse && !isLowEnd && !isTouchDevice) {
   }
 }
 
-/* ── SCROLL PROGRESS ─────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ SCROLL PROGRESS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const scrollProgress = document.getElementById('scroll-progress');
 var bttRing = document.querySelector('.btt-ring circle:last-child');
 var bttRingR = bttRing ? parseFloat(bttRing.getAttribute('r')) || 16 : 16;
@@ -81,7 +76,7 @@ if (lenis) {
   window.addEventListener('scroll', updateScrollProgress, { passive: true });
 }
 
-/* ── CURSOR (mouse only) ─────────────────────────────────────────────── */
+/* ΓöÇΓöÇ CURSOR (mouse only) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursor-ring');
 const cursorText = document.getElementById('cursor-text');
@@ -116,9 +111,9 @@ document.addEventListener('mousemove', function(e) {
     });
   }
 });
-}
+} // end cursor (desktop only)
 
-/* ── CURSOR TRAIL ────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ CURSOR TRAIL ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 if (hasMouse && HAS_GSAP) {
   var trail = [];
   for (var i = 0; i < 12; i++) {
@@ -142,7 +137,7 @@ if (hasMouse && HAS_GSAP) {
   });
 }
 
-/* ── 3D TILT HOVER ON CARDS ──────────────────────────────────────────── */
+/* ΓöÇΓöÇ 3D TILT HOVER ON CARDS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 if (hasMouse && HAS_GSAP) {
   document.querySelectorAll('.service-card, .work-card, .cert-cell').forEach(function(card) {
     var _tiltRAF = false, _tiltX = 0.5, _tiltY = 0.5, _tiltRect = null;
@@ -177,7 +172,7 @@ if (hasMouse && HAS_GSAP) {
   });
 }
 
-/* ── ABOUT IMAGE PARALLAX ────────────────────────────────────────────── */
+/* ΓöÇΓöÇ ABOUT IMAGE PARALLAX ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 if (window.gsap && window.ScrollTrigger && !isTouchDevice) {
   var aboutImg = document.querySelector('.about-img-wrap');
   if (aboutImg) {
@@ -196,7 +191,7 @@ if (window.gsap && window.ScrollTrigger && !isTouchDevice) {
   }
 }
 
-/* ── PROJECT MODALS ─────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ PROJECT MODALS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const modalLink = document.getElementById('modal-link');
 if (modalLink) {
   modalLink.addEventListener('mouseenter', () => {
@@ -210,27 +205,28 @@ if (modalLink) {
     });
   });
 
+  // Extremely robust click handler for the modal link
    modalLink.addEventListener('click', (e) => {
      const href = modalLink.getAttribute('href');
      if (href && href !== '#' && href !== '') {
        e.preventDefault();
        e.stopPropagation();
-       window.open(href, '_blank', 'noopener,noreferrer');
+       window.open(href, '_blank');
      }
-   }, { capture: true });
+   }, { capture: true }); // Use capture to intercept before other listeners
  }
 
 const projectData = {
   "E-Commerce Web Application": {
     desc: "A fast, modern e-commerce frontend built with Vite and Vanilla JavaScript. It features dynamic product rendering, a fully functional shopping cart, and a responsive interface optimized for performance.",
     tech: "Vite, Vanilla JavaScript, HTML5, CSS3, ES Modules, LocalStorage API",
-    challenge: "Building a fully dynamic shopping experience — product filtering, cart state, and quantity management — without any framework or backend, keeping the bundle size minimal.",
+    challenge: "Building a fully dynamic shopping experience ΓÇö product filtering, cart state, and quantity management ΓÇö without any framework or backend, keeping the bundle size minimal.",
     solution: "Architected the app using ES Modules for clean separation of concerns, managed cart state entirely in LocalStorage for persistence, and used event delegation to handle dynamic DOM interactions efficiently.",
     role: "Frontend Developer",
     img: "images/photo.jpg",
     gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 40%, #c9784c 100%)",
     link: "https://ecommerce-frontend-v2-beryl.vercel.app/",
-    tag: "Vite · Vanilla JS · 2025"
+    tag: "Vite ┬╖ Vanilla JS ┬╖ 2025"
   },
   "Mini E-Learning Platform": {
     desc: "An intuitive digital classroom environment developed with Laravel and Vue.js. This platform allows educators to upload course materials while students can track their progress through interactive modules.",
@@ -241,7 +237,7 @@ const projectData = {
     img: new URL('../images/ElearningHubBackImage.png', import.meta.url).href,
     gradient: "linear-gradient(135deg, #00101a 0%, #003d5c 40%, #4cc9c5 100%)",
     link: "https://github.com/Abdnour0",
-    tag: "Laravel · Vue.js · 2024"
+    tag: "Laravel ┬╖ Vue.js ┬╖ 2024"
   },
   "Stock Management System (C)": {
     desc: "A high-performance systems-level application designed for real-time inventory tracking. Built with pure C, it focuses on extreme memory efficiency and fast data retrieval.",
@@ -252,7 +248,7 @@ const projectData = {
     img: null,
     gradient: "linear-gradient(135deg, #0a0012 0%, #2e004d 40%, #9b59b6 100%)",
     link: "https://github.com/Abdnour0",
-    tag: "C · Data Structures · 2023"
+    tag: "C ┬╖ Data Structures ┬╖ 2023"
   },
   "Hotel Management Web Application": {
     desc: "A comprehensive administrative dashboard for hospitality management. This application streamlines the entire guest journey, from initial room booking to final check-out handling.",
@@ -263,7 +259,7 @@ const projectData = {
     img: null,
     gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 40%, #c9784c 100%)",
     link: "https://github.com/Abdnour0",
-    tag: "Django · Vue.js · 2025"
+    tag: "Django ┬╖ Vue.js ┬╖ 2025"
   },
   "Student Management System": {
     desc: "A cross-platform desktop application built with Java to help educational institutions manage student records, grades, and attendance efficiently. It strictly follows robust Object-Oriented Programming principles.",
@@ -274,7 +270,7 @@ const projectData = {
     img: null,
     gradient: "linear-gradient(135deg, #1a000a 0%, #4d0026 40%, #e05599 100%)",
     link: "https://github.com/Abdnour0",
-    tag: "Java · OOP · 2024"
+    tag: "Java ┬╖ OOP ┬╖ 2024"
   }
 };
 
@@ -307,7 +303,7 @@ function openModal(title) {
   let data = projectData[title];
   if (!data) return;
 
-  const activeLang = safeStorage.get('portfolioLang', 'en');
+  const activeLang = localStorage.getItem('portfolioLang') || 'en';
   if (activeLang !== 'en' && window.projectTranslations && window.projectTranslations[activeLang] && window.projectTranslations[activeLang][title]) {
     data = { ...data, ...window.projectTranslations[activeLang][title] };
   }
@@ -342,13 +338,15 @@ function openModal(title) {
   document.body.classList.add('modal-open');
   lastFocusedElement = document.activeElement;
   
+  // Focus the modal container
   const container = document.querySelector('.modal-container');
   if (container) container.focus();
   
+  // Set up share link
   const shareBtn = document.getElementById('modal-share');
   if (shareBtn) {
     shareBtn._shareHandler = function() {
-      var lang = safeStorage.get('portfolioLang', 'en');
+      var lang = localStorage.getItem('portfolioLang') || 'en';
       var t = (window.translations && window.translations[lang]) || window.translations.en;
       if (navigator.share) {
         navigator.share({ title: data.title || title, text: data.desc, url: data.link }).catch(function(){});
@@ -363,9 +361,11 @@ function openModal(title) {
     shareBtn.addEventListener('click', shareBtn._shareHandler);
   }
   
+  // Add keyboard trap listener (remove first to avoid duplicates)
   document.removeEventListener('keydown', trapFocus);
   document.addEventListener('keydown', trapFocus);
   
+  // Simplified animation for modal content to ensure visibility
   gsap.fromTo('.modal-right > *', 
     { y: 20, opacity: 0 },
     {
@@ -397,13 +397,14 @@ if (modalOverlay) {
   modalOverlay.addEventListener('click', closeModal);
 }
 
+// Close modal with Escape key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modal.classList.contains('active')) {
     closeModal();
   }
 });
 
-/* ── WORK CARD HOVER SOUND ───────────────────────────────────────────── */
+/* ΓöÇΓöÇ WORK CARD HOVER SOUND ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 var audioCtx = null;
 function initAudio() {
   if (audioCtx) return;
@@ -412,13 +413,11 @@ function initAudio() {
     if (audioCtx.state === 'suspended') audioCtx.resume();
   } catch (e) {}
 }
-document.addEventListener('mousemove',  initAudio, { once: true });
 document.addEventListener('touchstart', initAudio, { once: true });
-document.addEventListener('click',      initAudio, { once: true });
-
+document.addEventListener('click', initAudio, { once: true });
 function playHoverSound() {
-  if (!audioCtx || audioCtx.state === 'suspended') return;
   try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     var osc = audioCtx.createOscillator();
     var gain = audioCtx.createGain();
     osc.connect(gain);
@@ -433,6 +432,7 @@ function playHoverSound() {
   } catch (e) {}
 }
 
+/* Handle Cursor Text for Projects and Modal Opening */
 const workCards = document.querySelectorAll('.work-card');
 workCards.forEach(card => {
   if (hasMouse) {
@@ -442,7 +442,7 @@ workCards.forEach(card => {
       gsap.to(cursor, { 
         width: 100, 
         height: 100, 
-        backgroundColor: '#C9A84C',
+        backgroundColor: '#C9A84C', // Gold
         mixBlendMode: 'normal',
         duration: 0.3 
       });
@@ -461,9 +461,11 @@ workCards.forEach(card => {
   }
 
   card.addEventListener('click', (e) => {
+    // Always prevent default navigation first
     e.preventDefault();
     e.stopPropagation();
 
+    // Allow the "Visit Project" link to open in new tab
     if (e.target.closest('.work-visit')) {
       const href = card.getAttribute('href');
       if (href && href !== '#') window.open(href, '_blank', 'noopener,noreferrer');
@@ -475,13 +477,14 @@ workCards.forEach(card => {
     if (projectData[title]) {
       openModal(title);
     } else {
+      // For cards with no modal data (e.g. GitHub card), open the href
       const href = card.getAttribute('href');
       if (href && href !== '#') window.open(href, '_blank', 'noopener,noreferrer');
     }
   });
 });
 
-/* ── TYPED JS ────────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ TYPED JS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 let typedInstance = null;
 function initTyped(lang) {
   if (typedInstance) typedInstance.destroy();
@@ -505,14 +508,16 @@ function initTyped(lang) {
   }
 }
 
-const currentLang = safeStorage.get('portfolioLang', 'en');
+const currentLang = localStorage.getItem('portfolioLang') || 'en';
 initTyped(currentLang);
 
 document.addEventListener('langChanged', (e) => {
   initTyped(e.detail);
 });
 
-/* ── BFCACHE FIX ──────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ BFCACHE FIX ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+// When restoring from bfcache, just ensure visibility ΓÇö don't re-trigger
+// the entrance animation, which would cause a flash.
 window.addEventListener('pageshow', (e) => {
   if (e.persisted) {
     initTyped(currentLang);
@@ -530,7 +535,7 @@ window.addEventListener('pageshow', (e) => {
   }
 });
 
-/* ── NAV SCROLL ──────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ NAV SCROLL ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const nav = document.getElementById('nav');
 
 function handleNavScroll(e) {
@@ -544,7 +549,7 @@ if (lenis) {
   window.addEventListener('scroll', handleNavScroll, { passive: true });
 }
 
-/* ── MAGNETIC BUTTONS ────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ MAGNETIC BUTTONS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const magneticEls = document.querySelectorAll('.nav-logo, .nav-links a, .nav-cta, .btn-primary, .btn-secondary, .filter-btn, .about-cta');
 
 if (!isTouchDevice) {
@@ -599,7 +604,7 @@ if (!isTouchDevice) {
   });
 }
 
-/* ── MARQUEE DUPLICATION ──────────────────────────────────────────────── */
+/* ΓöÇΓöÇ MARQUEE DUPLICATION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 document.querySelectorAll('.marquee-track').forEach(function(track) {
   if (!track.dataset.duplicated) {
     track.innerHTML += track.innerHTML;
@@ -607,7 +612,266 @@ document.querySelectorAll('.marquee-track').forEach(function(track) {
   }
 });
 
-/* ── REVEAL ON SCROLL ────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ REVEAL ON SCROLL ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+const reveals = document.querySelectorAll('.reveal');
+
+if (window.gsap && window.ScrollTrigger) {
+  // On very low-end devices, skip GSAP reveals entirely
+  if (isLowEnd) {
+    reveals.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  } else {
+  const revealConfig = isTouchDevice ? { y: 20, duration: 0.5 } : { y: 40, duration: 1.2 };
+
+  reveals.forEach(el => {
+    // Skip elements handled by word-by-word reveal to avoid conflicts
+    if (el.classList.contains('section-title')) return;
+
+    let delay = 0;
+    if (el.classList.contains('reveal-delay-1')) delay = 0.1;
+    else if (el.classList.contains('reveal-delay-2')) delay = 0.15;
+    else if (el.classList.contains('reveal-delay-3')) delay = 0.2;
+    else if (el.classList.contains('reveal-delay-4')) delay = 0.25;
+    else if (el.classList.contains('reveal-delay-5')) delay = 0.3;
+
+    gsap.from(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: isTouchDevice ? "top 95%" : "top 90%",
+        once: true,
+        toggleActions: "play none none none"
+      },
+      y: revealConfig.y,
+      opacity: 0,
+      duration: revealConfig.duration,
+      delay: isTouchDevice ? 0 : delay,
+      ease: "power2.out"
+    });
+  });
+  } // end else (low-end fallback)
+}
+
+/* ΓöÇΓöÇ SCROLL ANIMATIONS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+// Hero Section Parallax (disabled on mobile to prevent title overlap)
+// Subtle y movement only ΓÇö headline stays fully visible (avoids "disappears on scroll" issue)
+if (window.innerWidth > 768) {
+  gsap.to(".hero-headline", {
+    scrollTrigger: {
+      trigger: "#hero",
+      start: "top top",
+      end: "bottom top",
+      scrub: true
+    },
+    y: -80
+  });
+}
+
+// Hero headline entrance animation (GSAP ΓÇö not CSS, avoids race conditions)
+if (!isLowEnd) {
+  gsap.set(".hero-headline .line-inner", { y: "110%", opacity: 0 });
+  var heroTl = gsap.timeline();
+  heroTl.to(".hero-headline", { opacity: 1, duration: 0.01 }, 0);
+  heroTl.to(".hero-headline .line-inner", {
+    y: "0%",
+    opacity: 1,
+    duration: 0.9,
+    stagger: 0.15,
+    ease: "power3.out"
+  }, 0.35);
+}
+
+// Section Title Animation removed as it conflicts with .reveal
+// document.querySelectorAll('.section-title').forEach(title => { ... });
+
+/* ΓöÇΓöÇ WORK FILTER ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const workGrid = document.querySelector('.work-grid');
+let isFiltering = false;
+
+if (filterBtns.length && workGrid) {
+  // Restore filter from URL hash on load
+  var hashFilter = location.hash.indexOf('#filter=') === 0 ? location.hash.replace('#filter=', '') : '';
+  if (hashFilter) {
+    var targetBtn = Array.from(filterBtns).find(function(b){ return b.dataset.filter === hashFilter; });
+    if (targetBtn) {
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      targetBtn.classList.add('active');
+    }
+  }
+
+  function applyFilter(filter) {
+    if (isFiltering) return;
+
+    var activeBtn = Array.from(filterBtns).find(function(b){ return b.dataset.filter === filter; });
+    if (!activeBtn) return;
+    filterBtns.forEach(function(b){ b.classList.remove('active'); });
+    activeBtn.classList.add('active');
+
+    var isAll  = filter === 'all';
+    var cards  = Array.from(workGrid.querySelectorAll('.work-card'));
+
+    isFiltering = true;
+    gsap.killTweensOf(cards);
+
+    // Reset potential display:none from old code path
+    cards.forEach(function(c){ c.style.display = ''; });
+
+    gsap.to(cards, {
+      opacity: 0, y: 10, duration: 0.18, ease: 'power2.in',
+      onComplete: function() {
+        if (isAll) {
+          workGrid.classList.remove('filtered');
+          cards.forEach(function(c){
+            c.classList.remove('blurred', 'filtered-visible');
+            c.style.pointerEvents = '';
+          });
+          gsap.fromTo(cards,
+            { opacity: 0, y: 10, filter: 'blur(4px) grayscale(40%)' },
+            { opacity: 1, y: 0, filter: 'blur(0px) grayscale(0%)', duration: 0.35, stagger: 0.04, ease: 'power2.out', onComplete: function(){
+              isFiltering = false;
+            } }
+          );
+          return;
+        }
+
+        var matched   = cards.filter(function(c){ return (c.dataset.category || '').split(' ').includes(filter); });
+        var unmatched = cards.filter(function(c){ return !matched.includes(c); });
+
+        workGrid.classList.add('filtered');
+
+        // Reorder DOM: matched cards first, unmatched after
+        var ordered = matched.concat(unmatched);
+        ordered.forEach(function(c) { workGrid.appendChild(c); });
+
+        matched.forEach(function(c){
+          c.classList.remove('blurred');
+          c.classList.add('filtered-visible');
+          c.style.pointerEvents = 'auto';
+        });
+        unmatched.forEach(function(c){
+          c.classList.add('blurred');
+          c.classList.remove('filtered-visible');
+          c.style.pointerEvents = 'none';
+        });
+
+        gsap.fromTo(ordered,
+          { opacity: 0, y: 10, filter: 'blur(4px) grayscale(40%)' },
+          {
+            opacity: function(i){ return i < matched.length ? 1 : 0.45; },
+            filter: function(i){ return i < matched.length ? 'blur(0px) grayscale(0%)' : 'blur(4px) grayscale(40%)'; },
+            y: 0,
+            duration: 0.35,
+            stagger: 0.04,
+            ease: 'power2.out',
+            onComplete: function(){
+              isFiltering = false;
+              ordered.forEach(function(c){
+                c.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+                  if (!img.complete) { img.loading = 'eager'; }
+                });
+              });
+            }
+          }
+        );
+      }
+    });
+  }
+
+  // Apply saved hash filter
+  if (hashFilter) { applyFilter(hashFilter); }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (isFiltering) return;
+      var filter = this.dataset.filter;
+      history.replaceState(null, '', filter === 'all' ? '#' : '#filter=' + filter);
+      applyFilter(filter);
+    });
+  });
+} // end if filterBtns.length
+
+/* ΓöÇΓöÇ TESTIMONIALS CAROUSEL ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+(function initTestimonials() {
+  var track = document.querySelector('.testimonials-track');
+  var dots = document.querySelectorAll('.t-dot');
+  if (!track || !dots.length) return;
+  var current = 0;
+  var interval;
+  function goTo(index) {
+    current = index;
+    dots.forEach(function(d){ d.classList.remove('active'); });
+    dots[current].classList.add('active');
+    track.scrollTo({ left: track.clientWidth * current, behavior: 'smooth' });
+  }
+  dots.forEach(function(dot){
+    dot.addEventListener('click', function(){
+      clearInterval(interval);
+      goTo(parseInt(this.dataset.index));
+      interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000);
+    });
+  });
+  interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000);
+  // Pause on hover
+  track.addEventListener('mouseenter', function(){ clearInterval(interval); });
+  track.addEventListener('mouseleave', function(){ interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000); });
+  // Handle manual scroll
+  track.addEventListener('scroll', function(){
+    var idx = Math.round(track.scrollLeft / track.clientWidth);
+    if (idx !== current && idx >= 0 && idx < dots.length) {
+      current = idx;
+      dots.forEach(function(d){ d.classList.remove('active'); });
+      dots[current].classList.add('active');
+    }
+  });
+})();
+
+/* ΓöÇΓöÇ GITHUB PINNED REPOS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+(function fetchGitHub() {
+  var exploreCard = document.querySelector('.work-card:last-child');
+  if (!exploreCard) return;
+  var overlay = exploreCard.querySelector('.work-overlay');
+  if (!overlay) return;
+  fetch('https://api.github.com/users/Abdnour0/repos?sort=updated&per_page=3')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(repos){
+      if (!repos || !repos.length) return;
+      var tag = overlay.querySelector('.work-tag');
+      if (tag) tag.textContent = 'Latest: ' + repos[0].name.replace(/-/g, ' ');
+      var title = overlay.querySelector('.work-title');
+      if (title) {
+        var repo = repos[0];
+        title.innerHTML = repo.name.replace(/-/g, ' ') + '<br><span style="font-size:0.6rem;opacity:0.6;">' + (repo.description || '').substring(0, 40) + '...</span>';
+      }
+      exploreCard.href = repos[0].html_url;
+    })
+    .catch(function(){});
+})();
+
+/* ΓöÇΓöÇ COUNTER ANIMATION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+const statTargets  = [5, 3, 2, 2022];
+const statsSection = document.querySelector('.about-stats');
+
+function animateCount(el, target) {
+  let start = null;
+  const duration = 1800;
+
+  function step(timestamp) {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const eased    = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
+if (statsSection) {
+  const countEls = statsSection.querySelectorAll('.count-val');
+
+  const countObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        countEls.forEach((el, i) => animateCount(el, statTargets[i]));
         countObserver.unobserve(entry.target);
       }
     });
@@ -616,7 +880,7 @@ document.querySelectorAll('.marquee-track').forEach(function(track) {
   countObserver.observe(statsSection);
 }
 
-/* ── MOBILE NAV ──────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ MOBILE NAV ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const menuToggle = document.getElementById('menu-toggle');
 const mobileNav = document.getElementById('mobile-nav');
 const mobileLinks = document.querySelectorAll('.mobile-links a');
@@ -678,7 +942,7 @@ mobileLinks.forEach(link => {
   });
 });
 
-/* ── LIVE STATUS TIME ────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ LIVE STATUS TIME ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 function updateLiveTime() {
   const timeEl = document.getElementById('current-time');
   const statusDot = document.querySelector('.status-dot');
@@ -711,7 +975,7 @@ function updateLiveTime() {
     let unavailText = 'Unavailable';
     if (langObj) {
       if (activeLang === 'fr') { availText = 'Disponible'; unavailText = 'Indisponible'; }
-      if (activeLang === 'ar') { availText = 'متاح'; unavailText = 'غير متاح'; }
+      if (activeLang === 'ar') { availText = '┘à╪¬╪º╪¡'; unavailText = '╪║┘è╪▒ ┘à╪¬╪º╪¡'; }
     }
 
     if (isAvailable) {
@@ -740,7 +1004,7 @@ document.addEventListener('visibilitychange', function() {
   else { liveInterval = setInterval(updateLiveTime, 1000); }
 });
 
-/* ── CONTACT FORM HANDLER ───────────────────────────────────────────── */
+/* ΓöÇΓöÇ CONTACT FORM HANDLER ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const contactForm = document.getElementById('contact-form');
 const formFeedback = document.getElementById('form-feedback');
 if (contactForm) {
@@ -787,7 +1051,7 @@ if (contactForm) {
   });
 }
 
-/* ── BACK TO TOP ─────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ BACK TO TOP ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const backToTop = document.getElementById('back-to-top');
 
 if (backToTop) {
@@ -813,7 +1077,7 @@ if (backToTop) {
   });
 }
 
-/* ── SMOOTH NAV ANCHOR CLICKS ────────────────────────────────────────── */
+/* ΓöÇΓöÇ SMOOTH NAV ANCHOR CLICKS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   if (link.closest('.work-card')) return;
   if (link.classList.contains('skip-link')) return; // let skip link use native behavior
@@ -838,7 +1102,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 
-/* ── CV DROPDOWN — MOBILE TAP SUPPORT ───────────────────────────────── */
+/* ΓöÇΓöÇ CV DROPDOWN ΓÇö MOBILE TAP SUPPORT ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const cvDropdown = document.querySelector('.cv-dropdown');
 const cvMenu = document.querySelector('.cv-menu');
 if (cvDropdown && cvMenu && isTouchDevice) {
@@ -857,10 +1121,10 @@ if (cvDropdown && cvMenu && isTouchDevice) {
   });
 }
 
-/* ── WORD-BY-WORD TEXT REVEAL ────────────────────────────────────────── */
+/* ΓöÇΓöÇ WORD-BY-WORD TEXT REVEAL ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 (function initWordReveal() {
   if (isLowEnd) return; // skip on low-end devices
-  // Only plain-text headings — avoids stripping <em> / &amp; in others
+  // Only plain-text headings ΓÇö avoids stripping <em> / &amp; in others
   const targets = document.querySelectorAll('.section-title');
 
   targets.forEach(el => {
@@ -868,12 +1132,12 @@ if (cvDropdown && cvMenu && isTouchDevice) {
     if (el.dataset.wordReveal || el.id === 'modal-title') return;
     el.dataset.wordReveal = '1';
 
-    // innerHTML may contain <br> — split on those first to preserve line breaks
+    // innerHTML may contain <br> ΓÇö split on those first to preserve line breaks
     const rawHTML = el.innerHTML;
     const lines   = rawHTML.split(/<br\s*\/?>/gi);
 
     const wrappedLines = lines.map(line => {
-      // Each line is plain text (or HTML entities like &amp;) — no inner tags
+      // Each line is plain text (or HTML entities like &amp;) ΓÇö no inner tags
       const words = line.trim().split(/\s+/);
       return words
         .filter(w => w.length > 0)
@@ -906,7 +1170,7 @@ if (cvDropdown && cvMenu && isTouchDevice) {
   });
 })();
 
-/* ── TIMELINE VERTICAL LINE FILL ─────────────────────────────────────── */
+/* ΓöÇΓöÇ TIMELINE VERTICAL LINE FILL ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 (function initTimelineFill() {
   const lineFill = document.querySelector('.timeline-line-fill');
   const timelineSection = document.getElementById('timeline');
@@ -961,7 +1225,7 @@ if (cvDropdown && cvMenu && isTouchDevice) {
   });
 })();
 
-/* ── THEME TOGGLE ────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇ THEME TOGGLE ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const themeToggleBtn = document.getElementById('theme-toggle');
 const sunIcon = document.querySelector('.sun-icon');
 const moonIcon = document.querySelector('.moon-icon');
@@ -1006,7 +1270,7 @@ if (themeToggleBtn) {
   });
 }
 
-/* ── IMAGE LOADING BLUR-UP ──────────────────────────────────────────── */
+/* ΓöÇΓöÇ IMAGE LOADING BLUR-UP ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 document.querySelectorAll('.about-img-wrap').forEach(wrap => {
   const img = wrap.querySelector('img');
   if (img) {
@@ -1023,7 +1287,7 @@ document.querySelectorAll('.about-img-wrap').forEach(wrap => {
   }
 });
 
-/* ── NAV ACTIVE SECTION TRACKING ────────────────────────────────────── */
+/* ΓöÇΓöÇ NAV ACTIVE SECTION TRACKING ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 (function initActiveNav() {
   const navLinks = document.querySelectorAll('.nav-links a');
   if (!navLinks.length) return;
@@ -1054,7 +1318,7 @@ document.querySelectorAll('.about-img-wrap').forEach(wrap => {
   sections.forEach(s => observer.observe(s.section));
 })();
 
-/* ── SKILL PROGRESS RINGS ─────────────────────────────────────────────── */
+/* ΓöÇΓöÇ SKILL PROGRESS RINGS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 document.querySelectorAll('.ring-fill').forEach(function(ring) {
   var wrapper = ring.closest('.service-proficiency');
   if (!wrapper) return;
@@ -1080,12 +1344,12 @@ if (window.ScrollTrigger) {
   }
 });
 
-/* ── REFRESH SCROLLTRIGGER AFTER SETUP ─────────────────────────────── */
+/* ΓöÇΓöÇ REFRESH SCROLLTRIGGER AFTER SETUP ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 if (window.ScrollTrigger) {
   ScrollTrigger.refresh();
 }
 
-/* ── HERO HEADLINE SAFETY NET ────────────────────────────────────────── */
+/* ΓöÇΓöÇ HERO HEADLINE SAFETY NET ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 var heroSafetyTimer = setTimeout(function() {
   var h = document.querySelector('.hero-headline');
   if (h) h.style.opacity = '1';

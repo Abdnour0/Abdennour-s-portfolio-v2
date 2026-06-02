@@ -313,7 +313,8 @@ function openModal(title) {
   document.getElementById('modal-tech').textContent = data.tech;
   document.getElementById('modal-tag').textContent = data.tag;
   if (document.getElementById('modal-role')) {
-    document.getElementById('modal-role').textContent = data.role || "Full-Stack Developer";
+    var dr = (window.translations && window.translations[activeLang] && window.translations[activeLang].defaultRole) || "Full-Stack Developer";
+    document.getElementById('modal-role').textContent = data.role || dr;
   }
   document.getElementById('modal-challenge').textContent = data.challenge;
   document.getElementById('modal-solution').textContent = data.solution;
@@ -342,12 +343,14 @@ function openModal(title) {
   const shareBtn = document.getElementById('modal-share');
   if (shareBtn) {
     shareBtn._shareHandler = function() {
+      var lang = localStorage.getItem('portfolioLang') || 'en';
+      var t = (window.translations && window.translations[lang]) || window.translations.en;
       if (navigator.share) {
         navigator.share({ title: data.title || title, text: data.desc, url: data.link }).catch(function(){});
       } else {
         navigator.clipboard.writeText(data.link).then(function() {
-          shareBtn.textContent = 'Copied!';
-          setTimeout(function(){ shareBtn.textContent = 'Share \u2197'; }, 2000);
+          shareBtn.textContent = t.shareCopied || 'Copied!';
+          setTimeout(function(){ shareBtn.textContent = t.modalShare || 'Share'; }, 2000);
         }).catch(function(){});
       }
     };
@@ -1014,11 +1017,14 @@ if (contactForm) {
     formFeedback.className = '';
     formFeedback.textContent = '';
 
+    var lang = localStorage.getItem('portfolioLang') || 'en';
+    var ft = (window.translations && window.translations[lang]) || window.translations.en;
+
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
 
     submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Sending...';
+    submitBtn.innerHTML = ft.formSending || 'Sending...';
 
     const formData = new FormData(contactForm);
 
@@ -1033,15 +1039,15 @@ if (contactForm) {
 
       if (response.ok) {
         formFeedback.className = 'success';
-        formFeedback.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+        formFeedback.textContent = ft.formSuccess || 'Message sent successfully!';
         contactForm.reset();
       } else {
         formFeedback.className = 'error';
-        formFeedback.textContent = 'Something went wrong. Please try again or email me directly.';
+        formFeedback.textContent = ft.formError || 'Something went wrong.';
       }
     } catch (error) {
       formFeedback.className = 'error';
-      formFeedback.textContent = 'Network error. Please check your connection or email me directly.';
+      formFeedback.textContent = ft.formNetworkError || 'Network error.';
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;

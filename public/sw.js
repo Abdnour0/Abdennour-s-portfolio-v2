@@ -1,13 +1,15 @@
-/* ── SERVICE WORKER — Cache-first for static shell ─────────────────── */
-const SW_VERSION = '2026-06-01-1';
+const SW_VERSION = '2026-06-01-2';
 const CACHE_NAME = 'ag-portfolio-' + SW_VERSION;
+const CORE_ASSETS = ['/', '/index.html', '/404.html', '/manifest.json'];
 
-/* Install: just take control, no pre-cache (Vite hashes filenames) */
 self.addEventListener('install', event => {
-  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache =>
+      cache.addAll(CORE_ASSETS).catch(() => {})
+    ).then(() => self.skipWaiting())
+  );
 });
 
-/* Activate: delete old caches and claim clients */
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -20,11 +22,9 @@ self.addEventListener('activate', event => {
   );
 });
 
-/* Fetch: cache-first for same-origin, network-only for 3rd party */
 self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
-
   if (url.origin !== location.origin) return;
   if (request.method !== 'GET') return;
 

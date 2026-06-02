@@ -52,7 +52,12 @@ const i18nSelectors = {
   t6Year: "#timeline .timeline-item:nth-child(7) .timeline-year", t6Title: "#timeline .timeline-item:nth-child(7) .timeline-title", t6Desc: "#timeline .timeline-item:nth-child(7) .timeline-desc",
   t7Year: "#timeline .timeline-item:nth-child(8) .timeline-year", t7Title: "#timeline .timeline-item:nth-child(8) .timeline-title", t7Desc: "#timeline .timeline-item:nth-child(8) .timeline-desc",
   modalTech: ".info-item:nth-child(1) .info-label", modalRole: ".info-item:nth-child(2) .info-label",
-  modalChallenge: ".modal-case-study .case-item:nth-child(1) .info-label", modalSolution: ".modal-case-study .case-item:nth-child(2) .info-label"
+  modalChallenge: ".modal-case-study .case-item:nth-child(1) .info-label", modalSolution: ".modal-case-study .case-item:nth-child(2) .info-label",
+  skipLink: ".skip-link",
+  cvEnglish: ".cv-menu a:nth-child(1)", cvFrench: ".cv-menu a:nth-child(2)",
+  modalView: "#modal-link", modalShare: "#modal-share",
+  statusRange: ".status-range", statusTZ: ".status-tz",
+  aboutBadgeYear: ".about-badge .about-badge-num", aboutBadgeLabel: ".about-badge .about-badge-label"
 };
 
 const translations = {
@@ -107,6 +112,19 @@ const translations = {
     t6Year: "2026", t6Title: "JavaScript, jQuery & JSON — EMSI", t6Desc: "Earned a verified certification in JavaScript fundamentals from EMSI, reinforcing my front-end development expertise.",
     t7Year: "2028", t7Title: "Expected Graduation", t7Desc: "On track to graduate with a full <strong>Software Engineering degree</strong> from EMSI — ready to build the future.",
     modalTech: "Tech Stack", modalRole: "Role", modalChallenge: "The Challenge", modalSolution: "The Solution",
+    skipLink: "Skip to content",
+    cvEnglish: "English Version (PDF)", cvFrench: "Version Française (PDF)",
+    modalView: "View Live Project", modalShare: "Share",
+    statusRange: "9 AM–11 PM", statusTZ: "GMT+1",
+    aboutBadgeYear: "3rd", aboutBadgeLabel: 'Year at<br><a href="https://emsi.ma/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">EMSI</a>',
+    formSending: "Sending...", formSuccess: "Message sent successfully! I'll get back to you soon.",
+    formError: "Something went wrong. Please try again or email me directly.",
+    formNetworkError: "Network error. Please check your connection or email me directly.",
+    shareCopied: "Copied!",
+    defaultRole: "Full-Stack Developer",
+    ariaTheme: "Toggle Light/Dark Mode",
+    ariaShare: "Share Project",
+    ariaTestimonial: "Testimonial",
   },
   fr: {
     navAbout: "À propos", navSkills: "Compétences", navProjects: "Projets", navTimeline: "Parcours", navCerts: "Certifications", navContact: "Contact", navHire: "Recrutez-moi",
@@ -159,6 +177,19 @@ const translations = {
     t6Year: "2026", t6Title: "JavaScript, jQuery & JSON — EMSI", t6Desc: "Certification vérifiée en JavaScript fondamentaux d'EMSI, renforçant mon expertise en développement front-end.",
     t7Year: "2028", t7Title: "Diplôme Prévu", t7Desc: "En voie d'obtenir mon <strong>diplôme d'ingénieur en génie logiciel</strong> d'EMSI — prêt à construire l'avenir.",
     modalTech: "Technologies", modalRole: "Rôle", modalChallenge: "Le Défi", modalSolution: "La Solution",
+    skipLink: "Aller au contenu",
+    cvEnglish: "English Version (PDF)", cvFrench: "Version Française (PDF)",
+    modalView: "Voir le projet", modalShare: "Partager",
+    statusRange: "9h–23h", statusTZ: "GMT+1",
+    aboutBadgeYear: "3ème", aboutBadgeLabel: 'Année à<br><a href="https://emsi.ma/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">EMSI</a>',
+    formSending: "Envoi en cours...", formSuccess: "Message envoyé avec succès ! Je vous répondrai bientôt.",
+    formError: "Une erreur est survenue. Veuillez réessayer ou m'envoyer un email directement.",
+    formNetworkError: "Erreur réseau. Veuillez vérifier votre connexion ou m'envoyer un email.",
+    shareCopied: "Copié !",
+    defaultRole: "Développeur Full-Stack",
+    ariaTheme: "Activer le mode clair/sombre",
+    ariaShare: "Partager le projet",
+    ariaTestimonial: "Témoignage",
   },
   ar: {
     navAbout: "نبذة", navSkills: "مهارات", navProjects: "مشاريع", navTimeline: "المسار", navCerts: "الشهادات", navContact: "اتصال", navHire: "وظفني",
@@ -211,8 +242,22 @@ const translations = {
     t6Year: "2026", t6Title: "جافا سكريبت و jQuery و JSON — EMSI", t6Desc: "حصلت على شهادة معتمدة في أساسيات جافا سكريبت من EMSI، مما عزز خبرتي في تطوير الواجهات الأمامية.",
     t7Year: "2028", t7Title: "التخرج المتوقع", t7Desc: "في طريقي للتخرج بشهادة <strong>هندسة البرمجيات</strong> من EMSI — مستعد لبناء المستقبل.",
     modalTech: "التقنيات", modalRole: "الدور", modalChallenge: "التحدي", modalSolution: "الحل",
+    skipLink: "تخطى إلى المحتوى",
+    cvEnglish: "النسخة الإنجليزية (PDF)", cvFrench: "النسخة الفرنسية (PDF)",
+    modalView: "عرض المشروع", modalShare: "مشاركة",
+    statusRange: "9 صباحًا–11 مساءً", statusTZ: "GMT+1",
+    aboutBadgeYear: "الثالثة", aboutBadgeLabel: 'سنة في<br><a href="https://emsi.ma/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">EMSI</a>',
+    formSending: "جارٍ الإرسال...", formSuccess: "تم إرسال الرسالة بنجاح! سأرد عليك قريبًا.",
+    formError: "حدث خطأ ما. يرجى المحاولة مرة أخرى أو مراسلتي عبر البريد الإلكتروني.",
+    formNetworkError: "خطأ في الشبكة. يرجى التحقق من اتصالك أو مراسلتي عبر البريد.",
+    shareCopied: "تم النسخ!",
+    defaultRole: "مطور ويب شامل",
+    ariaTheme: "تبديل الوضع الفاتح/الداكن",
+    ariaShare: "مشاركة المشروع",
+    ariaTestimonial: "شهادة",
   }
 };
+window.translations = translations;
 
 const typedTranslations = {
   en: ['Software Engineering Student', 'Full-Stack Developer', 'Open to Internship Opportunities'],
@@ -320,6 +365,10 @@ function applyTranslation(lang) {
           // Keep the arrow svg on footer CTA and project visits
           const btnContent = translation + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>';
           el.innerHTML = translation.includes('<span class="arrow">') ? translation : btnContent;
+        } else if (key === 'modalView') {
+          el.innerHTML = translation + ' <span class="arrow">↗</span>';
+        } else if (key === 'modalShare') {
+          el.innerHTML = translation + ' <span style="font-size:1.1rem;">↗</span>';
         } else {
           el.innerHTML = translation;
         }
@@ -356,6 +405,17 @@ function applyTranslation(lang) {
   document.querySelectorAll('[data-i18n-placeholder]').forEach(function(input) {
     var key = input.getAttribute('data-i18n-placeholder');
     if (langTranslations[key]) input.setAttribute('placeholder', langTranslations[key]);
+  });
+
+  // Update aria-labels on elements with data-i18n-aria
+  document.querySelectorAll('[data-i18n-aria]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-aria');
+    if (langTranslations[key]) {
+      var label = langTranslations[key];
+      var num = el.getAttribute('data-i18n-aria-num');
+      if (num) label += ' ' + num;
+      el.setAttribute('aria-label', label);
+    }
   });
 
   // Re-init typed.js via custom event 

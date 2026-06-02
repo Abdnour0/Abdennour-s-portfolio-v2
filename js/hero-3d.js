@@ -1,9 +1,11 @@
 var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.requestIdleCallback;
+var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 (function() {
-if (isLowEnd) {
+// Skip on low-end devices AND iOS (WebGL throttling causes jank/black canvas on Safari)
+if (isLowEnd || isIOS) {
   return;
 }
 
@@ -407,6 +409,10 @@ function animate() {
 import('three').then(function(mod) {
   THREE = mod.default || mod;
   init();
+}).catch(function() {
+  // Brave shields / CSP blocked the dynamic import — remove the canvas element if it was created
+  var canvas = hero ? hero.querySelector('canvas') : null;
+  if (canvas) canvas.remove();
 });
 
 })();

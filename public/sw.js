@@ -29,15 +29,19 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request).then(response => {
-        if (!response || response.status !== 200) return response;
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
-        return response;
-      });
-    }).catch(() => {
+    caches.open(CACHE_NAME).then(cache =>
+      cache.match(request).then(cached => {
+        // Fetch fresh copy in background (stale-while-revalidate)
+        const fetchPromise = fetch(request).then(response => {
+          if (response && response.status === 200) {
+            cache.put(request, response.clone());
+          }
+          return response;
+        }).catch(() => null);
+        // Return cached immediately, fall through to network if no cache
+        return cached || fetchPromise;
+      })
+    ).catch(() => {
       if (request.destination === 'document') {
         return caches.match('/index.html');
       }

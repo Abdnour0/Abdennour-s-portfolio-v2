@@ -43,7 +43,7 @@
 
 /* ─── RESET ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: auto; } /* Lenis handles smooth scrolling — native smooth causes conflict */
+html { scroll-behavior: auto; overflow-x: hidden; } /* Lenis handles smooth scrolling — native smooth causes conflict */
 html.fonts-loading .section-title,
 html.fonts-loading .loader-logo,
 html.fonts-loading .nav-logo,
@@ -127,11 +127,7 @@ body::before {
   color: var(--gold);
   line-height: 1;
   text-align: center;
-  width: 100%;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   letter-spacing: 0;
 }
 .loader-line {
@@ -1873,6 +1869,14 @@ section:last-of-type::after { display: none; }
     flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
+  }
+  .nav-logo {
+    font-size: 1.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
   }
 
   /* Live-status: float it below the nav bar */

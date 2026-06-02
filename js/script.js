@@ -522,6 +522,7 @@ window.addEventListener('pageshow', (e) => {
       if (!isLowEnd) {
         gsap.set(".hero-headline .line-inner", { y: "110%", opacity: 0 });
         var heroTl = gsap.timeline();
+        heroTl.to(".hero-headline", { opacity: 1, duration: 0.01 }, 0);
         heroTl.to(".hero-headline .line-inner", {
           y: "0%",
           opacity: 1,
@@ -674,6 +675,7 @@ if (window.innerWidth > 768) {
 if (!isLowEnd) {
   gsap.set(".hero-headline .line-inner", { y: "110%", opacity: 0 });
   var heroTl = gsap.timeline();
+  heroTl.to(".hero-headline", { opacity: 1, duration: 0.01 }, 0);
   heroTl.to(".hero-headline .line-inner", {
     y: "0%",
     opacity: 1,

@@ -245,9 +245,9 @@ function init() {
   camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100);
   camera.position.set(0, 0, isMobile ? 16 : 14);
 
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile });
+  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(w, h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.domElement.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;';
   hero.insertBefore(renderer.domElement, hero.firstChild);
 

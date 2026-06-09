@@ -25,12 +25,12 @@ let lenis = null;
 if (hasMouse && !isLowEnd && !isTouchDevice) {
   try {
     lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.6,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 1.8,
       smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
@@ -1359,7 +1359,7 @@ if (window.ScrollTrigger) {
       if (parsed && parsed.length > 0) { renderGitHubEvents(parsed, feed); return; }
     } catch(e) {}
   }
-  fetch('/github-events.json?t=' + Date.now())
+  fetch('./github-events.json?t=' + Date.now())
     .then(function(res) {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();

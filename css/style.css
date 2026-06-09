@@ -43,7 +43,7 @@
 
 /* ─── RESET ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: auto; overflow-x: hidden; } /* Lenis handles smooth scrolling — native smooth causes conflict */
+html { scroll-behavior: smooth; overflow-x: hidden; } /* Native smooth scrolling enabled */
 html.fonts-loading .section-title,
 html.fonts-loading .loader-logo,
 html.fonts-loading .nav-logo,

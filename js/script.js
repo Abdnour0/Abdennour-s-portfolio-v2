@@ -22,7 +22,7 @@ var isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <
 
 /* ΓöÇΓöÇ LENIS SMOOTH SCROLL (disabled on touch / low-end for perf) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 let lenis = null;
-if (hasMouse && !isLowEnd && !isTouchDevice) {
+if (false) { // Disabled Lenis completely because it causes scrolling issues
   try {
     lenis = new Lenis({
       duration: 0.6,
@@ -1374,6 +1374,7 @@ if (window.ScrollTrigger) {
     });
 })();
 function renderGitHubEvents(events, feed) {
+  var username = 'Abdnour0';
   if (!events || !events.length) {
     feed.innerHTML = '<div class="gh-feed-error">No recent public activity. <a href="https://github.com/Abdnour0" target="_blank" rel="noopener">View profile →</a></div>';
     return;

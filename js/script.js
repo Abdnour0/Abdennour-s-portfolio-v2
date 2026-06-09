@@ -623,8 +623,7 @@ if (window.gsap && window.ScrollTrigger) {
   const revealConfig = isTouchDevice ? { y: 20, duration: 0.5 } : { y: 40, duration: 1.2 };
 
   reveals.forEach(el => {
-    // Skip elements handled by pinned section reveal or word-by-word reveal
-    if (el.closest('#services')) return;
+    // Skip elements handled by word-by-word reveal to avoid conflicts
     if (el.classList.contains('section-title')) return;
 
     let delay = 0;
@@ -649,32 +648,6 @@ if (window.gsap && window.ScrollTrigger) {
     });
   });
   } // end else (low-end fallback)
-}
-
-/* ─── PINNED SECTION REVEAL ──────────────────────────────────────────────── */
-if (window.gsap && window.ScrollTrigger && !isTouchDevice && !isLowEnd) {
-  var pinnedSec = document.getElementById('services');
-  if (pinnedSec) {
-    var pinnedEls = pinnedSec.querySelectorAll('.section-label, .section-title, .service-card');
-    pinnedEls.forEach(function(el) {
-      gsap.killTweensOf(el);
-      el.style.opacity = '';
-      el.style.transform = '';
-    });
-    var pinnedTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#services',
-        start: 'top top',
-        end: '+=2500',
-        pin: true,
-        anticipatePin: 1,
-        toggleActions: 'play none none reset'
-      }
-    });
-    pinnedTl.from(pinnedSec.querySelector('.section-label'), { y: 30, opacity: 0, duration: 0.4 }, 0);
-    pinnedTl.from(pinnedSec.querySelector('.section-title'), { y: 40, opacity: 0, duration: 0.5 }, 0.3);
-    pinnedTl.from(pinnedSec.querySelectorAll('.service-card'), { y: 60, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, 0.7);
-  }
 }
 
 /* ─── SCROLL ANIMATIONS ──────────────────────────────────────────────────── */
@@ -1374,6 +1347,109 @@ if (window.ScrollTrigger) {
 });
 
 /* ΓöÇΓöÇ REFRESH SCROLLTRIGGER AFTER SETUP ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+/* ─── GITHUB ACTIVITY FEED ──────────────────────────────────────────────── */
+(function initGitHubFeed() {
+  var feed = document.getElementById('gh-feed');
+  if (!feed) return;
+  var username = 'Abdnour0';
+  var stored = sessionStorage.getItem('gh_events');
+  if (stored) {
+    try { renderGitHubEvents(JSON.parse(stored), feed); return; } catch(e) {}
+  }
+  fetch('https://api.github.com/users/' + username + '/events?per_page=15', { headers: { 'Accept': 'application/vnd.github.v3+json' } })
+    .then(function(res) {
+      if (!res.ok) throw new Error('GitHub API error: ' + res.status);
+      return res.json();
+    })
+    .then(function(events) {
+      try { sessionStorage.setItem('gh_events', JSON.stringify(events)); } catch(e) {}
+      renderGitHubEvents(events, feed);
+    })
+    .catch(function(err) {
+      feed.innerHTML = '<div class="gh-feed-error">Could not load GitHub activity. <a href="https://github.com/' + username + '" target="_blank" rel="noopener">View profile →</a></div>';
+    });
+})();
+function renderGitHubEvents(events, feed) {
+  if (!events || !events.length) {
+    feed.innerHTML = '<div class="gh-feed-error">No recent public activity. <a href="https://github.com/Abdnour0" target="_blank" rel="noopener">View profile →</a></div>';
+    return;
+  }
+  var seen = new Set();
+  var html = '';
+  var count = 0;
+  events.forEach(function(e) {
+    if (count >= 8) return;
+    if (seen.has(e.repo.name)) return;
+    seen.add(e.repo.name);
+    var icon = '', iconClass = '', desc = '';
+    switch (e.type) {
+      case 'PushEvent':
+        icon = '⌃'; iconClass = 'push';
+        var msgs = (e.payload.commits || []).slice(0, 2).map(function(c) { return c.message.split('\n')[0]; });
+        desc = msgs.length ? msgs.join(' · ') : 'Pushed commits';
+        break;
+      case 'WatchEvent':
+        icon = '★'; iconClass = 'star'; desc = 'Starred this repository';
+        break;
+      case 'ForkEvent':
+        icon = '⑂'; iconClass = 'fork'; desc = 'Forked this repository';
+        break;
+      case 'PullRequestEvent':
+        icon = '◐'; iconClass = 'pr';
+        desc = (e.payload.action || 'opened') + ' pull request' + (e.payload.pull_request ? ': ' + e.payload.pull_request.title : '');
+        break;
+      case 'IssuesEvent':
+        icon = '●'; iconClass = 'issue';
+        desc = (e.payload.action || 'opened') + ' issue' + (e.payload.issue ? ': ' + e.payload.issue.title : '');
+        break;
+      case 'CreateEvent':
+        icon = '+'; iconClass = 'create';
+        desc = 'Created ' + (e.payload.ref_type || 'resource') + (e.payload.ref ? ' ' + e.payload.ref : '');
+        break;
+      case 'ReleaseEvent':
+        icon = '♦'; iconClass = 'release';
+        desc = 'Published ' + (e.payload.release ? e.payload.release.tag_name || 'release' : 'release');
+        break;
+      default:
+        icon = '⚡'; iconClass = ''; desc = e.type.replace('Event', '') + ' on this repository';
+    }
+    var repoShort = e.repo.name.replace(username + '/', '');
+    var time = timeAgo(new Date(e.created_at));
+    html += '<div class="gh-event">' +
+      '<div class="gh-event-icon ' + iconClass + '">' + icon + '</div>' +
+      '<div class="gh-event-body">' +
+        '<div class="gh-event-repo"><a href="https://github.com/' + e.repo.name + '" target="_blank" rel="noopener">' + repoShort + '</a></div>' +
+        '<div class="gh-event-desc">' + escapeHtml(desc) + '</div>' +
+        '<div class="gh-event-time">' + time + '</div>' +
+      '</div></div>';
+    count++;
+  });
+  html += '<div class="gh-view-all"><a href="https://github.com/' + escapeHtml(username) + '" target="_blank" rel="noopener">View all on GitHub ↗</a></div>';
+  feed.innerHTML = html;
+  // Stagger reveal
+  var items = feed.querySelectorAll('.gh-event');
+  items.forEach(function(el, i) {
+    setTimeout(function() { el.classList.add('visible'); }, i * 100);
+  });
+}
+function timeAgo(date) {
+  var sec = Math.floor((Date.now() - date) / 1000);
+  if (sec < 60) return 'just now';
+  var min = Math.floor(sec / 60);
+  if (min < 60) return min + 'm ago';
+  var hrs = Math.floor(min / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  var days = Math.floor(hrs / 24);
+  if (days < 30) return days + 'd ago';
+  var months = Math.floor(days / 30);
+  return months + 'mo ago';
+}
+function escapeHtml(str) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
 if (window.ScrollTrigger) {
   ScrollTrigger.refresh();
 }

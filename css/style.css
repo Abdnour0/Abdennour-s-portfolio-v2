@@ -65,9 +65,12 @@ body {
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
-  cursor: none;
   touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
+}
+/* Only hide the default cursor on pointer (mouse) devices */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
 }
 html.modal-open,
 body.modal-open {
@@ -719,7 +722,7 @@ section:last-of-type::after { display: none; }
   border: 1px solid var(--border);
   color: var(--muted);
   transition: all 0.25s;
-  cursor: none;
+  cursor: pointer;
   position: relative;
   touch-action: manipulation;
 }
@@ -762,9 +765,11 @@ section:last-of-type::after { display: none; }
   border: 1px solid var(--border);
   transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
 }
-.work-card:hover {
-  border-color: var(--gold);
-  box-shadow: 0 8px 32px rgba(201,168,76,0.08);
+@media (hover: hover) {
+  .work-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 8px 32px rgba(201,168,76,0.08);
+  }
 }
 .work-card:nth-child(1) { grid-column: span 7; }
 .work-card:nth-child(2) { grid-column: span 5; }
@@ -815,12 +820,16 @@ section:last-of-type::after { display: none; }
   width: 100%; height: 100%;
   display: block;
 }
-.work-card:hover .work-img-inner { transform: scale(1.08); }
+@media (hover: hover) {
+  .work-card:hover .work-img-inner { transform: scale(1.08); }
+}
 .work-img-inner img {
   transition: transform 0.7s var(--ease);
 }
-.work-card:hover .work-img-inner img {
-  transform: scale(1.08);
+@media (hover: hover) {
+  .work-card:hover .work-img-inner img {
+    transform: scale(1.08);
+  }
 }
 
 /* gradient placeholder colours */
@@ -856,7 +865,14 @@ section:last-of-type::after { display: none; }
   transform: translateY(8px);
   transition: transform 0.4s var(--ease);
 }
-.work-card:hover .work-overlay { transform: none; }
+@media (hover: hover) {
+  .work-card:hover .work-overlay { transform: none; }
+}
+/* On touch devices (no hover), always show overlay fully visible */
+@media (hover: none) {
+  .work-overlay { transform: none; }
+  .work-arrow { display: none; } /* hide arrow on touch to avoid visual clutter */
+}
 
 .work-tag {
   font-size: 0.65rem;
@@ -883,8 +899,10 @@ section:last-of-type::after { display: none; }
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s var(--ease);
 }
-.work-card:hover .work-visit {
-  border-color: var(--gold);
+@media (hover: hover) {
+  .work-card:hover .work-visit {
+    border-color: var(--gold);
+  }
 }
 
 .work-arrow {
@@ -897,17 +915,21 @@ section:last-of-type::after { display: none; }
   transition: opacity 0.3s, transform 0.4s var(--ease);
   background: rgba(201,168,76,0.12);
 }
-.work-card:hover .work-arrow {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
+@media (hover: hover) {
+  .work-card:hover .work-arrow {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }
 .work-arrow svg {
   width: 14px; height: 14px;
   color: var(--gold);
   transition: transform 0.3s var(--ease);
 }
-.work-card:hover .work-arrow svg {
-  transform: translate(2px, -2px);
+@media (hover: hover) {
+  .work-card:hover .work-arrow svg {
+    transform: translate(2px, -2px);
+  }
 }
 
 /* ─── ABOUT ───────────────────────────────────────────────────────────── */

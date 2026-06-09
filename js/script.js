@@ -1354,11 +1354,14 @@ if (window.ScrollTrigger) {
   var username = 'Abdnour0';
   var stored = sessionStorage.getItem('gh_events');
   if (stored) {
-    try { renderGitHubEvents(JSON.parse(stored), feed); return; } catch(e) {}
+    try {
+      var parsed = JSON.parse(stored);
+      if (parsed && parsed.length > 0) { renderGitHubEvents(parsed, feed); return; }
+    } catch(e) {}
   }
-  fetch('/github-events.json' + '?t=' + Date.now())
+  fetch('/github-events.json?t=' + Date.now())
     .then(function(res) {
-      if (!res.ok) throw new Error('Failed to load events');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     })
     .then(function(events) {
@@ -1366,6 +1369,7 @@ if (window.ScrollTrigger) {
       renderGitHubEvents(events, feed);
     })
     .catch(function(err) {
+      console.warn('GitHub feed error:', err);
       feed.innerHTML = '<div class="gh-feed-error">Could not load GitHub activity. <a href="https://github.com/' + username + '" target="_blank" rel="noopener">View profile →</a></div>';
     });
 })();

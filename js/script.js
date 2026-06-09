@@ -623,7 +623,8 @@ if (window.gsap && window.ScrollTrigger) {
   const revealConfig = isTouchDevice ? { y: 20, duration: 0.5 } : { y: 40, duration: 1.2 };
 
   reveals.forEach(el => {
-    // Skip elements handled by word-by-word reveal to avoid conflicts
+    // Skip elements handled by pinned section reveal or word-by-word reveal
+    if (el.closest('#services')) return;
     if (el.classList.contains('section-title')) return;
 
     let delay = 0;
@@ -650,9 +651,35 @@ if (window.gsap && window.ScrollTrigger) {
   } // end else (low-end fallback)
 }
 
-/* ΓöÇΓöÇ SCROLL ANIMATIONS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+/* ─── PINNED SECTION REVEAL ──────────────────────────────────────────────── */
+if (window.gsap && window.ScrollTrigger && !isTouchDevice && !isLowEnd) {
+  var pinnedSec = document.getElementById('services');
+  if (pinnedSec) {
+    var pinnedEls = pinnedSec.querySelectorAll('.section-label, .section-title, .service-card');
+    pinnedEls.forEach(function(el) {
+      gsap.killTweensOf(el);
+      el.style.opacity = '';
+      el.style.transform = '';
+    });
+    var pinnedTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#services',
+        start: 'top top',
+        end: '+=2500',
+        pin: true,
+        anticipatePin: 1,
+        toggleActions: 'play none none reset'
+      }
+    });
+    pinnedTl.from(pinnedSec.querySelector('.section-label'), { y: 30, opacity: 0, duration: 0.4 }, 0);
+    pinnedTl.from(pinnedSec.querySelector('.section-title'), { y: 40, opacity: 0, duration: 0.5 }, 0.3);
+    pinnedTl.from(pinnedSec.querySelectorAll('.service-card'), { y: 60, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, 0.7);
+  }
+}
+
+/* ─── SCROLL ANIMATIONS ──────────────────────────────────────────────────── */
 // Hero Section Parallax (disabled on mobile to prevent title overlap)
-// Subtle y movement only ΓÇö headline stays fully visible (avoids "disappears on scroll" issue)
+// Subtle y movement only — headline stays fully visible (avoids "disappears on scroll" issue)
 if (window.innerWidth > 768) {
   gsap.to(".hero-headline", {
     scrollTrigger: {

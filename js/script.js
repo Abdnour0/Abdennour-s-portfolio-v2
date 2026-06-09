@@ -1356,9 +1356,9 @@ if (window.ScrollTrigger) {
   if (stored) {
     try { renderGitHubEvents(JSON.parse(stored), feed); return; } catch(e) {}
   }
-  fetch('https://api.github.com/users/' + username + '/events?per_page=15', { headers: { 'Accept': 'application/vnd.github.v3+json' } })
+  fetch('/github-events.json' + '?t=' + Date.now())
     .then(function(res) {
-      if (!res.ok) throw new Error('GitHub API error: ' + res.status);
+      if (!res.ok) throw new Error('Failed to load events');
       return res.json();
     })
     .then(function(events) {
@@ -1385,8 +1385,8 @@ function renderGitHubEvents(events, feed) {
     switch (e.type) {
       case 'PushEvent':
         icon = '⌃'; iconClass = 'push';
-        var msgs = (e.payload.commits || []).slice(0, 2).map(function(c) { return c.message.split('\n')[0]; });
-        desc = msgs.length ? msgs.join(' · ') : 'Pushed commits';
+        var branch = (e.payload.ref || 'refs/heads/main').replace('refs/heads/', '');
+        desc = 'Pushed to ' + branch;
         break;
       case 'WatchEvent':
         icon = '★'; iconClass = 'star'; desc = 'Starred this repository';

@@ -2658,3 +2658,69 @@ html[dir="rtl"] .hero-rule-line {
 .gh-event-body { overflow-wrap: break-word; word-break: break-word; }
 .gh-event-repo a { overflow-wrap: break-word; word-break: break-all; display: inline-block; }
 
+
+/* ─── GITHUB CONTRIBUTION CHART CARD ───────────────────────────────────── */
+.gh-chart-card {
+  max-width: 800px;
+  margin: 4rem auto 0;
+  padding: 1.8rem;
+  border-radius: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: border 0.3s, background 0.3s;
+}
+.gh-chart-title {
+  font-family: var(--font-disp);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text);
+  margin-bottom: 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.gh-chart-username {
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--gold);
+  border: 1px solid var(--border);
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+}
+.gh-chart-svg-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.gh-chart-svg-wrap::-webkit-scrollbar { height: 5px; }
+.gh-chart-svg-wrap::-webkit-scrollbar-track { background: transparent; }
+.gh-chart-svg-wrap::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+.gh-chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 640px;
+}
+.gh-chart-svg text {
+  fill: var(--muted) !important;
+  font-family: var(--font-body) !important;
+}
+/* Adjust the activity feed spacing now that a card is above it */
+#github-activity .gh-feed {
+  margin-top: 2rem;
+}
+@media (max-width: 600px) {
+  .gh-chart-card { padding: 1.2rem; }
+  .gh-chart-title { font-size: 0.85rem; }
+}

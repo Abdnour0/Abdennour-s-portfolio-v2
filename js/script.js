@@ -1347,6 +1347,56 @@ if (window.ScrollTrigger) {
 });
 
 /* ΓöÇΓöÇ REFRESH SCROLLTRIGGER AFTER SETUP ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+/* ─── GITHUB CONTRIBUTION GRAPH ────────────────────────────────────────── */
+(function initGitHubChart() {
+  var wrap = document.getElementById('gh-chart-svg-wrap');
+  if (!wrap) return;
+
+  var storedChart = sessionStorage.getItem('gh_chart_svg');
+  if (storedChart) {
+    renderChart(storedChart);
+    return;
+  }
+
+  fetch('./github-chart.svg?t=' + Date.now())
+    .then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.text();
+    })
+    .then(function(svgText) {
+      try { sessionStorage.setItem('gh_chart_svg', svgText); } catch(e) {}
+      renderChart(svgText);
+    })
+    .catch(function(err) {
+      console.warn('GitHub chart error:', err);
+      wrap.innerHTML = '<div class="gh-feed-error">Could not load contribution graph. <a href="https://github.com/Abdnour0" target="_blank" rel="noopener">View on GitHub ↗</a></div>';
+    });
+
+  function renderChart(svgText) {
+    try {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(svgText, 'image/svg+xml');
+      var svgEl = doc.querySelector('svg');
+      if (svgEl) {
+        svgEl.setAttribute('class', 'gh-chart-svg');
+        svgEl.setAttribute('viewBox', '0 0 663 104');
+        svgEl.setAttribute('width', '100%');
+        svgEl.setAttribute('height', '100%');
+        svgEl.removeAttribute('style');
+        wrap.innerHTML = '';
+        wrap.appendChild(svgEl);
+        if (window.ScrollTrigger) {
+          ScrollTrigger.refresh();
+        }
+      } else {
+        wrap.innerHTML = svgText;
+      }
+    } catch(e) {
+      wrap.innerHTML = svgText;
+    }
+  }
+})();
+
 /* ─── GITHUB ACTIVITY FEED ──────────────────────────────────────────────── */
 (function initGitHubFeed() {
   var feed = document.getElementById('gh-feed');

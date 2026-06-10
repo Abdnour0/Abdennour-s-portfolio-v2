@@ -626,7 +626,7 @@ section:last-of-type::after { display: none; }
 }
 
 /* ─── SERVICES ────────────────────────────────────────────────────────── */
-#services { background: var(--bg); content-visibility: auto; contain-intrinsic-size: 700px; }
+#services { background: var(--bg);  }
 
 .services-grid {
   display: grid;
@@ -706,7 +706,7 @@ section:last-of-type::after { display: none; }
 }
 
 /* ─── WORK ────────────────────────────────────────────────────────────── */
-#work { background: var(--bg-2); content-visibility: auto; contain-intrinsic-size: 900px; }
+#work { background: var(--bg-2);  }
 
 .work-header {
   display: flex; justify-content: space-between; align-items: flex-end;
@@ -935,7 +935,7 @@ section:last-of-type::after { display: none; }
 /* ─── ABOUT ───────────────────────────────────────────────────────────── */
 #about {
   background: var(--bg);
-  content-visibility: auto; contain-intrinsic-size: 800px;
+  
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6rem;
@@ -1069,7 +1069,7 @@ section:last-of-type::after { display: none; }
 /* ─── CLIENTS ─────────────────────────────────────────────────────────── */
 #certifications {
   background: var(--bg-2);
-  content-visibility: auto; contain-intrinsic-size: 500px;
+  
   text-align: center;
 }
 .clients-intro {
@@ -1122,7 +1122,7 @@ section:last-of-type::after { display: none; }
 /* ─── EDUCATION TIMELINE ──────────────────────────────────────────────── */
 #timeline {
   background: var(--bg);
-  content-visibility: auto; contain-intrinsic-size: 600px;
+  
   text-align: center;
   padding: 8rem 3rem;
 }
@@ -1400,7 +1400,7 @@ section:last-of-type::after { display: none; }
 /* ─── CONTACT ─────────────────────────────────────────────────────────── */
 #contact {
   background: var(--bg);
-  content-visibility: auto; contain-intrinsic-size: 900px;
+  
   text-align: center;
   padding: 10rem 3rem;
 }
@@ -2406,7 +2406,7 @@ a, button, .work-card, .service-card, .cert-cell, .client-cell,
 #testimonials {
   padding: 6rem 3rem;
   background: var(--bg-2);
-  content-visibility: auto; contain-intrinsic-size: 400px;
+  
   text-align: center;
   overflow: hidden;
 }
@@ -2654,3 +2654,7 @@ html[dir="rtl"] .hero-rule-line {
   .about-cta::after { content: none; }
   @page { margin: 1.5cm; }
 }
+
+.gh-event-body { overflow-wrap: break-word; word-break: break-word; }
+.gh-event-repo a { overflow-wrap: break-word; word-break: break-all; display: inline-block; }
+

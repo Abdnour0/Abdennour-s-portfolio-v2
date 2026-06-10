@@ -1383,9 +1383,7 @@ function renderGitHubEvents(events, feed) {
   var html = '';
   var count = 0;
   events.forEach(function(e) {
-    if (count >= 8) return;
-    if (seen.has(e.repo.name)) return;
-    seen.add(e.repo.name);
+    if (count >= 5) return;
     var icon = '', iconClass = '', desc = '';
     switch (e.type) {
       case 'PushEvent':
@@ -1468,3 +1466,21 @@ var heroSafetyTimer = setTimeout(function() {
     el.style.transform = 'none';
   });
 }, 2000);
+
+/* --- SMOOTH NAV ANCHOR CLICKS --- */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  if (link.closest('.work-card')) return;
+  if (link.classList.contains('skip-link')) return;
+
+  link.addEventListener('click', e => {
+    const targetSelector = link.getAttribute('href');
+    if (targetSelector && targetSelector !== '#') {
+      const targetEl = document.querySelector(targetSelector);
+      if (targetEl) {
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+});
+

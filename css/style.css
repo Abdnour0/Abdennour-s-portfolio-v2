@@ -136,15 +136,16 @@ body::before {
 .loader-line {
   position: absolute;
   bottom: -1.2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   height: 2px;
   background: var(--gold);
-  width: 0;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: center;
   animation: loaderFill 2.7s ease-in-out forwards;
 }
 @keyframes loaderFill {
-  to { width: 100%; }
+  to { transform: scaleX(1); }
 }
 #loader.loaded {
   transform: translateY(-100%);

@@ -413,7 +413,7 @@ function initAudio() {
     if (audioCtx.state === 'suspended') audioCtx.resume();
   } catch (e) {}
 }
-document.addEventListener('touchstart', initAudio, { once: true });
+document.addEventListener('touchstart', initAudio, { once: true, passive: true });
 document.addEventListener('click', initAudio, { once: true });
 function playHoverSound() {
   try {
@@ -785,13 +785,15 @@ if (filterBtns.length && workGrid) {
     btn.addEventListener('click', function() {
       if (isFiltering) return;
       var filter = this.dataset.filter;
-      history.replaceState(null, '', filter === 'all' ? '#' : '#filter=' + filter);
-      applyFilter(filter);
+      setTimeout(() => {
+        history.replaceState(null, '', filter === 'all' ? '#' : '#filter=' + filter);
+        applyFilter(filter);
+      }, 0);
     });
   });
 } // end if filterBtns.length
 
-/* ΓöÇΓöÇ TESTIMONIALS CAROUSEL ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+/* ─── TESTIMONIALS CAROUSEL ──────────────────────────────────────────────── */
 (function initTestimonials() {
   var track = document.querySelector('.testimonials-track');
   var dots = document.querySelectorAll('.t-dot');
@@ -807,8 +809,10 @@ if (filterBtns.length && workGrid) {
   dots.forEach(function(dot){
     dot.addEventListener('click', function(){
       clearInterval(interval);
-      goTo(parseInt(this.dataset.index));
-      interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000);
+      setTimeout(() => {
+        goTo(parseInt(this.dataset.index));
+        interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000);
+      }, 0);
     });
   });
   interval = setInterval(function(){ goTo((current + 1) % dots.length); }, 5000);
